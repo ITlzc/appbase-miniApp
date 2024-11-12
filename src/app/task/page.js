@@ -1,7 +1,7 @@
 "use client";
 import '../styles/task.scss'
 import Nav from '../components/Nav';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { message } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -18,6 +18,7 @@ import { task_host } from '../../utils/supabase/config'
 
 export default function Task() {
 
+    const searchParams = useSearchParams();
 
     const [all_tasks, set_all_tasks] = useState([])
 
@@ -291,7 +292,6 @@ export default function Task() {
         console.log('useEffect in')
         init_data()
 
-        const searchParams = useSearchParams();
 
         let error_description = searchParams.get('error_description');
 
@@ -308,39 +308,40 @@ export default function Task() {
     }, [])
 
     return (
-        <div className="task flex-col">
-            <div className="box_1 flex-row justify-between">
-                <span className="text_1">Trial to Earn</span>
-                <img
-                    className="label_1"
-                    src={
-                        "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/b6db4d81bd204e0fa5da7a3124dc64f6_mergeImage.png"
-                    }
-                />
-            </div>
-            <div className="list_1 flex-col">
-                {
-                    all_tasks.map((task, index) => {
-                        return (
-                            <div className="list-items_1-0 flex-row justify-between" key={index}>
-                                <div className="image-text_1-0 flex-row justify-between">
-                                    <img
-                                        className="image_1-0"
-                                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
-                                    />
-                                    <div className="text-group_1-0 flex-col justify-between">
-                                        <span className="text_2-0">{task.description}</span>
-                                        <span className="text_3-0">+{task.reward} Points</span>
+        <Suspense fallback={<div>Loading...</div>}>
+            <div className="task flex-col">
+                <div className="box_1 flex-row justify-between">
+                    <span className="text_1">Trial to Earn</span>
+                    <img
+                        className="label_1"
+                        src={
+                            "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/b6db4d81bd204e0fa5da7a3124dc64f6_mergeImage.png"
+                        }
+                    />
+                </div>
+                <div className="list_1 flex-col">
+                    {
+                        all_tasks.map((task, index) => {
+                            return (
+                                <div className="list-items_1-0 flex-row justify-between" key={index}>
+                                    <div className="image-text_1-0 flex-row justify-between">
+                                        <img
+                                            className="image_1-0"
+                                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
+                                        />
+                                        <div className="text-group_1-0 flex-col justify-between">
+                                            <span className="text_2-0">{task.description}</span>
+                                            <span className="text_3-0">+{task.reward} Points</span>
+                                        </div>
+                                    </div>
+                                    <div className={`text-wrapper_1-0 flex-col align-center justify-center ${task.button == 'START' ? 'status_is_start' : task.button == 'COMPLETED' ? 'status_is_completed' : ''}`} onClick={() => { click_item(task) }}>
+                                        <span className="text_5-0">{task.button}</span>
                                     </div>
                                 </div>
-                                <div className={`text-wrapper_1-0 flex-col align-center justify-center ${task.button == 'START' ? 'status_is_start' : task.button == 'COMPLETED' ? 'status_is_completed' : ''}`} onClick={() => { click_item(task) }}>
-                                    <span className="text_5-0">{task.button}</span>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-                {/* <div className="list-items_1-0 flex-row">
+                            )
+                        })
+                    }
+                    {/* <div className="list-items_1-0 flex-row">
                     <div className="image-text_1-0 flex-row justify-between">
                         <img
                             className="image_1-0"
@@ -398,8 +399,10 @@ export default function Task() {
                     </div>
                     <span className="text_4-3">COMPLETED</span>
                 </div> */}
+                </div>
+                <Nav />
             </div>
-            <Nav />
-        </div>
+        </Suspense>
+
     );
 }
