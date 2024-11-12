@@ -381,6 +381,7 @@ export default function Home() {
 
   const do_init_data = () => {
     init_data()
+    const searchParams = useSearchParams();
     let error_description = searchParams.get('error_description');
 
     if (error_description && error_description.length && error_description.indexOf('+') > -1) {
