@@ -18,7 +18,6 @@ import { task_host } from '../../utils/supabase/config'
 
 export default function Task() {
 
-    const searchParams = useSearchParams();
 
     const [all_tasks, set_all_tasks] = useState([])
 
@@ -292,6 +291,7 @@ export default function Task() {
         console.log('useEffect in')
         init_data()
 
+        const searchParams = useSearchParams();
 
         let error_description = searchParams.get('error_description');
 
