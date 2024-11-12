@@ -22,7 +22,7 @@ import Carousel from './components/Carousel';
 import Link from 'next/link';
 import { message, Spin } from 'antd';
 import moment from 'moment';
-import {task_host} from '../utils/supabase/config'
+import { task_host } from '../utils/supabase/config'
 
 
 
@@ -36,7 +36,6 @@ export default function Home() {
   // console.log('home islogin =',temp)
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const [appData, setAppData] = useState([]);
   const [loading, set_loading] = useState(false);
@@ -63,40 +62,40 @@ export default function Home() {
     let access_token = await get_access_token()
     console.log('access_token = ', access_token)
     if (!(access_token && access_token.length)) {
-        toast.error('Please login first')
-        return
+      toast.error('Please login first')
+      return
     }
     let task_id = BigInt(task.taskId)
     console.log('sumit_task = ', task, task_id)
     let url = task_host + `/api/v1/task/submit/${task_id}`
     try {
-        let response = await fetch(url, {
-            method: "POST",
-            headers: {
-                authorization: "Bearer " + access_token
-            }
-        })
-        console.log('sumit_task fetch = ', response)
-        if (response && response.status == 200) {
-            let responseData = await response.json()
-            console.log('responseData =', responseData)
-            if (responseData && responseData.code == 0) {
-              return true
-              // window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
-            } else {
-              // setTimeout(() => {
-              //   message.error('Please login first')
-              // },1000)
-              // toast.error((responseData && responseData.msg) || (responseData && responseData.error) || 'submit task error')
-              return false
-            }
-        } else {
-            console.log('task_detail fetch error = ', response.statusText)
-            return false
+      let response = await fetch(url, {
+        method: "POST",
+        headers: {
+          authorization: "Bearer " + access_token
         }
-    } catch (error) {
-        console.log('fetch task detail error = ', error)
+      })
+      console.log('sumit_task fetch = ', response)
+      if (response && response.status == 200) {
+        let responseData = await response.json()
+        console.log('responseData =', responseData)
+        if (responseData && responseData.code == 0) {
+          return true
+          // window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
+        } else {
+          // setTimeout(() => {
+          //   message.error('Please login first')
+          // },1000)
+          // toast.error((responseData && responseData.msg) || (responseData && responseData.error) || 'submit task error')
+          return false
+        }
+      } else {
+        console.log('task_detail fetch error = ', response.statusText)
         return false
+      }
+    } catch (error) {
+      console.log('fetch task detail error = ', error)
+      return false
     }
   }
 
@@ -110,29 +109,30 @@ export default function Home() {
         console.log(`login start time = ${time}`)
         let inviter_id = null
         let tg_user_info = null
-        if(window.Telegram) {
+        if (window.Telegram) {
           const tg = window.Telegram.WebApp;
           let start_param = tg.initDataUnsafe.start_param
           if (start_param) {
             const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
             const urlParams = new URLSearchParams(decodedText);
             const inviterId = urlParams.get('inviter_id');
-            console.log('anonymously_login inviterId = ',inviterId)
+            console.log('anonymously_login inviterId = ', inviterId)
             inviter_id = inviterId
           }
           tg_user_info = tg.initDataUnsafe.user
         } else {
+          const searchParams = useSearchParams();
           let start_param = searchParams.get('startapp');
           if (start_param) {
             const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
             const urlParams = new URLSearchParams(decodedText);
             const inviterId = urlParams.get('inviter_id');
-            console.log('anonymously_login inviterId = ',inviterId)
+            console.log('anonymously_login inviterId = ', inviterId)
             inviter_id = inviterId
           }
         }
-        temp = await login(inviter_id,tg_user_info)
-        console.log(`login end time = ${time}`,temp)
+        temp = await login(inviter_id, tg_user_info)
+        console.log(`login end time = ${time}`, temp)
         if (!temp) {
           return
         }
@@ -180,28 +180,28 @@ export default function Home() {
     app.user_app = sortedData
     let user_app = sortedData && sortedData.length && sortedData[0]
     // if (user_app) {
-      let status = user_app && user_app.status
-      app.status = status
-      if (user_app && user_app.updated_at) {
-        let now = new Date().getTime()
-        let update_time = moment(user_app.updated_at)
-        // console.log('update_time =',update_time,typeof update_time)
-        update_time = update_time.valueOf();
-        if (status == 2 && now - update_time >= trial_app_next_time) {
-            app.status = 0
-        }
+    let status = user_app && user_app.status
+    app.status = status
+    if (user_app && user_app.updated_at) {
+      let now = new Date().getTime()
+      let update_time = moment(user_app.updated_at)
+      // console.log('update_time =',update_time,typeof update_time)
+      update_time = update_time.valueOf();
+      if (status == 2 && now - update_time >= trial_app_next_time) {
+        app.status = 0
       }
-      if (app.points > 0) {
-          if (app.status == 0) {
-              app.open_show = 'OPEN'
-          } else if (app.status == 1) {
-              app.open_show = 'VERIFY'
-          } else if (app.status == 2) {
-              app.open_show = 'OPEN'
-          }
-      } else {
-          app.open_show = 'OPEN'
+    }
+    if (app.points > 0) {
+      if (app.status == 0) {
+        app.open_show = 'OPEN'
+      } else if (app.status == 1) {
+        app.open_show = 'VERIFY'
+      } else if (app.status == 2) {
+        app.open_show = 'OPEN'
       }
+    } else {
+      app.open_show = 'OPEN'
+    }
     // }
   }
 
@@ -246,7 +246,7 @@ export default function Home() {
     })
     let temp = explore_apps
     temp = temp.concat(temp_apps)
-    if (page == 1){
+    if (page == 1) {
       temp = temp_apps
     }
     set_explore_apps(temp)
@@ -294,28 +294,28 @@ export default function Home() {
 
   const open_app = async (app) => {
     console.log('open_app in = ', app)
-    
+
     let link = null
     if (app.link && app.link.length && app.link !== 'https://') {
-        link = app.link
+      link = app.link
     }
 
     let flag = false
     if (app.points > 0) {
-        if (app.status == 0 || app.status == 2) {
-            flag = true
-        }
-        let temp = await trailApp(app)
-        trail_data()
-    } else {
+      if (app.status == 0 || app.status == 2) {
         flag = true
+      }
+      let temp = await trailApp(app)
+      trail_data()
+    } else {
+      flag = true
     }
     if (flag) {
-        window.open(link)
+      window.open(link)
     }
   }
 
-  const trail_data = async () => {    
+  const trail_data = async () => {
     fetchRecommandApps(1, recommand_size)
     let category_id = select_category && select_category.category_id && select_category.category_id.length ? select_category.category_id : null
     fetchExploreApps(1, size, {
@@ -343,17 +343,17 @@ export default function Home() {
   const do_task = async () => {
     let task = localStorage.getItem('need_do_task')
     if (task) {
-        if (typeof task == 'string') {
-            task = JSON.parse(task)
-        }
-        let flag = await sumit_task(task)
-        console.log('sumit_task back = ', flag)
-        if (flag) {
-            window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
-        }
-        localStorage.removeItem('need_do_task')
+      if (typeof task == 'string') {
+        task = JSON.parse(task)
+      }
+      let flag = await sumit_task(task)
+      console.log('sumit_task back = ', flag)
+      if (flag) {
+        window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
+      }
+      localStorage.removeItem('need_do_task')
     }
-}
+  }
 
   useEffect(() => {
     console.log('useEffect page in = ', page, explore_apps, select_category)
@@ -385,7 +385,7 @@ export default function Home() {
 
     if (error_description && error_description.length && error_description.indexOf('+') > -1) {
       error_description = decodeURIComponent(error_description && error_description.replace(/\+/g, ' '));
-    } 
+    }
     if (error_description && error_description.length) {
       toast.error(error_description)
       localStorage.removeItem('need_do_task')
@@ -397,11 +397,11 @@ export default function Home() {
   const initializeTelegram = () => {
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
-      console.log('tg.initData =',tg,tg.initData,tg.initDataUnsafe)
-      
+      console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
+
       // 获取 initData 并设置到状态
       // setInitData(tg.initData);
-      
+
       tg.ready();
 
       // let start_param = tg.initDataUnsafe.start_param
@@ -414,7 +414,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log('useEffect in = ',window.Telegram)
+    console.log('useEffect in = ', window.Telegram)
     if (!window.Telegram) {
       if (!process.env.tg_mini_env) {
         // 开发环境的逻辑
@@ -530,7 +530,7 @@ export default function Home() {
                       "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/a655361cc2f74b6da44e147da26d5741_mergeImage.png"
                     }
                   />
-                  </Link>
+                </Link>
               </div>
               <div className="box_13 flex-row flex-row flex-wrap justify-start">
                 {
@@ -571,7 +571,7 @@ export default function Home() {
                             />
                             <span className="text-group_9">+{app.points / 1000000}</span>
                           </div>
-                          <div className={`text-wrapper_11 flex-col justify-center align-center ${app.status === 1 && 'status_verify_black'}`}  onClick={() => to_detail(app)}>
+                          <div className={`text-wrapper_11 flex-col justify-center align-center ${app.status === 1 && 'status_verify_black'}`} onClick={() => to_detail(app)}>
                             <span className="text_35">{app.open_show}</span>
                           </div>
                         </div>
