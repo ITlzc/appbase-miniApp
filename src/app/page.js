@@ -1,6 +1,6 @@
 "use client";
 import './styles/home.scss'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Nav from './components/Nav';
 import { toast } from 'react-toastify';
@@ -36,6 +36,7 @@ export default function Home() {
   // console.log('home islogin =',temp)
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [appData, setAppData] = useState([]);
   const [loading, set_loading] = useState(false);
@@ -121,7 +122,6 @@ export default function Home() {
           }
           tg_user_info = tg.initDataUnsafe.user
         } else {
-          const searchParams = useSearchParams();
           let start_param = searchParams.get('startapp');
           if (start_param) {
             const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
@@ -381,7 +381,6 @@ export default function Home() {
 
   const do_init_data = () => {
     init_data()
-    const searchParams = useSearchParams();
     let error_description = searchParams.get('error_description');
 
     if (error_description && error_description.length && error_description.indexOf('+') > -1) {
@@ -435,161 +434,164 @@ export default function Home() {
   }, [])
 
   return (
-    <div>
-      <Spin size="large" spinning={loading}>
-        <div className="page flex-col">
-          <div className="section_1 flex-row">
-            <div className="box_1 flex-col">
-              <img
-                className="image_1"
-                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
-              />
-              {
-                announcement && announcement.comment && announcement.comment.length &&
-                <div className="box_2 flex-row">
-                  <div className="image-text_1 flex-row justify-between">
-                    <img
-                      className="label_1"
-                      src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG096263fcbde432adfa2ba91527589cd3.png"}
-                    />
-                    <span className="text-group_1">{announcement.comment}</span>
-                  </div>
-                </div>
-              }
-              <div className="box_3 flex-row justify-between">
-                <span className="text_1">Trial to Earn</span>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div>
+        <Spin size="large" spinning={loading}>
+          <div className="page flex-col">
+            <div className="section_1 flex-row">
+              <div className="box_1 flex-col">
                 <img
-                  className="label_2"
-                  src={
-                    "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/7976996489c34446a0275580f091d0c8_mergeImage.png"
-                  }
+                  className="image_1"
+                  src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
                 />
-              </div>
-              {/* <div className="image-wrapper_1 flex-col">
+                {
+                  announcement && announcement.comment && announcement.comment.length &&
+                  <div className="box_2 flex-row">
+                    <div className="image-text_1 flex-row justify-between">
+                      <img
+                        className="label_1"
+                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG096263fcbde432adfa2ba91527589cd3.png"}
+                      />
+                      <span className="text-group_1">{announcement.comment}</span>
+                    </div>
+                  </div>
+                }
+                <div className="box_3 flex-row justify-between">
+                  <span className="text_1">Trial to Earn</span>
+                  <img
+                    className="label_2"
+                    src={
+                      "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/7976996489c34446a0275580f091d0c8_mergeImage.png"
+                    }
+                  />
+                </div>
+                {/* <div className="image-wrapper_1 flex-col">
                 <img
                   className="image_2"
                   src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGd00304cfabeeb3f57f0bb673463b7d8a.png"}
                 />
               </div> */}
-              <Carousel />
-              <div className="box_4 flex-row justify-between">
-                <div className="text-group_2 flex-col justify-between">
-                  <span className="text_2">Recommend</span>
-                  <span className="text_3">Open the Apps to receive rewards</span>
+                <Carousel />
+                <div className="box_4 flex-row justify-between">
+                  <div className="text-group_2 flex-col justify-between">
+                    <span className="text_2">Recommend</span>
+                    <span className="text_3">Open the Apps to receive rewards</span>
+                  </div>
+                  <div className="image-wrapper_2 flex-col cursor-pointer" onClick={() => switch_recommend()}>
+                    <img
+                      className="label_3"
+                      src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9fbd43fc7a9d8fa0c74030dc0fdadedb.png"}
+                    />
+                  </div>
                 </div>
-                <div className="image-wrapper_2 flex-col cursor-pointer" onClick={() => switch_recommend()}>
-                  <img
-                    className="label_3"
-                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9fbd43fc7a9d8fa0c74030dc0fdadedb.png"}
-                  />
-                </div>
-              </div>
-              <div className="box_5 flex-col justify-between">
-                {
-                  recommand_apps.map(app => {
-                    return (
-                      <div className="box_6 flex-col" key={app.id} onClick={() => to_detail(app)}>
-                        <div className="image-text_2 flex-row justify-between">
-                          <img
-                            className="image_3"
-                            src={app.show_icon}
-                          />
-                          <div className="text-group_3 flex-col justify-between">
-                            <span className="text_4">{app.name}</span>
-                            <span className="text_5">{app.caption}</span>
-                          </div>
-                        </div>
-                        <div className="group_1 flex-row justify-between">
-                          <div className="image-text_3 flex-row justify-between">
+                <div className="box_5 flex-col justify-between">
+                  {
+                    recommand_apps.map(app => {
+                      return (
+                        <div className="box_6 flex-col" key={app.id} onClick={() => to_detail(app)}>
+                          <div className="image-text_2 flex-row justify-between">
                             <img
-                              className="label_4"
-                              src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
+                              className="image_3"
+                              src={app.show_icon}
                             />
-                            <span className="text-group_4">+{app.points / 1000000} points</span>
+                            <div className="text-group_3 flex-col justify-between">
+                              <span className="text_4">{app.name}</span>
+                              <span className="text_5">{app.caption}</span>
+                            </div>
                           </div>
-                          <div className={`text-wrapper_1 flex-col align-center justify-center ${app.status === 1 && 'status_verify'}`} onClick={() => to_detail(app)}>
-                            <span className="text_6">{app.open_show}</span>
+                          <div className="group_1 flex-row justify-between">
+                            <div className="image-text_3 flex-row justify-between">
+                              <img
+                                className="label_4"
+                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
+                              />
+                              <span className="text-group_4">+{app.points / 1000000} points</span>
+                            </div>
+                            <div className={`text-wrapper_1 flex-col align-center justify-center ${app.status === 1 && 'status_verify'}`} onClick={() => to_detail(app)}>
+                              <span className="text_6">{app.open_show}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  })
-                }
+                      )
+                    })
+                  }
 
-              </div>
-            </div>
-            <div className="box_11 flex-col">
-              <div className="box_12 flex-row justify-between">
-                <div className="text-group_8 flex-col justify-between">
-                  <span className="text_13">Explore Apps</span>
-                  <span className="text_14">Discover more applications and receive rewards</span>
                 </div>
-                <Link href="/searchApps">
-                  <img
-                    className="label_6"
-                    src={
-                      "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/a655361cc2f74b6da44e147da26d5741_mergeImage.png"
-                    }
-                  />
-                </Link>
               </div>
-              <div className="box_13 flex-row flex-row flex-wrap justify-start">
-                {
-                  categorys.map(cate => {
-                    return (
-                      <div className={`group_3 flex-col justify-center ${cate.name === currentCategory ? 'category_active' : ''}`} key={cate.category_id} onClick={() => switch_category(cate)}>
-                        <div className="text-wrapper_4 justify-center align-center">
-                          <span className="text_15">{cate.name}</span>
-                          <span className="text_17">{cate.count}</span>
-                        </div>
-                      </div>
-                    )
-                  })
-                }
-              </div>
-
-
-              <div className="box_15 flex-col justify-between">
-                {
-                  explore_apps.map(app => {
-                    return (
-                      <div className="section_2 flex-col" key={app.id} onClick={() => to_detail(app)}>
-                        <div className="box_16 flex-row justify-between">
-                          <img
-                            className="image_6"
-                            src={app.show_icon}
-                          />
-                          <div className="text-wrapper_10 flex-col justify-between">
-                            <span className="text_33">{app.name}</span>
-                            <span className="text_34">{app.caption}</span>
+              <div className="box_11 flex-col">
+                <div className="box_12 flex-row justify-between">
+                  <div className="text-group_8 flex-col justify-between">
+                    <span className="text_13">Explore Apps</span>
+                    <span className="text_14">Discover more applications and receive rewards</span>
+                  </div>
+                  <Link href="/searchApps">
+                    <img
+                      className="label_6"
+                      src={
+                        "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/a655361cc2f74b6da44e147da26d5741_mergeImage.png"
+                      }
+                    />
+                  </Link>
+                </div>
+                <div className="box_13 flex-row flex-row flex-wrap justify-start">
+                  {
+                    categorys.map(cate => {
+                      return (
+                        <div className={`group_3 flex-col justify-center ${cate.name === currentCategory ? 'category_active' : ''}`} key={cate.category_id} onClick={() => switch_category(cate)}>
+                          <div className="text-wrapper_4 justify-center align-center">
+                            <span className="text_15">{cate.name}</span>
+                            <span className="text_17">{cate.count}</span>
                           </div>
                         </div>
-                        <div className="box_17 flex-row justify-between">
-                          <div className="image-text_6 flex-row justify-between">
+                      )
+                    })
+                  }
+                </div>
+
+
+                <div className="box_15 flex-col justify-between">
+                  {
+                    explore_apps.map(app => {
+                      return (
+                        <div className="section_2 flex-col" key={app.id} onClick={() => to_detail(app)}>
+                          <div className="box_16 flex-row justify-between">
                             <img
-                              className="label_7"
-                              src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG3c714d11d0b0a116dee95c4b280b3e63.png"}
+                              className="image_6"
+                              src={app.show_icon}
                             />
-                            <span className="text-group_9">+{app.points / 1000000}</span>
+                            <div className="text-wrapper_10 flex-col justify-between">
+                              <span className="text_33">{app.name}</span>
+                              <span className="text_34">{app.caption}</span>
+                            </div>
                           </div>
-                          <div className={`text-wrapper_11 flex-col justify-center align-center ${app.status === 1 && 'status_verify_black'}`} onClick={() => to_detail(app)}>
-                            <span className="text_35">{app.open_show}</span>
+                          <div className="box_17 flex-row justify-between">
+                            <div className="image-text_6 flex-row justify-between">
+                              <img
+                                className="label_7"
+                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG3c714d11d0b0a116dee95c4b280b3e63.png"}
+                              />
+                              <span className="text-group_9">+{app.points / 1000000}</span>
+                            </div>
+                            <div className={`text-wrapper_11 flex-col justify-center align-center ${app.status === 1 && 'status_verify_black'}`} onClick={() => to_detail(app)}>
+                              <span className="text_35">{app.open_show}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  })
-                }
+                      )
+                    })
+                  }
+                </div>
+                <img
+                  className="label_9" onClick={() => get_apps()}
+                  src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGb18e199049345d6928d4f27512d0e917.png"}
+                />
+                <Nav />
               </div>
-              <img
-                className="label_9" onClick={() => get_apps()}
-                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGb18e199049345d6928d4f27512d0e917.png"}
-              />
-              <Nav />
             </div>
           </div>
-        </div>
-      </Spin>
-    </div>
+        </Spin>
+      </div>
+    </Suspense>
+
   );
 }
