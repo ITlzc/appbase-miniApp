@@ -59,6 +59,8 @@ export default function Home() {
   const [recommand_page, set_recommand_page] = useState(1)
   const [recommand_size, set_recommand_size] = useState(3)
 
+  const [start_param_by_query, set_start_param_by_query] = useState({})
+
   async function sumit_task(task) {
     let access_token = await get_access_token()
     console.log('access_token = ', access_token)
@@ -122,7 +124,7 @@ export default function Home() {
           }
           tg_user_info = tg.initDataUnsafe.user
         } else {
-          let start_param = searchParams.get('startapp');
+          let start_param = start_param_by_query;
           if (start_param) {
             const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
             const urlParams = new URLSearchParams(decodedText);
@@ -354,6 +356,11 @@ export default function Home() {
       localStorage.removeItem('need_do_task')
     }
   }
+
+  useEffect(() => {
+    const value_ = searchParams.get('startapp')
+    set_start_param_by_query(value_)
+  }, [searchParams])
 
   useEffect(() => {
     console.log('useEffect page in = ', page, explore_apps, select_category)
