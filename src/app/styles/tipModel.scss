@@ -1,0 +1,136 @@
+.tipModel {
+    background-color: rgba(238, 238, 238, 1);
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 110;
+
+    .image-wrapper_1 {
+        width: 100vw;
+        height: 38.67vw;
+
+        .image_1 {
+            width: 54.14vw;
+            height: 16.27vw;
+            margin: 18.13vw 0 0 22.93vw;
+        }
+    }
+
+    .box_1 {
+        background-color: rgba(217, 217, 217, 1);
+        border-radius: 10px;
+        min-height: 127.74vw;
+        width: 89.34vw;
+        position: relative;
+        margin-left: 5.33vw;
+        padding-bottom: 6.67vw;
+
+        .image-wrapper_2 {
+            width: 6.4vw;
+            height: 6.4vw;
+            margin: 4vw 0 0 79.73vw;
+
+            .label_1 {
+                width: 6.4vw;
+                height: 6.4vw;
+            }
+        }
+
+        .modelContent {
+            .modelContent_text-wrapper_1 {
+                width: 65.87vw;
+                .text_1 {
+                    overflow-wrap: break-word;
+                    color: rgba(0, 82, 254, 1);
+                    font-size: 6.4vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: center;
+                    margin-bottom: 2.4vw;
+                  }
+                .text_2 {
+                    overflow-wrap: break-word;
+                    color: rgba(165, 165, 165, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    text-align: center;
+                    line-height: normal;
+                }
+            }
+
+            .modelContent_box_2 {
+                width: 68vw;
+                height: 14.4vw;
+                margin-top: 5.33vw;
+
+                .text-wrapper_2 {
+                    background-color: rgba(0, 82, 254, 1);
+                    border-radius: 30px;
+                    height: 14.4vw;
+                    width: 68vw;
+
+                    .text_2 {
+                        overflow-wrap: break-word;
+                        color: rgba(255, 255, 255, 1);
+                        font-size: 5.33vw;
+                        font-family: Outfit;
+                        font-weight: 700;
+                        text-align: center;
+                        white-space: nowrap;
+                        line-height: normal;
+                    }
+                }
+            }
+
+            .modelContent_image_2 {
+                width: 93.34vw;
+                height: 84vw;
+            }
+        }
+
+
+    }
+
+    .box_3 {
+        width: 100vw;
+        height: 50.67vw;
+        margin-bottom: 0.27vw;
+
+        .group_1 {
+            width: 33.07vw;
+            height: 4.27vw;
+            margin: 4vw 0 0 33.6vw;
+
+            .box_4 {
+                background-color: rgba(217, 217, 217, 1);
+                border-radius: 50%;
+                height: 4.27vw;
+                width: 4.27vw;
+
+                .block_1 {
+                    background-color: rgba(51, 49, 50, 1);
+                    border-radius: 50%;
+                    width: 2.14vw;
+                    height: 2.14vw;
+                    margin: 1.06vw 0 0 1.06vw;
+                }
+            }
+
+            .text_3 {
+                width: 26.4vw;
+                height: 4.27vw;
+                overflow-wrap: break-word;
+                color: rgba(152, 152, 152, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                line-height: 4.27vw;
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+.nav {
+    background-color: rgba(51, 49, 50, 1);
+    border-radius: 20px 20px 0px 0px;
+    width: 100vw;
+    height: 25.6vw;
+    padding: 0 10.13vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+
+
+    .image-text_3 {
+        height: 10.4vw;
+        margin-top: 4.8vw;
+
+        .label_3 {
+            width: 6.4vw;
+            height: 6.67vw;
+            margin-left: 0.27vw;
+        }
+
+        .text-group_3 {
+            height: 2.67vw;
+            overflow-wrap: break-word;
+            color: rgba(165, 165, 165, 1);
+            font-size: 2.66vw;
+            font-family: Outfit;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            line-height: normal;
+            margin-top: 1.07vw;
+        }
+    }
+}

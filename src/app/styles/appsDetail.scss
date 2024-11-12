@@ -1,0 +1,587 @@
+.appsDetail {
+    background-color: rgba(238, 238, 238, 1);
+    position: relative;
+    width: 100vw;
+    overflow: hidden;
+
+    .box_1 {
+        position: relative;
+        width: 100vw;
+
+        .group_1 {
+            width: 100vw;
+            height: 9.6vw;
+            margin-top: 13.6vw;
+            padding: 0 4.27vw 0 5.33vw;
+
+            .label_1 {
+                width: 9.6vw;
+                height: 9.6vw;
+            }
+
+            .image-wrapper_1 {
+                background-color: rgba(255, 255, 255, 1);
+                border-radius: 5px;
+                height: 9.34vw;
+                margin-top: 0.27vw;
+                width: 9.34vw;
+
+                .label_2 {
+                    width: 6.4vw;
+                    height: 6.4vw;
+                    margin: 1.33vw 0 0 1.6vw;
+                }
+            }
+        }
+
+        .text-group_1 {
+            min-height: 11.74vw;
+            margin-top: 2.93vw;
+            width: 89.33vw;
+            margin: 0 auto;
+            padding: 5.33vw;
+            padding-top: 0;
+            border-bottom: 1px solid #A5A5A5;
+
+
+            .text_1 {
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_2 {
+                overflow-wrap: break-word;
+                color: rgba(0, 82, 254, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 1.6vw;
+            }
+        }
+
+        .image-text_1 {
+            width: 89.34vw;
+            height: 27.47vw;
+            margin: 5.87vw 0 0 5.33vw;
+
+            .image_1 {
+                width: 26.67vw;
+                height: 26.67vw;
+                border-radius: 2.67vw;
+            }
+
+            .text-group_2 {
+                width: 59.74vw;
+                height: 24.54vw;
+                margin-top: 2.94vw;
+
+                .text_3 {
+                    width: 31.74vw;
+                    height: 6.4vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 6.4vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+
+                .text_4 {
+                    width: 59.2vw;
+                    // height: 16.8vw;
+                    margin-top: 1.6vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: 500;
+                    text-align: left;
+                    line-height: 4.8vw;
+                    margin: 1.33vw 0 0 0.53vw;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    -webkit-line-clamp: 3; // 限制行数为3
+                }
+            }
+        }
+
+        .text-wrapper_1 {
+            width: 73.6vw;
+            margin: 0 auto;
+            margin-top: 6.93vw;
+
+            .text_5 {
+                height: 3.2vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-bottom: 2.67vw;
+            }
+        }
+
+        .text-wrapper_1_item {
+            &:nth-child(2){
+                padding: 0 5.33vw;
+                border: 1px solid #A5A5A5;
+                border-top: 0;
+                border-bottom: 0;
+            }
+            .image-text_2 {
+                height: 6.4vw;
+
+                .text-group_3 {
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 6.4vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin-right: .8vw;
+                }
+
+                .label_3 {
+                    width: 6.4vw;
+                    height: 6.4vw;
+                }
+            }
+
+            .text_8 {
+                height: 6.4vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+
+        .group_2 {
+            width: 54.14vw;
+            height: 6.4vw;
+            margin: 1.86vw 0 0 9.33vw;
+
+            .image-text_2 {
+                width: 16.27vw;
+                height: 6.4vw;
+
+                .text-group_3 {
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 6.4vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin-right: .8vw;
+                }
+
+                .label_3 {
+                    width: 6.4vw;
+                    height: 6.4vw;
+                }
+            }
+
+            .text_8 {
+                min-width: 10.67vw;
+                height: 6.4vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+                margin-left: 9.07vw;
+            }
+
+            .text_9 {
+                min-width: 28.27vw;
+                height: 6.4vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-left: 11.74vw;
+            }
+        }
+
+        .group_3 {
+            // height: 66.67vw;
+            margin: 5.06vw 0 0 5.33vw;
+            overflow: scroll;
+
+            .box_2 {
+                background-color: rgba(255, 187, 0, 1);
+                width: 5.34vw;
+                height: 8vw;
+                margin-top: 36.8vw;
+            }
+
+            img {
+                width: 37.6vw;
+                height: auto;
+                max-height: 66.67vw;
+                border-radius: 2.67vw;
+                margin-right: 1.6vw;
+            }
+        }
+
+        .text-group_4 {
+            width: 89.07vw;
+            margin: 5.33vw 0 3.2vw 5.6vw;
+
+            .text_10 {
+                width: 58.14vw;
+                height: 5.34vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-left: 0.27vw;
+            }
+
+            .text_11 {
+                width: 89.07vw;
+                // height: 16.8vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: 500;
+                text-align: left;
+                line-height: 4.27vw;
+                margin-top: 2.67vw;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                -webkit-line-clamp: 3; // 限制行数为3
+                transition: all 0.3s ease;
+
+                &.expanded {
+                    display: block; // 展开时显示所有文本
+                    -webkit-line-clamp: unset; // 解除行数限制
+                }
+            }
+        }
+
+        .label_4 {
+            width: 6.4vw;
+            height: 6.4vw;
+            margin: 0 0 3.46vw 5.33vw;
+        }
+    }
+
+    .box_3 {
+        background-color: rgba(217, 217, 217, 1);
+        border-radius: 10px;
+        width: 89.34vw;
+        margin: -0.26vw 0 0 5.33vw;
+
+        .image-text_3 {
+            width: 57.07vw;
+            height: 10.14vw;
+            margin: 6.13vw 0 0 6.13vw;
+
+            .label_5 {
+                width: 6.4vw;
+                height: 6.4vw;
+            }
+
+            .text-group_5 {
+                width: 47.74vw;
+                height: 8.54vw;
+                margin-top: 1.6vw;
+
+                .text_12 {
+                    width: 14.14vw;
+                    height: 3.2vw;
+                    overflow-wrap: break-word;
+                    color: rgba(165, 165, 165, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+
+                .text_13 {
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.73vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin-top: 1.6vw;
+                }
+            }
+        }
+
+        .image-text_4 {
+            width: 26.4vw;
+            height: 6.4vw;
+            margin: 4.53vw 0 0 6.13vw;
+
+            .label_6 {
+                width: 6.4vw;
+                height: 6.4vw;
+            }
+
+            .text-group_6 {
+                width: 17.07vw;
+                height: 3.2vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 1.6vw;
+            }
+        }
+
+        .group_4 {
+            width: 70.74vw;
+            margin: 0.8vw 0 0 15.46vw;
+
+            .group_5 {
+                background-color: rgba(255, 255, 255, 1);
+                border-radius: 8vw;
+
+                height: 10.14vw;
+                padding: 0 2.67vw;
+                margin-right: 1.33vw;
+                margin-bottom: 1.33vw;
+
+                .image-text_5 {
+
+                    .block_1 {
+                        background-color: rgba(51, 49, 50, 1);
+                        width: 4.27vw;
+                        height: 3.74vw;
+                        margin-top: 0.27vw;
+                    }
+
+                    .text-group_7 {
+                        overflow-wrap: break-word;
+                        color: rgba(51, 49, 50, 1);
+                        font-size: 3.73vw;
+                        font-family: Outfit;
+                        font-weight: normal;
+                        text-align: right;
+                        white-space: nowrap;
+                        line-height: normal;
+                    }
+                }
+            }
+
+            .group_6 {
+                background-color: rgba(255, 255, 255, 1);
+                border-radius: 30px;
+                width: 31.2vw;
+                height: 10.14vw;
+
+                .image-text_6 {
+                    width: 25.87vw;
+                    height: 5.34vw;
+                    margin: 2.4vw 0 0 2.66vw;
+
+                    .thumbnail_1 {
+                        width: 5.34vw;
+                        height: 5.34vw;
+                    }
+
+                    .text-group_8 {
+                        width: 20vw;
+                        height: 3.74vw;
+                        overflow-wrap: break-word;
+                        color: rgba(51, 49, 50, 1);
+                        font-size: 3.73vw;
+                        font-family: Outfit;
+                        font-weight: normal;
+                        text-align: right;
+                        white-space: nowrap;
+                        line-height: normal;
+                        margin-top: 0.54vw;
+                    }
+                }
+            }
+        }
+
+        .image-text_7 {
+            width: 22.4vw;
+            height: 5.34vw;
+            margin: 2.66vw 0 0 6.66vw;
+
+            .thumbnail_2 {
+                width: 5.34vw;
+                height: 5.34vw;
+            }
+
+            .text-group_9 {
+                width: 13.6vw;
+                height: 3.2vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 1.34vw;
+            }
+        }
+
+        .text-wrapper_2 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 30px;
+            height: 10.14vw;
+            width: 25.34vw;
+            margin: 0.8vw 0 0 15.46vw;
+
+            .text_14 {
+                width: 20vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: right;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 2.93vw 0 0 2.66vw;
+            }
+        }
+
+        .group_7 {
+            width: 74.14vw;
+            height: 22.14vw;
+            margin: 10.66vw 0 5.6vw 6.13vw;
+
+            .label_7 {
+                width: 6.4vw;
+                height: 6.4vw;
+            }
+
+            .text-wrapper_3 {
+                width: 64.8vw;
+                height: 21.07vw;
+                overflow-wrap: break-word;
+                font-size: 0;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                line-height: 4.27vw;
+                margin-top: 1.07vw;
+
+                .text_15 {
+                    width: 64.8vw;
+                    height: 21.07vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    text-align: left;
+                    line-height: 4.27vw;
+                }
+
+                .text_16 {
+                    width: 64.8vw;
+                    height: 21.07vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    text-decoration: underline;
+                    font-weight: normal;
+                    text-align: left;
+                    line-height: 4.27vw;
+                }
+
+                .text_17 {
+                    width: 64.8vw;
+                    height: 21.07vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    text-align: left;
+                    line-height: 4.27vw;
+                }
+
+                .text_18 {
+                    width: 64.8vw;
+                    height: 21.07vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    text-decoration: underline;
+                    font-weight: normal;
+                    text-align: left;
+                    line-height: 4.27vw;
+                }
+            }
+        }
+    }
+
+    .text-wrapper_4 {
+        background-color: rgba(0, 82, 254, 1);
+        border-radius: 30px;
+        height: 14.4vw;
+        width: 89.34vw;
+        margin: 4.53vw 0 6.4vw 5.33vw;
+
+        .text_19 {
+            overflow-wrap: break-word;
+            color: rgba(255, 255, 255, 1);
+            font-size: 5.33vw;
+            font-family: Outfit;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            line-height: normal;
+        }
+    }
+
+    .status_verify{
+        background-color: #333132 !important;
+    }
+}

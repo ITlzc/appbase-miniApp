@@ -1,0 +1,563 @@
+.avatar {
+    background-color: rgba(238, 238, 238, 1);
+    position: relative;
+    width: 100vw;
+    min-height: 100vw;
+    overflow: hidden;
+    padding-bottom: 26.67vw;
+
+    .group_1 {
+        width: 100vw;
+
+        .box_1 {
+            width: 89.34vw;
+            height: 9.34vw;
+            margin: 15.73vw 0 0 5.33vw;
+
+            .text_1 {
+                width: 47.47vw;
+                height: 6.4vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 1.34vw;
+            }
+
+            .label_1 {
+                width: 9.34vw;
+                height: 9.34vw;
+            }
+        }
+
+        .box_2 {
+            height: 17.87vw;
+            margin: 2.93vw 0 0 5.33vw;
+
+            .image_1 {
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text-group_1 {
+                height: 11.74vw;
+                margin: 0.8vw 0 0 2.4vw;
+
+                .text_2 {
+                    width: 19.2vw;
+                    height: 5.34vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 5.33vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+
+                .text_3 {
+                    height: 5.34vw;
+                    overflow-wrap: break-word;
+                    color: rgba(0, 82, 254, 1);
+                    font-size: 5.33vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin: 1.06vw 0 0 0.26vw;
+                }
+            }
+
+            .thumbnail_1 {
+                width: 5.34vw;
+                height: 5.34vw;
+                margin: 8.53vw 0 0 1.33vw;
+            }
+        }
+
+        .list_1 {
+            width: 100vw;
+            padding: 0 6.93vw;
+            margin: 0 auto;
+            margin-top: 1.06vw;
+
+            .text-group_2-0 {
+                width: 33%;
+
+                .text_4-0 {
+                    height: 3.2vw;
+                    overflow-wrap: break-word;
+                    color: rgba(165, 165, 165, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    text-align: center;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+
+                .text_6-0 {
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 5.33vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: center;
+                    line-height: 5.33vw;
+                    margin-top: 2.13vw;
+                }
+            }
+
+            .text-group_2-0:nth-child(2) {
+                border: 1px solid #A5A5A5;
+                border-top: 0;
+                border-bottom: 0;
+            }
+        }
+
+        .text-wrapper_1 {
+            width: 89.33vw;
+            margin: 0 auto;
+            margin-top: 5.6vw;
+
+            .text_7 {
+                width: 33%;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+                padding-bottom: 2.13vw;
+                border-bottom: 1.07vw solid rgb(217, 217, 217);
+            }
+
+            .tab_act {
+                color: rgba(0, 82, 254, 1);
+                border-color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .text-group_3 {
+            width: 29.87vw;
+            height: 10.67vw;
+            margin: 5.33vw 0 0 5.06vw;
+
+            .text_10 {
+                width: 20.27vw;
+                height: 3.2vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+                margin-left: 0.54vw;
+            }
+
+            .text_11 {
+                height: 5.34vw;
+                overflow-wrap: break-word;
+                color: rgba(0, 82, 254, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 2.14vw;
+            }
+        }
+
+        .box_5 {
+            width: 88.8vw;
+            height: 10.67vw;
+            margin: 5.6vw 0 0 5.33vw;
+
+            .text-group_4 {
+                height: 10.67vw;
+
+                .text_12 {
+                    width: 24.27vw;
+                    height: 3.2vw;
+                    overflow-wrap: break-word;
+                    color: rgba(165, 165, 165, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: normal;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+
+                .text_13 {
+                    height: 5.34vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 5.33vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin-top: 2.14vw;
+                }
+            }
+
+            .text_14 {
+                width: 33.34vw;
+                height: 3.2vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                text-decoration: underline;
+                font-weight: normal;
+                text-align: right;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 6.67vw;
+            }
+        }
+
+        .text-wrapper_2 {
+            background-color: rgba(0, 82, 254, 1);
+            border-radius: 30px;
+            height: 9.34vw;
+            width: 89.34vw;
+            margin: 4vw 0 0 5.33vw;
+
+            .text_15 {
+                overflow-wrap: break-word;
+                color: rgba(255, 255, 255, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+
+        .exchange-btn {
+            width: 89.33vw;
+            margin: 0 auto;
+
+
+            .text-wrapper_2 {
+                width: 48vw;
+                margin-left: 0;
+            }
+
+            .selectItem {
+                width: 40vw;
+                background: #D9D9D9;
+                border: 1px solid #3E3E3E;
+                padding: 1.87vw;
+
+                .label_2 {
+                    width: 5.87vw;
+                    height: 5.87vw;
+                }
+
+                .label_3 {
+                    width: 6.4vw;
+                    height: 6.4vw;
+                }
+
+                span {
+                    color: #333132;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    .group_2 {
+        background-color: rgba(51, 49, 50, 1);
+        border-radius: 10px;
+        height: 52.8vw;
+        width: 89.34vw;
+        margin: 4.26vw 0 0 5.33vw;
+
+        .image-text_1 {
+            width: 81.07vw;
+            margin: 5.86vw 0 0 4.26vw;
+
+            .image_2 {
+                width: 24.54vw;
+                height: 3.74vw;
+                margin-left: 28.27vw;
+            }
+
+            .exchange-block {
+                .exchange_icon {
+                    width: 24.54vw;
+                    height: 5.87vw;
+                    margin-left: 25.86vw;
+                    margin-right: 1.33vw;
+                }
+
+                span {
+                    padding: 1.07vw 1.87vw;
+                    font-family: Outfit, Outfit;
+                    font-weight: bold;
+                    font-size: 2.67vw;
+                    color: #0052FE;
+                    line-height: 2.67vw;
+                    text-align: center;
+                    font-style: normal;
+                    text-transform: none;
+                    border: 1px solid #0052FE;
+                    border-radius: 1.33vw;
+                }
+            }
+
+
+
+            .text-group_5 {
+                height: 23.2vw;
+                margin-top: 4.27vw;
+
+                .coming-soon {
+                    font-family: Outfit;
+                    font-weight: 500;
+                    font-size: 6.4vw;
+                    color: #FFFFFF;
+                    text-align: center;
+                    font-style: normal;
+                    text-transform: none;
+                    margin-top: 9.06vw;
+                }
+
+                .text_16 {
+                    overflow-wrap: break-word;
+                    color: rgba(255, 255, 255, 1);
+                    font-size: 4.26vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: center;
+                    line-height: normal;
+                }
+
+                .paragraph_1 {
+                    overflow-wrap: break-word;
+                    color: rgba(165, 165, 165, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: 500;
+                    text-align: center;
+                    line-height: 4.27vw;
+                    margin-top: 2.14vw;
+                }
+            }
+        }
+
+        .text-wrapper_3 {
+            background-color: rgba(0, 82, 254, 1);
+            border-radius: 20px;
+            height: 8.8vw;
+            margin: 0 10.4vw;
+            margin-bottom: 6.93vw;
+            padding: 0 4.53vw;
+
+            .text_17 {
+                overflow-wrap: break-word;
+                color: rgba(255, 255, 255, 1);
+                font-size: 4.26vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+    }
+
+    .group_3 {
+        width: 100vw;
+        height: 81.87vw;
+        margin-bottom: 0.27vw;
+
+        .text_18 {
+            width: 36.8vw;
+            height: 4.27vw;
+            overflow-wrap: break-word;
+            color: rgba(51, 49, 50, 1);
+            font-size: 4.26vw;
+            font-family: Outfit;
+            font-weight: 700;
+            text-align: left;
+            white-space: nowrap;
+            line-height: normal;
+            margin: 6.13vw 0 4.27vw 5.33vw;
+        }
+
+        .box_6 {
+            width: 85.87vw;
+            margin-left: 5.33vw;
+            padding: 4.27vw 0;
+            border-top: 1px solid #D9D9D9;
+
+            .text_19 {
+                width: 14.14vw;
+                height: 4.27vw;
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 4.26vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .group_4 {
+                width: 2.14vw;
+                height: 3.73vw;
+                margin-top: 0.54vw;
+            }
+        }
+    }
+
+    .modelContent {
+        .text_1 {
+            width: 78.67vw;
+            overflow-wrap: break-word;
+            color: rgba(51, 49, 50, 1);
+            font-size: 4.27vw;
+            font-family: Outfit;
+            font-weight: 700;
+            text-align: center;
+            line-height: normal;
+            margin-top: 26.67vw;
+        }
+
+        .group_2 {
+            background-color: rgba(51, 49, 50, 1);
+            border-radius: 10px;
+            height: 47.47vw;
+            width: 78.67vw;
+            margin: 0;
+            margin-top: 4.26vw;
+
+            .image-text_1 {
+                width: auto;
+                margin: 0;
+                margin-top: 5.86vw;
+
+                .image_2 {
+                    width: 24.54vw;
+                    height: 3.74vw;
+                    margin-left: 0;
+                }
+
+                .exchange-block {
+                    .exchange_icon {
+                        width: 24.54vw;
+                        height: 5.87vw;
+                        margin-left: 0;
+                        margin-right: 1.33vw;
+                    }
+
+                    span {
+                        padding: 1.07vw 1.87vw;
+                        font-family: Outfit, Outfit;
+                        font-weight: bold;
+                        font-size: 2.67vw;
+                        color: #0052FE;
+                        line-height: 2.67vw;
+                        text-align: center;
+                        font-style: normal;
+                        text-transform: none;
+                        border: 1px solid #0052FE;
+                        border-radius: 1.33vw;
+                    }
+                }
+
+
+
+                .text-group_5 {
+                    height: 23.2vw;
+                    margin-top: 4.27vw;
+                    padding: 0 5.33vw;
+
+                    .text_16 {
+                        overflow-wrap: break-word;
+                        color: rgba(255, 255, 255, 1);
+                        font-size: 3.73vw;
+                        font-family: Outfit;
+                        font-weight: 700;
+                        text-align: center;
+                        line-height: normal;
+                    }
+
+                    .paragraph_1 {
+                        overflow-wrap: break-word;
+                        color: rgba(165, 165, 165, 1);
+                        font-size: 3.2vw;
+                        font-family: Outfit;
+                        font-weight: 500;
+                        text-align: center;
+                        line-height: 4.27vw;
+                        margin-top: 2.14vw;
+                    }
+                }
+            }
+        }
+
+        .section_2 {
+            width: 79.47vw;
+            height: 9.34vw;
+            margin: 5.33vw 0 23.46vw 4.26vw;
+
+            .text-wrapper_1 {
+                background-color: rgba(217, 217, 217, 1);
+                border-radius: 20px;
+                height: 9.34vw;
+                border: 1px solid rgba(0, 82, 254, 1);
+                width: 36vw;
+
+                .text_2 {
+
+                    overflow-wrap: break-word;
+                    color: rgba(0, 82, 254, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: center;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+            }
+
+            .text-wrapper_2 {
+                background-color: rgba(0, 82, 254, 1);
+                border-radius: 30px;
+                height: 9.34vw;
+                width: 42.4vw;
+
+                .text_3 {
+                    overflow-wrap: break-word;
+                    color: rgba(255, 255, 255, 1);
+                    font-size: 3.2vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: center;
+                    white-space: nowrap;
+                    line-height: normal;
+                }
+            }
+        }
+    }
+}

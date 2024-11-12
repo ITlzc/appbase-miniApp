@@ -1,0 +1,571 @@
+.invite {
+    background-color: rgba(238, 238, 238, 1);
+    position: relative;
+    width: 100vw;
+    overflow: hidden;
+    padding-bottom: 32vw;
+
+    .box_1 {
+        width: 89.34vw;
+        height: 9.34vw;
+        margin: 15.73vw 0 0 5.33vw;
+
+        .text_1 {
+            width: 40vw;
+            height: 6.4vw;
+            overflow-wrap: break-word;
+            color: rgba(51, 49, 50, 1);
+            font-size: 6.4vw;
+            font-family: Outfit;
+            font-weight: 700;
+            text-align: left;
+            white-space: nowrap;
+            line-height: normal;
+            margin-top: 1.34vw;
+        }
+
+        .label_1 {
+            width: 9.34vw;
+            height: 9.34vw;
+        }
+    }
+
+    .text-group_1 {
+        width: 89.33vw;
+        padding-bottom: 4.53vw;
+        margin: 0 auto;
+        margin-top: 4.53vw;
+        border-bottom: 1px solid #A5A5A5;
+
+        .text_2 {
+            width: 35.47vw;
+            height: 3.74vw;
+            overflow-wrap: break-word;
+            color: rgba(165, 165, 165, 1);
+            font-size: 3.73vw;
+            font-family: Outfit;
+            font-weight: normal;
+            text-align: center;
+            white-space: nowrap;
+            line-height: normal;
+            margin-left: 3.2vw;
+        }
+
+        .text_3 {
+            width: 41.87vw;
+            height: 6.4vw;
+            overflow-wrap: break-word;
+            color: rgba(0, 82, 254, 1);
+            font-size: 6.4vw;
+            font-family: Outfit;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            line-height: normal;
+            margin-top: 1.6vw;
+        }
+    }
+
+    .text_4 {
+        width: 34.67vw;
+        height: 4.8vw;
+        overflow-wrap: break-word;
+        color: rgba(51, 49, 50, 1);
+        font-size: 4.8vw;
+        font-family: Outfit;
+        font-weight: 700;
+        text-align: center;
+        white-space: nowrap;
+        line-height: normal;
+        margin: 3.2vw 0 0 32.8vw;
+    }
+
+    .list_1 {
+        width: 89.33vw;
+        margin: 0 auto;
+        margin-top: 3.73vw;
+        padding-bottom: 5.07vw;
+        border-bottom: 1px solid #A5A5A5;
+
+        .text-group_2-0 {
+            width: 50%;
+            height: 11.74vw;
+            border-right: 1px solid #A5A5A5;
+
+            .text_5-0 {
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_6-0 {
+                overflow-wrap: break-word;
+                color: rgba(0, 82, 254, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 2.13vw;
+            }
+        }
+
+        .text-group_2-1 {
+            width: 50%;
+            height: 11.74vw;
+
+            .text_5-1 {
+                overflow-wrap: break-word;
+                color: rgba(165, 165, 165, 1);
+                font-size: 3.2vw;
+                font-family: Outfit;
+                font-weight: normal;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_6-1 {
+                overflow-wrap: break-word;
+                color: rgba(0, 82, 254, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 2.13vw;
+            }
+        }
+    }
+
+    .stage-rewards {
+        width: 89.33vw;
+        margin: 0 auto;
+
+        .text_7 {
+            width: 33.34vw;
+            height: 4.8vw;
+            overflow-wrap: break-word;
+            color: rgba(51, 49, 50, 1);
+            font-size: 4.8vw;
+            font-family: Outfit;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+            line-height: normal;
+            margin-top: 8.53vw;
+            margin-bottom: 4.53vw;
+        }
+
+
+
+        .level {
+            width: 100%;
+            position: relative;
+
+            .progress {
+                width: 100%;
+                height: 1.33vw;
+                background-color: #A5A5A5;
+                border-radius: 2.67vw;
+                position: absolute;
+                top: 7.4vw;
+                left: 0;
+                z-index: 1;
+
+                .progress_bar {
+                    width: 0;
+                    height: 100%;
+                    background-color: #0052FE;
+                    border-radius: 2.67vw;
+                    position: relative;
+
+                    .round {
+                        width: 3.2vw;
+                        height: 3.2vw;
+
+                        position: absolute;
+                        right: -1.6vw;
+                        top: -1.07vw;
+                        background-color: #0052FE;
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            .stage-rewards-item {
+                position: relative;
+                z-index: 2;
+                .friendsNum {
+                    font-family: Outfit;
+                    font-weight: 400;
+                    font-size: 3.2vw;
+                    // color: #0052FE;
+                    color: #A5A5A5;
+                    margin-bottom: 1.07vw;
+                }
+
+                .roundItem {
+                    width: 5.33vw;
+                    height: 5.33vw;
+                    background-color: #FFFFFF;
+                    margin-bottom: 3.2vw;
+                    border-radius: 50%;
+
+                    position: relative;
+
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        bottom: -3.2vw;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: .53vw;
+                        height: 3.2vw;
+                        background-color: #A5A5A5;
+                    }
+
+                    img {
+                        width: 4.8vw;
+                        height: 4.8vw;
+                    }
+                }
+
+                .roundItem_act {
+                    background-color: #0052FE;
+                }
+
+                .mount {
+                    padding: 1.07vw 1.33vw;
+                    background-color: #D9D9D9;
+                    font-family: Outfit;
+                    font-weight: 400;
+                    font-size: 2.67vw;
+                    color: #333132;
+                    font-style: normal;
+                    text-transform: none;
+                    border-radius: .53vw;
+
+                    img {
+                        width: 4vw;
+                        height: 4vw;
+                        margin-right: .53vw;
+                    }
+                }
+            }
+        }
+    }
+
+    .box_4 {
+        width: 89.34vw;
+        height: 9.34vw;
+        margin: 6.13vw 0 0 5.33vw;
+
+        .text-wrapper_3 {
+            background-color: rgba(0, 82, 254, 1);
+            border-radius: 30px;
+            height: 9.34vw;
+            width: 38.4vw;
+
+            .text_13 {
+                overflow-wrap: break-word;
+                color: rgba(255, 255, 255, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+
+        .text-wrapper_4 {
+            background-color: rgba(51, 49, 50, 1);
+            border-radius: 30px;
+            height: 9.34vw;
+            width: 49.34vw;
+
+            .text_14 {
+                overflow-wrap: break-word;
+                color: rgba(255, 255, 255, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+    }
+
+    .text_15 {
+        width: 30.67vw;
+        height: 3.74vw;
+        overflow-wrap: break-word;
+        color: rgba(165, 165, 165, 1);
+        font-size: 3.73vw;
+        font-family: Outfit;
+        font-weight: normal;
+        text-align: left;
+        white-space: nowrap;
+        line-height: normal;
+        margin: 6.4vw 0 0 64vw;
+    }
+
+    .list_2 {
+        width: 89.34vw;
+        justify-content: space-between;
+        margin: 4.8vw 0 0 5.33vw;
+
+        .list-items_1-0 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image-text_2-0 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 30.14vw;
+                height: 13.34vw;
+
+                .image_1-0 {
+                    width: 13.34vw;
+                    height: 13.34vw;
+                }
+
+                .text-group_4-0 {
+                    width: 14.14vw;
+                    height: 3.74vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.73vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin-top: 5.34vw;
+                }
+            }
+
+            .text_17-0 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .list-items_1-1 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-1 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_16-1 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_17-1 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .list-items_1-2 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-2 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_16-2 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_17-2 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(165, 165, 165, 1);
+            }
+        }
+
+        .list-items_1-3 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-3 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_16-3 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_17-3 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .list-items_1-4 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-4 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_16-4 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_17-4 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+    }
+
+    .label_2 {
+        width: 6.4vw;
+        height: 6.4vw;
+        margin: 2.93vw 0 0 46.66vw;
+    }
+}

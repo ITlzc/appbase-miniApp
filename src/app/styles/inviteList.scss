@@ -1,0 +1,340 @@
+.inviteList {
+    background-color: rgba(238, 238, 238, 1);
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+
+    .box_1 {
+        width: 89.34vw;
+        height: 18.94vw;
+        margin: 13.6vw 0 0 5.33vw;
+
+        .image-text_1 {
+            width: 40vw;
+            height: 18.94vw;
+
+            .label_1 {
+                width: 9.6vw;
+                height: 9.6vw;
+            }
+
+            .text-group_1 {
+                width: 40vw;
+                height: 6.4vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-top: 2.94vw;
+            }
+        }
+
+        .text_1 {
+            height: 3.74vw;
+            overflow-wrap: break-word;
+            color: rgba(165, 165, 165, 1);
+            font-size: 3.73vw;
+            font-family: Outfit;
+            font-weight: normal;
+            text-align: left;
+            white-space: nowrap;
+            line-height: normal;
+            margin-top: 14.4vw;
+        }
+    }
+
+    .list_1 {
+        width: 89.34vw;
+        justify-content: space-between;
+        margin: 4.53vw 0 26.67vw 5.33vw;
+                
+
+        .list-items_1-0 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image-text_2-0 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 30.14vw;
+                height: 13.34vw;
+
+                .image_1-0 {
+                    width: 13.34vw;
+                    height: 13.34vw;
+                }
+
+                .text-group_2-0 {
+                    width: 14.14vw;
+                    height: 3.74vw;
+                    overflow-wrap: break-word;
+                    color: rgba(51, 49, 50, 1);
+                    font-size: 3.73vw;
+                    font-family: Outfit;
+                    font-weight: 700;
+                    text-align: left;
+                    white-space: nowrap;
+                    line-height: normal;
+                    margin-top: 5.34vw;
+                }
+            }
+
+            .text_3-0 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .list-items_1-1 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-1 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_2-1 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_3-1 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .list-items_1-2 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-2 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_2-2 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_3-2 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(165, 165, 165, 1);
+            }
+        }
+
+        .list-items_1-3 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-3 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_2-3 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_3-3 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+
+        .list-items_1-4 {
+            background-color: rgba(255, 255, 255, 1);
+            border-radius: 10px;
+            position: relative;
+            width: 89.34vw;
+            height: 18.67vw;
+            margin-bottom: 2.67vw;
+
+            .image_2-4 {
+                position: absolute;
+                left: 3.2vw;
+                top: 2.67vw;
+                width: 13.34vw;
+                height: 13.34vw;
+            }
+
+            .text_2-4 {
+                position: absolute;
+                left: 19.2vw;
+                top: 8vw;
+                width: 11.47vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+            }
+
+            .text_3-4 {
+                width: 11.2vw;
+                height: 3.74vw;
+                overflow-wrap: break-word;
+                font-size: 3.73vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin: 8vw 0 0 72.8vw;
+                color: rgba(0, 82, 254, 1);
+            }
+        }
+    }
+
+    .box_2 {
+        height: 9.34vw;
+        width: 100%;
+        padding: 0 5.33vw;
+        position: fixed;
+        bottom: 8.53vw;
+        left: 0;
+
+        .text-wrapper_1 {
+            background-color: rgba(0, 82, 254, 1);
+            border-radius: 30px;
+            height: 9.34vw;
+            width: 38.4vw;
+
+            .text_4 {
+                overflow-wrap: break-word;
+                color: rgba(255, 255, 255, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+
+        .text-wrapper_2 {
+            background-color: rgba(51, 49, 50, 1);
+            border-radius: 30px;
+            height: 9.34vw;
+            width: 49.34vw;
+
+            .text_5 {
+                overflow-wrap: break-word;
+                color: rgba(255, 255, 255, 1);
+                font-size: 5.33vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: center;
+                white-space: nowrap;
+                line-height: normal;
+            }
+        }
+    }
+}
