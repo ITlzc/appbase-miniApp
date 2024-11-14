@@ -1,98 +1,149 @@
+"use client";
 import Nav from "../components/Nav"
 import '../styles/leader.scss'
+import { useEffect, useState } from 'react';
+import { Spin } from 'antd';
+
+
+
+import {
+    islogin,
+    get_user_info,
+    get_top_100,
+    count_holders
+} from '../../lib/ton_supabase_api'
 
 export default function Leader() {
+
+    const [user_info, set_user_info] = useState({})
+    const [tops, set_tops] = useState([])
+    const [page, set_page] = useState(1)
+    const [size, set_size] = useState(5)
+    const [holders, set_holders] = useState(0)
+    const [all_points, set_all_points] = useState(0)
+    const [loading, set_loading] = useState(false)
+
+
+
+    const more_users = () => {
+        let page_temp = page + 1
+        get_tops(page_temp, size)
+    }
+
+    const get_tops = async (user_id, page_in) => {
+        set_loading(true)
+        let temp_ferinds = await get_top_100(user_id, page_in, size)
+        set_loading(false)
+        if (temp_ferinds && temp_ferinds.length) {
+            set_page(page_in)
+        }
+        temp_ferinds.map(item => {
+            item.all_points = item.earn_points + item.task_points + item.invite_points
+            item.trophy = ''
+            if (item.rank == 1) {
+                item.trophy = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG99b3bb57363533a416a7cc09f8c6490e.png'
+            }
+            if (item.rank == 2) {
+                item.trophy = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5c03c631c93830eac5fe5ef349b3c5cc.png'
+            }
+            if (item.rank == 3) {
+                item.trophy = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGca28ff8ca2da02e2dc22302c80665fcb.png'
+            }
+        })
+        let temp = tops
+        temp = temp.concat(temp_ferinds)
+        if (page_in == 1) {
+            temp = temp_ferinds
+        }
+        set_tops(temp)
+    }
+
+    const init_data = async () => {
+        let user = await islogin()
+        if (!user) {
+            return
+        }
+        set_loading(true)
+        let temp_user_info = await get_user_info(user.id)
+        set_loading(false)
+        let temp_all_points = temp_user_info.earn_points + temp_user_info.task_points + temp_user_info.invite_points
+        set_all_points(temp_all_points)
+        set_user_info(temp_user_info)
+        get_tops(user.id, page)
+
+        set_loading(true)
+        let count = await count_holders()
+        set_loading(false)
+        set_holders(count)
+    }
+
+    useEffect(() => {
+        init_data()
+    }, [])
+
     return (
-        <div className="leader flex-col">
-            <div className="group_1 flex-row justify-between">
-                <span className="text_1">Leaderboard</span>
-                <img
-                    className="label_1"
-                    src={
-                        "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/2ff26af4bb1e464099016487f9573f73_mergeImage.png"
-                    }
-                />
-            </div>
-            <span className="text_2">My Ranking</span>
-            <div className="group_2 flex-row justify-between">
-                <div className="flex-row">
-                    <span className="text_3">#966</span>
+        <Spin size="large" spinning={loading}>
+            <div className="leader flex-col">
+                <div className="group_1 flex-row justify-between">
+                    <span className="text_1">Leaderboard</span>
                     <img
-                        className="image_1"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGcca9338d66981dbf6ae15ed88c6c5bae.png"}
+                        className="label_1"
+                        src={
+                            "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/2ff26af4bb1e464099016487f9573f73_mergeImage.png"
+                        }
                     />
-                    <span className="text_4"> Richard</span>
                 </div>
-
-                <span className="text_5">249</span>
+                <span className="text_2">My Ranking</span>
+                <div className="group_2 flex-row justify-between">
+                    <div className="flex-row">
+                        <span className="text_3">#{user_info.rank}</span>
+                        <img
+                            className="image_1"
+                            src={user_info.avatar || "/images/user-avatar-full-fill.png"}
+                        />
+                        <span className="text_4">{user_info.name}</span>
+                    </div>
+                    <span className="text_5">{all_points ? all_points / 1000000 : '~'}</span>
+                </div>
+                <div className="text-wrapper_1 flex-row justify-between">
+                    <span className="text_6">TOP 100</span>
+                    <span className="text_7">{holders} Holders</span>
+                </div>
+                <div className="list_1 flex-col">
+                    {
+                        tops.map((item, index) => {
+                            return (
+                                <div className="list-items_1-0 flex-row justify-between" key={index}>
+                                    <div className="flex-row">
+                                        {
+                                            item.rank > 3 ? <span className="text_8-3">#{item.rank}</span> :
+                                                <img
+                                                    className="label_2-0"
+                                                    src={item.trophy}
+                                                />
+                                        }
+                                        <img
+                                            className="image_2-0"
+                                            src={item.avatar || "/images/user-avatar-full-fill.png"}
+                                        />
+                                        <span className="text_9-0">{item.name}</span>
+                                    </div>
+                                    <span className="text_10-0">{item.all_points / 1000000}</span>
+                                </div>
+                            )
+                        })
+                    }
+                    {
+                        tops && tops.length ? <img
+                            className="label_2"
+                            onClick={more_users}
+                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0cf94e7e31c332196f965ab9aa43c71a.png"}
+                        /> : null
+                    }
+                </div>
+                <Nav />
             </div>
-            <div className="text-wrapper_1 flex-row justify-between">
-                <span className="text_6">TOP 100</span>
-                <span className="text_7">8,881,530,000 Holders</span>
-            </div>
-            <div className="list_1 flex-col">
-                <div className="list-items_1-0 flex-row justify-between">
-                    <div className="flex-row">
-                        <img
-                            className="label_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG99b3bb57363533a416a7cc09f8c6490e.png"}
-                        />
-                        <img
-                            className="image_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG268328afa0a9b358ac725f3a450f5e4d.png"}
-                        />
-                        <span className="text_9-0">Riley</span>
-                    </div>
-
-                    <span className="text_10-0">88,987,128</span>
-                </div>
-
-                <div className="list-items_1-0 flex-row justify-between">
-                    <div className="flex-row">
-                        <img
-                            className="label_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5c03c631c93830eac5fe5ef349b3c5cc.png"}
-                        />
-                        <img
-                            className="image_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG2369c7b4248624928f0836a2f19761de.png"}
-                        />
-                        <span className="text_9-0">Theo</span>
-                    </div>
-
-                    <span className="text_10-0">71,231,232</span>
-                </div>
-
-                <div className="list-items_1-0 flex-row justify-between">
-                    <div className="flex-row">
-                        <img
-                            className="label_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGca28ff8ca2da02e2dc22302c80665fcb.png"}
-                        />
-                        <img
-                            className="image_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG62f9f4a90653c18e4ea576eeab0410b4.png"}
-                        />
-                        <span className="text_9-0">Luca</span>
-                    </div>
-
-                    <span className="text_10-0">71,231,232</span>
-                </div>
-
-                <div className="list-items_1-0 flex-row justify-between">
-                    <div className="flex-row">
-                        <span className="text_8-3">#4</span>
-                        <img
-                            className="image_2-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG8ae0f3eed57235581fa7fa632fa82644.png"}
-                        />
-                        <span className="text_9-0">James</span>
-                    </div>
-
-                    <span className="text_10-0">4,123,345</span>
-                </div>
-            </div>
-            <Nav />
-        </div>
+        </Spin>
+        
     )
 }

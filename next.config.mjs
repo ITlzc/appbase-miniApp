@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        tg_mini_env: false,
+        tg_mini_env: "true",
     },
 };
 

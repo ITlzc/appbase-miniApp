@@ -703,6 +703,50 @@ export async function get_user_ferinds(user_id,page,size) {
 	return data;
 }
 
+export async function get_top_100(inviter_id,page,size) {
+	page = page ? page : 1
+    size = size ? size : 5
+    let offset = (page - 1) * size
+    size = offset + size - 1
+	let { data, error } = await supabase
+		.from("user")
+		.select("*")
+		.order("rank", { ascending: true })
+		.range(offset, size);
+	if (error) {
+		throw error;
+	}
+	return data
+}
+
+export async function count_holders() {
+	let { data, count, error } = await supabase
+    .from("user")
+    .select("*", { count: "exact" })
+    .or('invite_points.gt.0,earn_points.gt.0,task_points.gt.0');
+	if (error) {
+		throw error;
+	}
+	return count
+}
+
+export async function get_points_record(user_id,page,size) {
+	page = page ? page : 1
+    size = size ? size : 5
+    let offset = (page - 1) * size
+    size = offset + size - 1
+	let { data,error} = await supabase
+	.from('user_point_record')
+	.select('*')
+	.eq('user_id',user_id)
+	.order('created_at',{ascending:false})
+	.range(offset, size);
+	if (error) {
+		throw error;
+	}
+	return data
+}
+
 
 // 获取公告
 async function appGetAnnouncement() {

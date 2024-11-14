@@ -5,6 +5,8 @@ import { useEffect, useState, Suspense } from 'react';
 import { message } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { Spin } from 'antd';
+
 
 
 import {
@@ -16,11 +18,13 @@ import {
 import moment from 'moment';
 import { task_host } from '../../utils/supabase/config'
 
-export default function Task() {
+function TaskComponent() {
 
     const searchParams = useSearchParams();
 
     const [all_tasks, set_all_tasks] = useState([])
+    const [loading, set_loading] = useState(false)
+
 
     const click_item = async (task) => {
         if (task.platform && task.platform === 'twitter') {
@@ -66,6 +70,7 @@ export default function Task() {
         let task_id = BigInt(task.taskId)
         console.log('sumit_task = ', task, task_id)
         let url = task_host + `/api/v1/task/submit/${task_id}`
+        set_loading(true)
         try {
             let response = await fetch(url, {
                 method: "POST",
@@ -74,6 +79,7 @@ export default function Task() {
                 }
             })
             console.log('sumit_task fetch = ', response)
+            set_loading(false)
             if (response && response.status == 200) {
                 let responseData = await response.json()
                 console.log('responseData =', responseData)
@@ -88,6 +94,7 @@ export default function Task() {
                 return false
             }
         } catch (error) {
+            set_loading(false)
             console.log('fetch task detail error = ', error)
             return false
         }
@@ -103,6 +110,7 @@ export default function Task() {
         let task_id = BigInt(task.taskId)
         console.log('check_task = ', task, task_id)
         let url = task_host + `/api/v1/task/check/${task_id}`
+        set_loading(true)
         try {
             let response = await fetch(url, {
                 headers: {
@@ -110,6 +118,7 @@ export default function Task() {
                 }
             })
             console.log('check_task fetch = ', response)
+            set_loading(false)
             if (response && response.status == 200) {
                 let responseData = await response.json()
                 console.log('responseData =', responseData)
@@ -128,6 +137,7 @@ export default function Task() {
                 console.log('task_detail fetch error = ', response.statusText)
             }
         } catch (error) {
+            set_loading(false)
             console.log('fetch task detail error = ', error)
         }
     }
@@ -229,7 +239,9 @@ export default function Task() {
             })
             promises.push(temp)
         }
+        set_loading(true)
         Promise.all(promises).then(res => {
+            set_loading(false)
             res = res && res.length && res.reduce((l, r) => {
                 return l.concat(r);
             })
@@ -262,6 +274,7 @@ export default function Task() {
             console.log("get_tasks out = ", tasks)
             set_all_tasks(tasks)
         }).catch(error => {
+            set_loading(false)
             console.log('fetch get_tasks all error = ', error)
         })
     }
@@ -308,101 +321,111 @@ export default function Task() {
     }, [])
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
-            <div className="task flex-col">
-                <div className="box_1 flex-row justify-between">
-                    <span className="text_1">Trial to Earn</span>
-                    <img
-                        className="label_1"
-                        src={
-                            "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/b6db4d81bd204e0fa5da7a3124dc64f6_mergeImage.png"
-                        }
-                    />
-                </div>
-                <div className="list_1 flex-col">
-                    {
-                        all_tasks.map((task, index) => {
-                            return (
-                                <div className="list-items_1-0 flex-row justify-between" key={index}>
-                                    <div className="image-text_1-0 flex-row justify-between">
-                                        <img
-                                            className="image_1-0"
-                                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
-                                        />
-                                        <div className="text-group_1-0 flex-col justify-between">
-                                            <span className="text_2-0">{task.description}</span>
-                                            <span className="text_3-0">+{task.reward} Points</span>
+        // <Suspense fallback={<div>Loading...</div>}>
+            <Spin size="large" spinning={loading}>
+                <div className="task flex-col">
+                    <div className="box_1 flex-row justify-between">
+                        <span className="text_1">Trial to Earn</span>
+                        <img
+                            className="label_1"
+                            src={
+                                "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/b6db4d81bd204e0fa5da7a3124dc64f6_mergeImage.png"
+                            }
+                        />
+                    </div>
+                    <div className="list_1 flex-col">
+                        {
+                            all_tasks.map((task, index) => {
+                                return (
+                                    <div className="list-items_1-0 flex-row justify-between" key={index}>
+                                        <div className="image-text_1-0 flex-row justify-between">
+                                            <img
+                                                className="image_1-0"
+                                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
+                                            />
+                                            <div className="text-group_1-0 flex-col justify-between">
+                                                <span className="text_2-0">{task.description}</span>
+                                                <span className="text_3-0">+{task.reward} Points</span>
+                                            </div>
+                                        </div>
+                                        <div className={`text-wrapper_1-0 flex-col align-center justify-center ${task.button == 'START' ? 'status_is_start' : task.button == 'COMPLETED' ? 'status_is_completed' : ''}`} onClick={() => { click_item(task) }}>
+                                            <span className="text_5-0">{task.button}</span>
                                         </div>
                                     </div>
-                                    <div className={`text-wrapper_1-0 flex-col align-center justify-center ${task.button == 'START' ? 'status_is_start' : task.button == 'COMPLETED' ? 'status_is_completed' : ''}`} onClick={() => { click_item(task) }}>
-                                        <span className="text_5-0">{task.button}</span>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                    {/* <div className="list-items_1-0 flex-row">
-                    <div className="image-text_1-0 flex-row justify-between">
-                        <img
-                            className="image_1-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
-                        />
-                        <div className="text-group_1-0 flex-col justify-between">
-                            <span className="text_2-0">Join AppBase Twitter</span>
-                            <span className="text_3-0">+1000 Points</span>
+                                )
+                            })
+                        }
+                        {/* <div className="list-items_1-0 flex-row">
+                        <div className="image-text_1-0 flex-row justify-between">
+                            <img
+                                className="image_1-0"
+                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
+                            />
+                            <div className="text-group_1-0 flex-col justify-between">
+                                <span className="text_2-0">Join AppBase Twitter</span>
+                                <span className="text_3-0">+1000 Points</span>
+                            </div>
+                        </div>
+                        <div className="text-wrapper_1-0 flex-col">
+                            <span className="text_5-0">VERIFY</span>
                         </div>
                     </div>
-                    <div className="text-wrapper_1-0 flex-col">
-                        <span className="text_5-0">VERIFY</span>
-                    </div>
-                </div>
-                <div className="list-items_1-1 flex-row">
-                    <div className="image-text_1-1 flex-row justify-between">
-                        <img
-                            className="image_1-1"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1b4630409e6424db7b1b2c64a17e1816.png"}
-                        />
-                        <div className="text-group_1-1 flex-col justify-between">
-                            <span className="text_2-1">Join Telegram</span>
-                            <span className="text_3-1">+1000 Points</span>
+                    <div className="list-items_1-1 flex-row">
+                        <div className="image-text_1-1 flex-row justify-between">
+                            <img
+                                className="image_1-1"
+                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1b4630409e6424db7b1b2c64a17e1816.png"}
+                            />
+                            <div className="text-group_1-1 flex-col justify-between">
+                                <span className="text_2-1">Join Telegram</span>
+                                <span className="text_3-1">+1000 Points</span>
+                            </div>
+                        </div>
+                        <div className="text-wrapper_1-1 flex-col">
+                            <span className="text_5-1">START</span>
                         </div>
                     </div>
-                    <div className="text-wrapper_1-1 flex-col">
-                        <span className="text_5-1">START</span>
-                    </div>
-                </div>
-                <div className="list-items_1-2 flex-row">
-                    <div className="image-text_1-2 flex-row justify-between">
-                        <img
-                            className="image_1-2"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1b4630409e6424db7b1b2c64a17e1816.png"}
-                        />
-                        <div className="text-group_1-2 flex-col justify-between">
-                            <span className="text_2-2">Join Telegram</span>
-                            <span className="text_3-2">+1000 Points</span>
+                    <div className="list-items_1-2 flex-row">
+                        <div className="image-text_1-2 flex-row justify-between">
+                            <img
+                                className="image_1-2"
+                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1b4630409e6424db7b1b2c64a17e1816.png"}
+                            />
+                            <div className="text-group_1-2 flex-col justify-between">
+                                <span className="text_2-2">Join Telegram</span>
+                                <span className="text_3-2">+1000 Points</span>
+                            </div>
+                        </div>
+                        <div className="text-wrapper_1-2 flex-col">
+                            <span className="text_5-2">START</span>
                         </div>
                     </div>
-                    <div className="text-wrapper_1-2 flex-col">
-                        <span className="text_5-2">START</span>
-                    </div>
-                </div>
-                <div className="list-items_1-3 flex-row">
-                    <div className="image-text_1-3 flex-row justify-between">
-                        <img
-                            className="image_1-3"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1b4630409e6424db7b1b2c64a17e1816.png"}
-                        />
-                        <div className="text-group_1-3 flex-col justify-between">
-                            <span className="text_2-3">Join Telegram</span>
-                            <span className="text_3-3">+1000 Points</span>
+                    <div className="list-items_1-3 flex-row">
+                        <div className="image-text_1-3 flex-row justify-between">
+                            <img
+                                className="image_1-3"
+                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1b4630409e6424db7b1b2c64a17e1816.png"}
+                            />
+                            <div className="text-group_1-3 flex-col justify-between">
+                                <span className="text_2-3">Join Telegram</span>
+                                <span className="text_3-3">+1000 Points</span>
+                            </div>
                         </div>
+                        <span className="text_4-3">COMPLETED</span>
+                    </div> */}
                     </div>
-                    <span className="text_4-3">COMPLETED</span>
-                </div> */}
+                    <Nav />
                 </div>
-                <Nav />
-            </div>
-        </Suspense>
+            </Spin>
+        // </Suspense>
 
+    );
+}
+
+export default function Task() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <TaskComponent />
+        </Suspense>
     );
 }

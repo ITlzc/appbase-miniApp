@@ -2,74 +2,179 @@
 "use client";
 import '../styles/inviteList.scss'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { Spin } from 'antd';
+
+
+import {
+    get_share_link,
+    islogin,
+    get_user_info,
+    get_reward_points,
+    get_user_ferinds
+} from '../../lib/ton_supabase_api'
+
 export default function InviteList() {
     const router = useRouter()
 
+    const [share_link, set_share_link] = useState('')
+    const [user_info, set_user_info] = useState({})
+    const [reward_points, set_reward_points] = useState(0)
+    const [stage, set_stage] = useState(0)
+    const [friends, set_friends] = useState([])
+    const [page, set_page] = useState(1)
+    const [size, set_size] = useState(1000)
+    const [loading, set_loading] = useState(false)
+
+
+    const more_users = async () => {
+        let user = await islogin()
+        if (!user) {
+            return
+        }
+        let page_temp = page + 1
+        get_ferinds(user.id, page_temp)
+    }
+
+    const init_start_up = async () => {
+        let user = await islogin()
+        if (!user) {
+            return
+        }
+        let start_up = 'inviter_id=' + user.id
+        const encodedText = Buffer.from(start_up, 'utf-8').toString('base64');
+        let inviteLink = share_link + encodedText;  // 邀请链接
+        if (!window.Telegram && process.env.tg_mini_env == 'false') {
+            console.log('window.location = ', window.location)
+            inviteLink = window.location.origin + '?startapp=' + encodedText
+            return inviteLink
+        }
+        return inviteLink
+    }
+
+    const invite_friend = async () => {
+        if (!(share_link && share_link.length)) {
+            return
+        }
+        const inviteLink = await init_start_up();  // 邀请链接
+        const telegramShareURL = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent("快来加入我们！")}`;
+        window.open(telegramShareURL, "_blank");
+    }
+
+    const copy_share_link = async () => {
+        if (!(share_link && share_link.length)) {
+            return
+        }
+        const inviteLink = await init_start_up();  // 邀请链接
+        await navigator.clipboard.writeText(inviteLink);
+        toast.success('copy success')
+    }
+
+    const get_ferinds = async (user_id, page_in) => {
+        set_loading(true)
+        let temp_ferinds = await get_user_ferinds(user_id, page_in, size)
+        set_loading(false)
+        if (temp_ferinds && temp_ferinds.length) {
+            set_page(page_in)
+        }
+        temp_ferinds.map(item => {
+            if (!item.points) {
+                item.points = 0
+            }
+            if (item.points == 'NaN') {
+                item.points = 0
+            }
+        })
+        let temp = friends
+        temp = temp.concat(temp_ferinds)
+        if (page_in == 1) {
+            temp = temp_ferinds
+        }
+        set_friends(temp)
+    }
+
+    const init_data = async () => {
+        set_loading(true)
+        let link = await get_share_link()
+        set_loading(false)
+        set_share_link(link)
+        let user = await islogin()
+        if (!user) {
+            return
+        }
+        set_loading(true)
+        let temp_user_info = await get_user_info(user.id)
+        set_loading(false)
+        set_user_info(temp_user_info)
+        set_loading(true)
+        let real_reward_points = await get_reward_points(user.id)
+        set_loading(false)
+        set_reward_points(real_reward_points || 0)
+        set_stage(temp_user_info.verify_passed_count / 105)
+        get_ferinds(user.id, page)
+    }
+
+    useEffect(() => {
+        init_data()
+    }, [])
+
     return (
-        <div className="inviteList flex-col">
-            <div className="box_1 flex-row justify-between">
-                <div className="image-text_1 flex-col justify-between">
-                    <img
-                        onClick={() => router.back()}
-                        className="label_1"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
-                    />
-                    <span className="text-group_1">Invite Friends</span>
-                </div>
-                <span className="text_1">25 valid / 32 friend</span>
-            </div>
-            <div className="list_1 flex-col">
-                <div className="list-items_1-0 flex-row">
-                    <div className="image-text_2-0 flex-row justify-between">
+        <Spin size="large" spinning={loading}>
+            <div className="inviteList flex-col">
+                <div className="box_1 flex-row justify-between">
+                    <div className="image-text_1 flex-col justify-between">
                         <img
-                            className="image_1-0"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGcca9338d66981dbf6ae15ed88c6c5bae.png"}
+                            onClick={() => router.back()}
+                            className="label_1"
+                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
                         />
-                        <span className="text-group_2-0"> Richard</span>
+                        <span className="text-group_1">Invite Friends</span>
                     </div>
-                    <span className="text_3-0">+1000</span>
+                    {
+                        user_info.invite_user_count ? <span className="text_1">{user_info.verify_passed_count} valid / {user_info.invite_user_count} friend</span>
+                        : null
+                    }
+                    
                 </div>
-                <div className="list-items_1-1 flex-row">
-                    <img
-                        className="image_2-1"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG268328afa0a9b358ac725f3a450f5e4d.png"}
-                    />
-                    <span className="text_2-1">Riley</span>
-                    <span className="text_3-1">+1000</span>
+                <div className="list_1 flex-col">
+                    {
+                        friends.map((item, index) => {
+                            return (
+                                <div className="list-items_1-0 flex-row" key={index}>
+                                    <div className="image-text_2-0 flex-row justify-between">
+                                        <img
+                                            className="image_1-0"
+                                            src={item.avatar || "/images/user-avatar-full-fill.png"}
+                                        />
+                                        <span className="text-group_2-0">{item.name}</span>
+                                    </div>
+                                    <span className="text_3-0">+{item.points / 1000000}</span>
+                                </div>
+                            )
+                        })
+                    }
+
+                    {
+                        friends && friends.length ? <img
+                            className="label_2"
+                            onClick={more_users}
+                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0cf94e7e31c332196f965ab9aa43c71a.png"}
+                        /> : null
+                    }
+
+                    
                 </div>
-                <div className="list-items_1-2 flex-row">
-                    <img
-                        className="image_2-2"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG2369c7b4248624928f0836a2f19761de.png"}
-                    />
-                    <span className="text_2-2">Theo</span>
-                    <span className="text_3-2">0</span>
-                </div>
-                <div className="list-items_1-3 flex-row">
-                    <img
-                        className="image_2-3"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG62f9f4a90653c18e4ea576eeab0410b4.png"}
-                    />
-                    <span className="text_2-3">Luca</span>
-                    <span className="text_3-3">+1000</span>
-                </div>
-                <div className="list-items_1-4 flex-row">
-                    <img
-                        className="image_2-4"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG8ae0f3eed57235581fa7fa632fa82644.png"}
-                    />
-                    <span className="text_2-4">James</span>
-                    <span className="text_3-4">+1000</span>
+                <div className="box_2 flex-row justify-between">
+                    <div className="text-wrapper_1 flex-col justify-center align-center" onClick={copy_share_link}>
+                        <span className="text_4">Share Link</span>
+                    </div>
+                    <div className="text-wrapper_2 flex-col justify-center align-center" onClick={invite_friend}>
+                        <span className="text_5">Invite Friends</span>
+                    </div>
                 </div>
             </div>
-            <div className="box_2 flex-row justify-between">
-                <div className="text-wrapper_1 flex-col justify-center align-center">
-                    <span className="text_4">Share Link</span>
-                </div>
-                <div className="text-wrapper_2 flex-col justify-center align-center">
-                    <span className="text_5">Invite Friends</span>
-                </div>
-            </div>
-        </div>
+        </Spin>
+        
     )
 }

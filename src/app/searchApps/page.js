@@ -75,71 +75,73 @@ export default function SearchApps() {
     }
 
     return (
-        <div className="searchApps flex-col">
-            <Spin size="large" spinning={loading}></Spin>
-            <div className="group_1 flex-row">
-                <img className='backIcon' src="/images/arrow-left-f.png" alt="" onClick={() => router.back()} />
-                <img
-                    className="label_1"
-                    src={"/images/search.png"}
-                />
-                <input type="text" onChange={search} className="text_1" />
-                <img
-                    className="label_2"
-                    src={"/images/close.png"}
-                    onClick={clear_input}
-                />
-            </div>
-            <span className="text_2">Apps</span>
-            <div className="group_2 flex-col justify-between">
-                {
-                    apps.map(app => {
-                        return (
-                            <div className="block_2 flex-col" onClick={() => to_detail(app)} key={app.id}>
-                                <div className="image-text_3 flex-row justify-between">
-                                    <img
-                                        className="image_2"
-                                        src={app.show_icon}
-                                    />
-                                    <div className="text-group_3 flex-col justify-between">
-                                        <span className="text_6">{app.name}</span>
-                                        <span className="paragraph_1">
-                                            {app.caption}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="section_1 flex-row justify-between">
-                                    <div className="image-text_4 flex-row justify-between">
+        <Spin size="large" spinning={loading}>
+            <div className="searchApps flex-col">
+                
+                <div className="group_1 flex-row">
+                    <img className='backIcon' src="/images/arrow-left-f.png" alt="" onClick={() => router.back()} />
+                    <img
+                        className="label_1"
+                        src={"/images/search.png"}
+                    />
+                    <input type="text" onChange={search} className="text_1" />
+                    <img
+                        className="label_2"
+                        src={"/images/close.png"}
+                        onClick={clear_input}
+                    />
+                </div>
+                <span className="text_2">Apps</span>
+                <div className="group_2 flex-col justify-between">
+                    {
+                        apps.map(app => {
+                            return (
+                                <div className="block_2 flex-col" onClick={() => to_detail(app)} key={app.id}>
+                                    <div className="image-text_3 flex-row justify-between">
                                         <img
-                                            className="label_4"
-                                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
+                                            className="image_2"
+                                            src={app.show_icon}
                                         />
-                                        <span className="text-group_4">+{app.points / 1000000}coin</span>
+                                        <div className="text-group_3 flex-col justify-between">
+                                            <span className="text_6">{app.name}</span>
+                                            <span className="paragraph_1">
+                                                {app.caption}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="text-wrapper_2 flex-col align-center justify-center" onClick={() => to_detail(app)}>
-                                        <span className="text_7">OPEN</span>
+                                    <div className="section_1 flex-row justify-between">
+                                        <div className="image-text_4 flex-row justify-between">
+                                            <img
+                                                className="label_4"
+                                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
+                                            />
+                                            <span className="text-group_4">+{app.points / 1000000}coin</span>
+                                        </div>
+                                        <div className="text-wrapper_2 flex-col align-center justify-center" onClick={() => to_detail(app)}>
+                                            <span className="text_7">OPEN</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                }
-               
+                            )
+                        })
+                    }
+                
 
-                {false && <div className="noData flex-col align-center justify-center">
-                    <img
-                        className="image_1"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
-                    />
-                    <img
-                        className="image_2"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9e8ff38e15f2ab39a44277130ce3bbbb.png"}
-                    />
-                    <span className="text_3">
-                        The app you are searching for was not found
-                    </span>
-                </div>}
+                    {false && <div className="noData flex-col align-center justify-center">
+                        <img
+                            className="image_1"
+                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
+                        />
+                        <img
+                            className="image_2"
+                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9e8ff38e15f2ab39a44277130ce3bbbb.png"}
+                        />
+                        <span className="text_3">
+                            The app you are searching for was not found
+                        </span>
+                    </div>}
+                </div>
             </div>
-        </div>
+        </Spin>
     )
 }

@@ -26,7 +26,7 @@ import { task_host } from '../utils/supabase/config'
 
 
 
-export default function Home() {
+function HomeComponent() {
 
   // let temp = islogin().then(ets => {
   //   console.log('home islogin ets =',ets)
@@ -405,6 +405,11 @@ export default function Home() {
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
+      if (process.env.tg_mini_env == 'true' && !(tg && tg.initData)) {
+        //todo 跳转到 报错页面
+        router.replace(`/notInMiniapp`)
+        return
+      }
 
       // 获取 initData 并设置到状态
       // setInitData(tg.initData);
@@ -423,7 +428,7 @@ export default function Home() {
   useEffect(() => {
     console.log('useEffect in = ', window.Telegram)
     if (!window.Telegram) {
-      if (!process.env.tg_mini_env) {
+      if (process.env.tg_mini_env == 'false') {
         // 开发环境的逻辑
         console.log("Running in development mode");
         do_init_data()
@@ -441,7 +446,7 @@ export default function Home() {
   }, [])
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <Suspense fallback={<div>Loading...</div>}>
       <div>
         <Spin size="large" spinning={loading}>
           <div className="page flex-col">
@@ -598,7 +603,15 @@ export default function Home() {
           </div>
         </Spin>
       </div>
-    </Suspense>
+    // </Suspense>
 
+  );
+}
+
+export default function Home() {
+  return (
+      <Suspense fallback={<div>Loading...</div>}>
+          <HomeComponent />
+      </Suspense>
   );
 }
