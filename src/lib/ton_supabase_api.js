@@ -161,7 +161,10 @@ async function linkTelegramMiniAPP() {
 	  if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
 		console.log("linkTelegramMiniAPP in = ",window.Telegram.WebApp.initData)
 		const { data, error } = await supabase.functions.invoke('telegram_miniapp_provider', {
-			initData:window.Telegram.WebApp.initData
+			method:"POST",
+			body: {
+				initData:window.Telegram.WebApp.initData
+			}
 		})
 		// let temp = await call_eage_function('telegram_miniapp_provider',{
 		//   initData:window.Telegram.WebApp.initData
