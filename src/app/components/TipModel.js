@@ -12,14 +12,14 @@ export default function TipModel({ children, closeFunc, loacl_show_again, isShow
             <div className="image-wrapper_1 flex-col">
                 <img
                     className="image_1"
-                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
+                    src={"/images/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
                 />
             </div>
             <div className="box_1 flex-col">
                 <div className="image-wrapper_2 flex-row">
                     <img
                         className="label_1"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG93900affd82b50c0c7928a060eb75718.png"}
+                        src={"/images/close.png"}
                         onClick={closeFunc}
                     />
                 </div>

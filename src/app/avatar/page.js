@@ -60,7 +60,7 @@ export default function Avatar() {
                         <img
                             className="label_1"
                             src={
-                                "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/b5c4183386df4ffba775f33044cc2b45_mergeImage.png"
+                                "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                             }
                         />
                     </div>
@@ -76,7 +76,7 @@ export default function Avatar() {
                         <Link href="/pointsRecord">
                             <img
                                 className="thumbnail_1"
-                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG8dd6c53334585797738a879282015c97.png"}
+                                src={"/images/FigmaDDSSlicePNG8dd6c53334585797738a879282015c97.png"}
                             />
                         </Link>
                     </div>
@@ -130,11 +130,11 @@ export default function Avatar() {
                                 onOpenChange={handleOpenChange}
                             >
                                 <div className="text-wrapper_2 selectItem flex-row justify-between align-center">
-                                    <img className="label_2" src="https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG64b18d9256f20e885f9a623dcee95bfc.png" alt="" />
+                                    <img className="label_2" src="/images/FigmaDDSSlicePNG64b18d9256f20e885f9a623dcee95bfc.png" alt="" />
                                     <span className="text_15">Binance</span>
                                     <img
                                         className="label_3"
-                                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGf9b9529224084221be6322fe8916ec1a.png"}
+                                        src={"/images/FigmaDDSSlicePNGf9b9529224084221be6322fe8916ec1a.png"}
                                     />
                                 </div>
                             </Popover>
@@ -149,7 +149,7 @@ export default function Avatar() {
                     <div className="image-text_1 flex-col justify-between">
                         <img
                             className="image_2"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGfb967357bfee19e7b6dbf3a3ce112ca3.png"}
+                            src={"/images/FigmaDDSSlicePNGfb967357bfee19e7b6dbf3a3ce112ca3.png"}
                         />
                         <div className="text-group_5 flex-col">
                             <span className="text_16">Becoming a Klickl user, you will get</span>
@@ -168,7 +168,7 @@ export default function Avatar() {
                         <div className="flex-row exchange-block">
                             <img
                                 className="image_2 exchange_icon"
-                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5dcdee3b6c57f333f24feb924607dd15.png"}
+                                src={"/images/FigmaDDSSlicePNG5dcdee3b6c57f333f24feb924607dd15.png"}
                             />
                             <span>OG Card</span>
                         </div>
@@ -187,7 +187,7 @@ export default function Avatar() {
                         <div className="flex-row exchange-block">
                             <img
                                 className="image_2 exchange_icon"
-                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5dcdee3b6c57f333f24feb924607dd15.png"}
+                                src={"/images/FigmaDDSSlicePNG5dcdee3b6c57f333f24feb924607dd15.png"}
                             />
                         </div>
                         <div className="text-group_5 flex-col">
@@ -221,7 +221,7 @@ export default function Avatar() {
                             <div className="image-text_1 flex-col justify-between align-center">
                                 <img
                                     className="image_2"
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGfb967357bfee19e7b6dbf3a3ce112ca3.png"}
+                                    src={"/images/FigmaDDSSlicePNGfb967357bfee19e7b6dbf3a3ce112ca3.png"}
                                 />
                                 <div className="text-group_5 flex-col">
                                     <span className="text_16">Becoming a Klickl user, you will get</span>
@@ -255,7 +255,7 @@ export default function Avatar() {
                                 <div className="flex-row exchange-block justify-center">
                                     <img
                                         className="image_2 exchange_icon"
-                                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5dcdee3b6c57f333f24feb924607dd15.png"}
+                                        src={"/images/FigmaDDSSlicePNG5dcdee3b6c57f333f24feb924607dd15.png"}
                                     />
                                     <span>OG Card</span>
                                 </div>

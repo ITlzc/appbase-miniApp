@@ -351,14 +351,14 @@ export default function AppsDetail({ params }) {
                     <div className="group_1 flex-row justify-between">
                         <img
                             className="label_1"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
+                            src={"/images/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
                             onClick={() => router.back()}
                         />
 
                         <div className="image-wrapper_1 flex-col">
                             <img
                                 className="label_2"
-                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGe50a0f16cd394ba8300f460445076490.png"}
+                                src={"images/FigmaDDSSlicePNGe50a0f16cd394ba8300f460445076490.png"}
                             />
                         </div>
                     </div>
@@ -395,7 +395,7 @@ export default function AppsDetail({ params }) {
                                 <span className="text-group_3">{appData.rating}</span>
                                 <img
                                     className="label_3"
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGec1e5e52e054c65d92e08ad6a95a93bd.png"}
+                                    src={"/images/FigmaDDSSlicePNGec1e5e52e054c65d92e08ad6a95a93bd.png"}
                                 />
                             </div>
                         </div>
@@ -426,10 +426,6 @@ export default function AppsDetail({ params }) {
                                 )
                             })
                         }
-                        {/* <img
-                            className="image_2"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGf3b4660e22bfe1f316753e0d1f324bb2.png"}
-                        /> */}
                     </div>
                     <div className="text-group_4 flex-col justify-between">
                         <span className="text_10">Application Description</span>
@@ -451,7 +447,7 @@ export default function AppsDetail({ params }) {
                     <div className="image-text_3 flex-row justify-between">
                         <img
                             className="label_5"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG58b728fdfa9deef3ac2ff03b66935db3.png"}
+                            src={"/images/FigmaDDSSlicePNG58b728fdfa9deef3ac2ff03b66935db3.png"}
                         />
                         <div className="text-group_5 flex-col justify-between">
                             <span className="text_12">Platforms</span>
@@ -461,7 +457,7 @@ export default function AppsDetail({ params }) {
                     <div className="image-text_4 flex-row justify-between">
                         <img
                             className="label_6"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG626a50c365854aab82abd834f03cc445.png"}
+                            src={"/images/FigmaDDSSlicePNG626a50c365854aab82abd834f03cc445.png"}
                         />
                         <span className="text-group_6">Official links</span>
                     </div>
@@ -482,7 +478,7 @@ export default function AppsDetail({ params }) {
                     <div className="image-text_4 flex-row justify-between">
                         <img
                             className="label_6"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9a215bb256c56e67d941d287e98a6bf8.png"}
+                            src={"/images/FigmaDDSSlicePNG9a215bb256c56e67d941d287e98a6bf8.png"}
                         />
                         <span className="text-group_6">Telegram</span>
                     </div>
@@ -504,7 +500,7 @@ export default function AppsDetail({ params }) {
                     <div className="group_7 flex-row justify-between">
                         <img
                             className="label_7"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG018597360c8da86e453ff5058fe51f3b.png"}
+                            src={"/images/FigmaDDSSlicePNG018597360c8da86e453ff5058fe51f3b.png"}
                         />
                         <div className="text-wrapper_3">
                             <span className="text_15">
@@ -525,7 +521,7 @@ export default function AppsDetail({ params }) {
                 <div className='modelContent flex-col justify-center align-center'>
                     <img
                         className="modelContent_image_2"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGd8ff42dedbe95a6eeb222fa81ed23700.png"}
+                        src={"/images/FigmaDDSSlicePNGd8ff42dedbe95a6eeb222fa81ed23700.png"}
                     />
                     <div className="modelContent_text-wrapper_1 flex-col justify-center align-center">
                         <span className="text_2">
@@ -545,7 +541,7 @@ export default function AppsDetail({ params }) {
                 <div className='modelContent flex-col justify-center align-center'>
                     <img
                         className="modelContent_image_2"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9fbb902f8e442a771b1fd2e37b3e0b4d.png"}
+                        src={"/images/FigmaDDSSlicePNG9fbb902f8e442a771b1fd2e37b3e0b4d.png"}
                     />
                     <div className="modelContent_text-wrapper_1 flex-col justify-center align-center">
                         <span className="text_1">
@@ -562,27 +558,6 @@ export default function AppsDetail({ params }) {
                     </div>
                 </div>
             </TipModel>}
-
-
-            {/* iphone 13 mini - 9 */}
-            {/* {<TipModel isShowCheckAgain={false} >
-                <div className='modelContent flex-col justify-center align-center'>
-                    <img
-                        className="modelContent_image_2"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGafddfb48f9943efcc289a732e150f565.png"}
-                    />
-                    <div className="modelContent_text-wrapper_1 flex-col justify-center align-center">
-                        <span className="text_2">
-                            Your operation cannot be verified. Please confirm that you have completed it according to the task rules.
-                        </span>
-                    </div>
-                    <div className="modelContent_box_2 flex-row">
-                        <div className="text-wrapper_2 flex-col justify-center align-center">
-                            <span className="text_2">Restart</span>
-                        </div>
-                    </div>
-                </div>
-            </TipModel>} */}
         </Spin >
     );
 }

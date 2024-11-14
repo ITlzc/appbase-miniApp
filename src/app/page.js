@@ -454,7 +454,7 @@ function HomeComponent() {
               <div className="box_1 flex-col">
                 <img
                   className="image_1"
-                  src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
+                  src={"/images/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
                 />
                 {
                   announcement && announcement.comment && announcement.comment.length &&
@@ -462,7 +462,7 @@ function HomeComponent() {
                     <div className="image-text_1 flex-row justify-between">
                       <img
                         className="label_1"
-                        src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG096263fcbde432adfa2ba91527589cd3.png"}
+                        src={"/images/FigmaDDSSlicePNG096263fcbde432adfa2ba91527589cd3.png"}
                       />
                       <span className="text-group_1">{announcement.comment}</span>
                     </div>
@@ -473,16 +473,10 @@ function HomeComponent() {
                   <img
                     className="label_2"
                     src={
-                      "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/7976996489c34446a0275580f091d0c8_mergeImage.png"
+                      "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                     }
                   />
                 </div>
-                {/* <div className="image-wrapper_1 flex-col">
-                <img
-                  className="image_2"
-                  src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGd00304cfabeeb3f57f0bb673463b7d8a.png"}
-                />
-              </div> */}
                 <Carousel />
                 <div className="box_4 flex-row justify-between">
                   <div className="text-group_2 flex-col justify-between">
@@ -492,7 +486,7 @@ function HomeComponent() {
                   <div className="image-wrapper_2 flex-col cursor-pointer" onClick={() => switch_recommend()}>
                     <img
                       className="label_3"
-                      src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9fbd43fc7a9d8fa0c74030dc0fdadedb.png"}
+                      src={"/images/FigmaDDSSlicePNG9fbd43fc7a9d8fa0c74030dc0fdadedb.png"}
                     />
                   </div>
                 </div>
@@ -515,7 +509,7 @@ function HomeComponent() {
                             <div className="image-text_3 flex-row justify-between">
                               <img
                                 className="label_4"
-                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
+                                src={"/images/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
                               />
                               <span className="text-group_4">+{app.points / 1000000} points</span>
                             </div>
@@ -540,7 +534,7 @@ function HomeComponent() {
                     <img
                       className="label_6"
                       src={
-                        "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/a655361cc2f74b6da44e147da26d5741_mergeImage.png"
+                        "/images/a655361cc2f74b6da44e147da26d5741_mergeImage.png"
                       }
                     />
                   </Link>
@@ -580,7 +574,7 @@ function HomeComponent() {
                             <div className="image-text_6 flex-row justify-between">
                               <img
                                 className="label_7"
-                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG3c714d11d0b0a116dee95c4b280b3e63.png"}
+                                src={"/images/FigmaDDSSlicePNG3c714d11d0b0a116dee95c4b280b3e63.png"}
                               />
                               <span className="text-group_9">+{app.points / 1000000}</span>
                             </div>
@@ -595,7 +589,7 @@ function HomeComponent() {
                 </div>
                 <img
                   className="label_9" onClick={() => get_apps()}
-                  src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGb18e199049345d6928d4f27512d0e917.png"}
+                  src={"/images/FigmaDDSSlicePNGb18e199049345d6928d4f27512d0e917.png"}
                 />
                 <Nav />
               </div>

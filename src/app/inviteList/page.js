@@ -127,7 +127,7 @@ export default function InviteList() {
                         <img
                             onClick={() => router.back()}
                             className="label_1"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
+                            src={"/images/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
                         />
                         <span className="text-group_1">Invite Friends</span>
                     </div>
@@ -159,7 +159,7 @@ export default function InviteList() {
                         friends && friends.length ? <img
                             className="label_2"
                             onClick={more_users}
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0cf94e7e31c332196f965ab9aa43c71a.png"}
+                            src={"/images/arrow-bottom.png"}
                         /> : null
                     }
 

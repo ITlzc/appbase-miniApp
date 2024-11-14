@@ -115,7 +115,7 @@ export default function Invite() {
                     <img
                         className="label_1"
                         src={
-                            "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/a4f7d7e6db134d63b8e8c9b011448194_mergeImage.png"
+                            "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                         }
                     />
                 </div>
@@ -147,13 +147,13 @@ export default function Invite() {
                             <span className='friendsNum'>5 Friends</span>
                             <div className={`roundItem flex-col justify-center align-center ${true && 'roundItem_act'}`}>
                                 {true && <img
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGcbd6357355fe49cd246713ae3b5a790d.png"}
+                                    src={"/images/FigmaDDSSlicePNGcbd6357355fe49cd246713ae3b5a790d.png"}
                                 />}
                             </div>
                             <div className='mount flex-row justify-center align-center'>
                                 {false && <img
                                     className="thumbnail_1"
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGa9a79474f9ebdadf20e34c7cd5ca09d0.png"}
+                                    src={"/images/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
                                 />}
                                 <span>{true ? 'Get Rewards' : '+50,000'}</span>
                             </div>
@@ -163,13 +163,13 @@ export default function Invite() {
                             <span className='friendsNum'>50 Friends</span>
                             <div className={`roundItem flex-col justify-center align-center ${false && 'roundItem_act'}`}>
                                 {false && <img
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGcbd6357355fe49cd246713ae3b5a790d.png"}
+                                    src={"/images/FigmaDDSSlicePNGcbd6357355fe49cd246713ae3b5a790d.png"}
                                 />}
                             </div>
                             <div className='mount flex-row justify-center align-center'>
                                 {true && <img
                                     className="thumbnail_1"
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGa9a79474f9ebdadf20e34c7cd5ca09d0.png"}
+                                    src={"/images/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
                                 />}
                                 <span>{false ? 'Get Rewards' : '+50,000'}</span>
                             </div>
@@ -179,13 +179,13 @@ export default function Invite() {
                             <span className='friendsNum'>100 Friends</span>
                             <div className={`roundItem flex-col justify-center align-center ${false && 'roundItem_act'}`}>
                                 {false && <img
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGcbd6357355fe49cd246713ae3b5a790d.png"}
+                                    src={"images/FigmaDDSSlicePNGcbd6357355fe49cd246713ae3b5a790d.png"}
                                 />}
                             </div>
                             <div className='mount flex-row justify-center align-center'>
                                 {true && <img
                                     className="thumbnail_1"
-                                    src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGa9a79474f9ebdadf20e34c7cd5ca09d0.png"}
+                                    src={"/images/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
                                 />}
                                 <span>{false ? 'Get Rewards' : '+100,000'}</span>
                             </div>
@@ -227,7 +227,7 @@ export default function Invite() {
                     friends && friends.length ? <Link href="/inviteList">
                         <img
                             className="label_2"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0cf94e7e31c332196f965ab9aa43c71a.png"}
+                            src={"/images/arrow-bottom.png"}
                         />
                     </Link> : <div></div>
                 }

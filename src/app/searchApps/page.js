@@ -113,7 +113,7 @@ export default function SearchApps() {
                                         <div className="image-text_4 flex-row justify-between">
                                             <img
                                                 className="label_4"
-                                                src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
+                                                src={"/images/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
                                             />
                                             <span className="text-group_4">+{app.points / 1000000}coin</span>
                                         </div>
@@ -130,11 +130,11 @@ export default function SearchApps() {
                     {false && <div className="noData flex-col align-center justify-center">
                         <img
                             className="image_1"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
+                            src={"/images/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
                         />
                         <img
                             className="image_2"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG9e8ff38e15f2ab39a44277130ce3bbbb.png"}
+                            src={"/images/FigmaDDSSlicePNG9e8ff38e15f2ab39a44277130ce3bbbb.png"}
                         />
                         <span className="text_3">
                             The app you are searching for was not found

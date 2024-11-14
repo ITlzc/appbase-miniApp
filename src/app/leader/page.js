@@ -41,13 +41,13 @@ export default function Leader() {
             item.all_points = item.earn_points + item.task_points + item.invite_points
             item.trophy = ''
             if (item.rank == 1) {
-                item.trophy = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG99b3bb57363533a416a7cc09f8c6490e.png'
+                item.trophy = '/images/FigmaDDSSlicePNG99b3bb57363533a416a7cc09f8c6490e.png'
             }
             if (item.rank == 2) {
-                item.trophy = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5c03c631c93830eac5fe5ef349b3c5cc.png'
+                item.trophy = '/images/FigmaDDSSlicePNG5c03c631c93830eac5fe5ef349b3c5cc.png'
             }
             if (item.rank == 3) {
-                item.trophy = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGca28ff8ca2da02e2dc22302c80665fcb.png'
+                item.trophy = '/images/FigmaDDSSlicePNGca28ff8ca2da02e2dc22302c80665fcb.png'
             }
         })
         let temp = tops
@@ -89,7 +89,7 @@ export default function Leader() {
                     <img
                         className="label_1"
                         src={
-                            "https://lanhu-dds-backend.oss-cn-beijing.aliyuncs.com/merge_image/imgs/2ff26af4bb1e464099016487f9573f73_mergeImage.png"
+                            "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                         }
                     />
                 </div>
@@ -137,7 +137,7 @@ export default function Leader() {
                         tops && tops.length ? <img
                             className="label_2"
                             onClick={more_users}
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0cf94e7e31c332196f965ab9aa43c71a.png"}
+                            src={"/images/arrow-bottom.png"}
                         /> : null
                     }
                 </div>

@@ -47,13 +47,13 @@ export default function PointsRecord() {
             item.create_time = moment(item.created_at).format('YYYY/MM/DD HH:mm');
             item.image = ''
             if (item.points_type == 1) {
-                item.image = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG0d0603aa65afbdc24a41aa5ab7bcd2b2.png'
+                item.image = '/images/FigmaDDSSlicePNG0d0603aa65afbdc24a41aa5ab7bcd2b2.png'
             }
             if (item.points_type == 2) {
-                item.image = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG5dcebf563306878dd57f6585ac2dc5b0.png'
+                item.image = '/images/FigmaDDSSlicePNG5dcebf563306878dd57f6585ac2dc5b0.png'
             }
             if (item.points_type == 3 || item.points_type == 4) {
-                item.image = 'https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNGde9b42a4e7fbda8bcd8ef5a7065876f2.png'
+                item.image = '/images/FigmaDDSSlicePNGde9b42a4e7fbda8bcd8ef5a7065876f2.png'
             }
         })
         let temp = records
@@ -77,7 +77,7 @@ export default function PointsRecord() {
                         <img
                             onClick={() => router.back()}
                             className="label_1"
-                            src={"https://lanhu-oss.lanhuapp.com/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
+                            src={"/images/FigmaDDSSlicePNG6d6c8d24c772d2f9bdce76ae48fa9188.png"}
                         />
                         <span className="text-group_1">Points Record</span>
                     </div>
