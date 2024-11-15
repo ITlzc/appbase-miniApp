@@ -51,8 +51,22 @@ export default function Invite() {
             return
         }
         const inviteLink = await init_start_up();  // 邀请链接
-        const telegramShareURL = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent("快来加入我们！")}`;
-        window.open(telegramShareURL, "_blank");
+        const telegramShareURL = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}}`;
+        try {
+            window.open(telegramShareURL, "_blank");
+        } catch (error) {
+            if (isTelegramMiniAPP()) {
+                let tg = window.Telegram.WebApp
+                tg.showPopup({
+                    title: "",
+                    message: error.message,
+                    buttons: [{ text: "确定" }]
+                });
+            } else {
+                toast.success('copy success')
+            }
+        }
+        
     }
 
     const copy_share_link = async () => {
@@ -61,30 +75,37 @@ export default function Invite() {
         }
         const inviteLink = await init_start_up();  // 邀请链接
         // await navigator.clipboard.writeText(inviteLink);
-        navigator.clipboard.writeText(inviteLink).then(() => {
-            if (isTelegramMiniAPP()) {
-                let tg = window.Telegram.WebApp
-                tg.showPopup({
-                    title: "复制结果",
-                    message: "文本已成功复制到剪贴板！",
-                    buttons: [{ text: "确定" }]
-                });
+        navigator.permissions.query({ name: "clipboard-write" }).then(permissionStatus => {
+            if (permissionStatus.state === "granted" || permissionStatus.state === "prompt") {
+                navigator.clipboard.writeText(inviteLink).then(() => {
+                    if (isTelegramMiniAPP()) {
+                        let tg = window.Telegram.WebApp
+                        tg.showPopup({
+                            title: "复制结果",
+                            message: "文本已成功复制到剪贴板！",
+                            buttons: [{ text: "确定" }]
+                        });
+                    } else {
+                        toast.success('copy success')
+                    }
+                }).catch(e => {
+                    if (isTelegramMiniAPP()) {
+                        let tg = window.Telegram.WebApp
+                        tg.showPopup({
+                            title: "复制结果",
+                            message: e.message,
+                            buttons: [{ text: "确定" }]
+                        });
+                    } else {
+                        toast.error('copy failed')
+                    }
+                })
             } else {
-                toast.success('copy success')
+                alert("没有权限写入剪贴板！");
             }
-        }).catch(e => {
-            if (isTelegramMiniAPP()) {
-                let tg = window.Telegram.WebApp
-                tg.showPopup({
-                    title: "复制结果",
-                    message: e.message,
-                    buttons: [{ text: "确定" }]
-                });
-            } else {
-                toast.error('copy failed')
-            }
-        })
-        
+        }).catch(err => {
+            console.error("权限查询失败:", err);
+        });
     }
 
     const get_ferinds = async (user_id,page_in) => {
