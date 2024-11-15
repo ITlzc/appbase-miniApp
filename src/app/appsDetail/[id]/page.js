@@ -21,6 +21,7 @@ export default function AppsDetail({ params }) {
     const router = useRouter();
     const unwrappedParams = use(params); // 解包 params
     const [appData, setAppData] = useState({});
+    const [open_show,set_open_show] = useState('')
     const timerRef = useRef(null);
     const id = unwrappedParams.id
     console.log('AppInfo id = ', id)
@@ -89,7 +90,7 @@ export default function AppsDetail({ params }) {
     const [show_success_tip, set_show_success_tip] = useState(false);
     const [not_show_again, set_not_show_again] = useState(false);
 
-
+    let in_page_start = false
 
     const handleToggle = () => {
         setIsExpanded(prev => !prev);
@@ -134,6 +135,45 @@ export default function AppsDetail({ params }) {
         }, 1000);
     };
 
+    const startVerifyTimer = (flag) => {
+        console.log('startVerifyTimer')
+        if (timerRef.current) {
+            // 如果定时器已经存在，先清除它
+            clearInterval(timerRef.current);
+        }
+        let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
+        
+        let now = new Date().getTime()
+        let update_time = moment(user_app.updated_at)
+        update_time = update_time.valueOf();
+        console.log('startVerifyTimer update_time = ',now - update_time)
+        if (now - update_time >= 60 * 1000) {
+            return
+        }
+
+        let count = 0
+        if (!flag) {
+            count = (now - update_time) / 1000
+        }
+        // 启动新的定时器
+        timerRef.current = setInterval(() => {
+            let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
+            let now = new Date().getTime()
+            let update_time = moment(user_app.updated_at)
+            update_time = update_time.valueOf();
+            let duration = Math.floor(60 - count++) 
+            let open_show = 'Verify and earn points(' + duration + 's)';
+            if (duration <= 0){
+                open_show = 'Verify and earn points';
+            }
+            console.log('startVerifyTimer open_show = ',open_show,now,update_time,(now - update_time) / 1000 )
+            set_open_show(open_show)
+            if (duration <= 0) {
+                clearInterval(timerRef.current);
+            }
+        }, 1000);
+    };
+
     const deal_app = (app) => {
         const sortedData = app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
         // console.log('deal_app sortedData = ',sortedData)
@@ -150,11 +190,11 @@ export default function AppsDetail({ params }) {
         }
         if (app.points > 0) {
             if (app.status == 0) {
-                app.open_show = 'Open app to earn points'
+                set_open_show('Open app to earn points')
             } else if (app.status == 1) {
-                app.open_show = 'Verify and earn points'
+                set_open_show('Verify and earn points')
             } else if (app.status == 2) {
-                app.open_show = 'Open'
+                set_open_show('Open')
                 let duration = moment.duration((update_time + trial_app_next_time) - now);
                 let formattedTime = duration.hours().toString().padStart(2, '0') + ":" +
                     duration.minutes().toString().padStart(2, '0') + ":" +
@@ -163,7 +203,7 @@ export default function AppsDetail({ params }) {
                 set_next_time(formattedTime)
             }
         } else {
-            app.open_show = 'Open'
+            set_open_show('Open')
         }
 
 
@@ -272,6 +312,9 @@ export default function AppsDetail({ params }) {
         if (appData.status == 2) {
             startTimer()
         }
+        if (appData.status == 1) {
+            startVerifyTimer(in_page_start)
+        }
         console.log('useEffect appData out')
     }, [appData])
 
@@ -282,6 +325,7 @@ export default function AppsDetail({ params }) {
             link = appData.link
         }
         let flag = false
+        in_page_start = true
         if (appData.points > 0) {
             if (appData.status == 0 || appData.status == 2) {
                 flag = true
@@ -358,7 +402,7 @@ export default function AppsDetail({ params }) {
                         <div className="image-wrapper_1 flex-col">
                             <img
                                 className="label_2"
-                                src={"images/FigmaDDSSlicePNGe50a0f16cd394ba8300f460445076490.png"}
+                                src={"/images/FigmaDDSSlicePNGe50a0f16cd394ba8300f460445076490.png"}
                             />
                         </div>
                     </div>
@@ -513,7 +557,7 @@ export default function AppsDetail({ params }) {
                     </div>
                 </div>
                 <div className={`text-wrapper_4 flex-col align-center justify-center ${appData.status === 1 && 'status_verify'}`} onClick={open_app}>
-                    <span className="text_19">{appData.open_show}</span>
+                    <span className="text_19">{open_show}</span>
                 </div>
             </div>
 

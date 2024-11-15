@@ -47,7 +47,7 @@ export default function Nav() {
             <Link href={"/avatar"} className="image-text_3 flex-col justify-between align-center">
                 <img
                     className="label_3"
-                    src={currentPath === "/avatar" ? "/images/nav_avatar_act.png" : "/images/nav_avatar.png"}
+                    src={currentPath === "/avatar" ? "/images/Avatar_icon.png" : "/images/nav_avatar.png"}
                 />
                 <span className="text-group_3" style={currentPath === "/avatar" ? { color: "#fff" } : {}}>AVATAR</span>
             </Link>
