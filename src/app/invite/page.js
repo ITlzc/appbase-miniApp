@@ -13,7 +13,8 @@ import {
     islogin,
     get_user_info,
     get_reward_points,
-    get_user_ferinds
+    get_user_ferinds,
+    isTelegramMiniAPP
 } from '../../lib/ton_supabase_api'
 
 export default function Invite() {
@@ -59,8 +60,31 @@ export default function Invite() {
             return
         }
         const inviteLink = await init_start_up();  // 邀请链接
-        await navigator.clipboard.writeText(inviteLink);
-        toast.success('copy success')
+        // await navigator.clipboard.writeText(inviteLink);
+        navigator.clipboard.writeText(inviteLink).then(() => {
+            if (isTelegramMiniAPP()) {
+                let tg = window.Telegram.WebApp
+                tg.showPopup({
+                    title: "复制结果",
+                    message: "文本已成功复制到剪贴板！",
+                    buttons: [{ text: "确定" }]
+                });
+            } else {
+                toast.success('copy success')
+            }
+        }).catch(e => {
+            if (isTelegramMiniAPP()) {
+                let tg = window.Telegram.WebApp
+                tg.showPopup({
+                    title: "复制结果",
+                    message: e.message,
+                    buttons: [{ text: "确定" }]
+                });
+            } else {
+                toast.error('copy failed')
+            }
+        })
+        
     }
 
     const get_ferinds = async (user_id,page_in) => {

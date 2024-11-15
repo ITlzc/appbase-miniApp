@@ -147,7 +147,7 @@ export async function login(inviter,tg_user_info) {
 	return user
 }
 
-function isTelegramMiniAPP() {
+export function isTelegramMiniAPP() {
 	return typeof window !== "undefined" && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData ? window.Telegram.WebApp.initData : null
 }
 
