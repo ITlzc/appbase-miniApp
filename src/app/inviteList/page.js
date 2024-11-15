@@ -12,7 +12,8 @@ import {
     islogin,
     get_user_info,
     get_reward_points,
-    get_user_ferinds
+    get_user_ferinds,
+    isTelegramMiniAPP
 } from '../../lib/ton_supabase_api'
 
 export default function InviteList() {
@@ -26,6 +27,8 @@ export default function InviteList() {
     const [page, set_page] = useState(1)
     const [size, set_size] = useState(1000)
     const [loading, set_loading] = useState(false)
+    const [invite_link,set_invite_link] = useState('')
+
 
 
     const more_users = async () => {
@@ -37,14 +40,14 @@ export default function InviteList() {
         get_ferinds(user.id, page_temp)
     }
 
-    const init_start_up = async () => {
+    const init_start_up = async (link) => {
         let user = await islogin()
         if (!user) {
             return
         }
         let start_up = 'inviter_id=' + user.id
         const encodedText = Buffer.from(start_up, 'utf-8').toString('base64');
-        let inviteLink = share_link + encodedText;  // 邀请链接
+        let inviteLink = (link || share_link) + encodedText;  // 邀请链接
         if (!window.Telegram && process.env.tg_mini_env == 'false') {
             console.log('window.location = ', window.location)
             inviteLink = window.location.origin + '?startapp=' + encodedText
@@ -67,8 +70,38 @@ export default function InviteList() {
             return
         }
         const inviteLink = await init_start_up();  // 邀请链接
-        await navigator.clipboard.writeText(inviteLink);
-        toast.success('copy success')
+        console.log('fsfsfsds')
+        if (isTelegramMiniAPP()) {
+            let tg = window.Telegram.WebApp
+            tg.requestWriteAccess((data) => {
+                console.log('requestWriteAccess ',data)
+                if (data) {
+                    navigator.clipboard.writeText(inviteLink).then(() => {
+                        tg.showPopup({
+                            title: "",
+                            message: "copy success",
+                            buttons: [{ text: "Done" }]
+                        });
+                    }).catch(e => {
+                        tg.showPopup({
+                            title: "",
+                            message: e.message,
+                            buttons: [{ text: "Done" }]
+                        });
+                    })
+                } else {
+                    tg.showPopup({
+                        title: "",
+                        message: 'permission denied',
+                        buttons: [{ text: "Done" }]
+                    });
+                } 
+            })
+            
+        } else {
+            await navigator.clipboard.writeText(inviteLink);
+            toast.success('copy success')
+        }
     }
 
     const get_ferinds = async (user_id, page_in) => {
@@ -99,6 +132,8 @@ export default function InviteList() {
         let link = await get_share_link()
         set_loading(false)
         set_share_link(link)
+        let inviteLink = await init_start_up(link)
+        set_invite_link(inviteLink)
         let user = await islogin()
         if (!user) {
             return
@@ -169,8 +204,9 @@ export default function InviteList() {
                     <div className="text-wrapper_1 flex-col justify-center align-center" onClick={copy_share_link}>
                         <span className="text_4">Share Link</span>
                     </div>
-                    <div className="text-wrapper_2 flex-col justify-center align-center" onClick={invite_friend}>
-                        <span className="text_5">Invite Friends</span>
+                    <div className="text-wrapper_2 flex-col justify-center align-center">
+                        {/* <span className="text_5">Invite Friends</span> */}
+                        <a className="text_5" href={`https://t.me/share/url?url=${encodeURIComponent(invite_link)}`}>Invite Friends</a>
                     </div>
                 </div>
             </div>

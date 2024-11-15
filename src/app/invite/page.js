@@ -27,17 +27,18 @@ export default function Invite() {
     const [page,set_page] = useState(1)
     const [size,set_size] = useState(5)
     const [loading, set_loading] = useState(false)
+    const [invite_link,set_invite_link] = useState('')
 
 
 
-    const init_start_up = async () => {
+    const init_start_up = async (link) => {
         let user = await islogin()
         if (!user) {
             return 
         }
         let start_up = 'inviter_id=' + user.id
         const encodedText =  Buffer.from(start_up, 'utf-8').toString('base64');
-        let inviteLink = share_link + encodedText;  // 邀请链接
+        let inviteLink = (link || share_link) + encodedText;  // 邀请链接
         if (!window.Telegram && process.env.tg_mini_env == 'false') {
             console.log('window.location = ',window.location)
             inviteLink = window.location.origin + '?startapp=' + encodedText
@@ -130,6 +131,8 @@ export default function Invite() {
         let link = await get_share_link()
         set_loading(false)
         set_share_link(link)
+        let inviteLink = await init_start_up(link)
+        set_invite_link(inviteLink)
         let user = await islogin()
         if (!user) {
             return 
@@ -241,10 +244,10 @@ export default function Invite() {
                     <div className="text-wrapper_3 flex-col justify-center align-center" onClick={copy_share_link}>
                         <span className="text_13">Share Link</span>
                     </div>
-                    {/* <div className="text-wrapper_4 flex-col justify-center align-center" onClick={invite_friend}>
-                        <span className="text_14">Invite Friends</span>
-                    </div> */}
-                    <a href={`https://t.me/share/url?url=${encodeURIComponent(share_link)}}`}>Invite Friends</a>
+                    <div className="text-wrapper_4 flex-col justify-center align-center">
+                        {/* <span className="text_14">Invite Friends</span> */}
+                        <a className="text_14" href={`https://t.me/share/url?url=${encodeURIComponent(invite_link)}`}>Invite Friends</a>
+                    </div>
                 </div>
                 {
                     user_info.invite_user_count ? <span className="text_15">{user_info.verify_passed_count} valid / {user_info.invite_user_count} friend</span>
