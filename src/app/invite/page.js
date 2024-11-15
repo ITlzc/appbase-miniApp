@@ -75,37 +75,36 @@ export default function Invite() {
         }
         const inviteLink = await init_start_up();  // 邀请链接
         // await navigator.clipboard.writeText(inviteLink);
-        navigator.permissions.query({ name: "clipboard-write" }).then(permissionStatus => {
-            if (permissionStatus.state === "granted" || permissionStatus.state === "prompt") {
-                navigator.clipboard.writeText(inviteLink).then(() => {
-                    if (isTelegramMiniAPP()) {
-                        let tg = window.Telegram.WebApp
+        if (isTelegramMiniAPP()) {
+            let tg = window.Telegram.WebApp
+            tg.requestWriteAccess((data) => {
+                if (data) {
+                    navigator.clipboard.writeText(inviteLink).then(() => {
                         tg.showPopup({
-                            title: "复制结果",
-                            message: "文本已成功复制到剪贴板！",
-                            buttons: [{ text: "确定" }]
+                            title: "",
+                            message: "copy success",
+                            buttons: [{ text: "Done" }]
                         });
-                    } else {
-                        toast.success('copy success')
-                    }
-                }).catch(e => {
-                    if (isTelegramMiniAPP()) {
-                        let tg = window.Telegram.WebApp
+                    }).catch(e => {
                         tg.showPopup({
-                            title: "复制结果",
+                            title: "",
                             message: e.message,
-                            buttons: [{ text: "确定" }]
+                            buttons: [{ text: "Done" }]
                         });
-                    } else {
-                        toast.error('copy failed')
-                    }
-                })
-            } else {
-                alert("没有权限写入剪贴板！");
-            }
-        }).catch(err => {
-            console.error("权限查询失败:", err);
-        });
+                    })
+                } else {
+                    tg.showPopup({
+                        title: "",
+                        message: 'permission denied',
+                        buttons: [{ text: "Done" }]
+                    });
+                } 
+            })
+            
+        } else {
+            await navigator.clipboard.writeText(inviteLink);
+            toast.success('copy success')
+        }
     }
 
     const get_ferinds = async (user_id,page_in) => {
@@ -242,9 +241,10 @@ export default function Invite() {
                     <div className="text-wrapper_3 flex-col justify-center align-center" onClick={copy_share_link}>
                         <span className="text_13">Share Link</span>
                     </div>
-                    <div className="text-wrapper_4 flex-col justify-center align-center" onClick={invite_friend}>
+                    {/* <div className="text-wrapper_4 flex-col justify-center align-center" onClick={invite_friend}>
                         <span className="text_14">Invite Friends</span>
-                    </div>
+                    </div> */}
+                    <a href={`https://t.me/share/url?url=${encodeURIComponent(share_link)}}`}>Invite Friends</a>
                 </div>
                 {
                     user_info.invite_user_count ? <span className="text_15">{user_info.verify_passed_count} valid / {user_info.invite_user_count} friend</span>
