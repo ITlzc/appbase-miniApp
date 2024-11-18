@@ -714,6 +714,7 @@ export async function get_top_100(inviter_id,page,size) {
 	let { data, error } = await supabase
 		.from("user")
 		.select("*")
+		.neq('rank',0)
 		.order("rank", { ascending: true })
 		.range(offset, size);
 	if (error) {
