@@ -96,7 +96,7 @@ export default function Leader() {
                 <span className="text_2">My Ranking</span>
                 <div className="group_2 flex-row justify-between">
                     <div className="flex-row">
-                        <span className="text_3">#{user_info.rank}</span>
+                        <span className="text_3">#{user_info.rank ? user_info.rank :'~'}</span>
                         <img
                             className="image_1"
                             src={user_info.avatar || "/images/user-avatar-full-fill.png"}
