@@ -16,7 +16,8 @@ import {
   login,
   trailApp,
   trial_app_next_time,
-  get_access_token
+  get_access_token,
+  islinkTwitter
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
 import Link from 'next/link';
@@ -66,6 +67,10 @@ function HomeComponent() {
     console.log('access_token = ', access_token)
     if (!(access_token && access_token.length)) {
       toast.error('Please login first')
+      return
+    }
+    let link = await islinkTwitter()
+    if(!link) {
       return
     }
     let task_id = BigInt(task.taskId)
@@ -347,6 +352,11 @@ function HomeComponent() {
     if (task) {
       if (typeof task == 'string') {
         task = JSON.parse(task)
+      }
+      let link = await islinkTwitter()
+      if(!link) {
+        localStorage.removeItem('need_do_task')
+        return
       }
       let flag = await sumit_task(task)
       console.log('sumit_task back = ', flag)
