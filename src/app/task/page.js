@@ -56,6 +56,7 @@ function TaskComponent() {
         let flag = await sumit_task(task)
         console.log('sumit_task back = ', flag)
         if (flag) {
+            init_data()
             window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
         }
     }

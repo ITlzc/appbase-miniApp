@@ -2,7 +2,10 @@ const SUPABASE = require("@supabase/supabase-js");
 
 const {supabaseUrl,supabaseKey} = require('../utils/supabase/config')
 const {createClient} = require('../utils/supabase/static')
+const functionsUrl = 'http://127.0.0.1:54321'; // 自定义边缘函数的域名
+
 const supabase = SUPABASE.createClient(supabaseUrl, supabaseKey);
+// supabase.functionsUrl = `${functionsUrl}/functions/v1`
 
 import moment from 'moment';
 
@@ -33,6 +36,12 @@ export async function call_eage_function(fun_name,body,headers) {
     if (error) throw error
 
     return data
+}
+
+export async function logout() {
+	const { error } = await supabase.auth.signOut()
+	if (error) throw error
+	return null
 }
 
 /**
@@ -216,6 +225,56 @@ export async function linkTelegram(redirectTo) {
 	let url = 'https://iaon.ai/telegram.html?data=' + session.access_token + '&redirectTo=' + redirectTo
 	const encodedUrl = encodeURI(url);
 	window.location.href = encodedUrl
+}
+
+/**
+ * telegram token
+ *
+ * @returns {string} 返回值。
+ */
+export async function get_telegram_token() {
+	try {
+		if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) {
+		  console.log("get_telegram_token in = ",window.Telegram.WebApp.initData)
+		  const { data, error } = await supabase.functions.invoke('telegram_login_token', {
+			  method:"POST",
+			  body: {
+				  initData:window.Telegram.WebApp.initData
+			  }
+		  })
+		  // let temp = await call_eage_function('telegram_miniapp_provider',{
+		  //   initData:window.Telegram.WebApp.initData
+		  // })
+		  if (error) {
+			throw error
+		  }
+		  return data && data.token
+		}
+	} catch (error) {
+		console.log("linkTelegramMiniAPP = ",error)
+		throw error
+	}
+}
+
+/**
+ * telegram login。
+ *
+ * @returns {string} 返回值。
+ */
+export async function telegram_login(token) {
+	const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: 'auth0', // 使用自定义提供者
+        token,
+    });
+
+    if (error) {
+        console.error('登录失败:', error);
+        return null;
+    }
+
+    console.log('登录成功:', data);
+	const user = await supabase.auth.getUser();
+    return data;
 }
 
  /**
@@ -716,6 +775,7 @@ export async function get_top_100(inviter_id,page,size) {
 		.select("*")
 		.neq('rank',0)
 		.order("rank", { ascending: true })
+		.order("created_at", { ascending: false })
 		.range(offset, size);
 	if (error) {
 		throw error;
