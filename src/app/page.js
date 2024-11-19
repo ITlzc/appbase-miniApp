@@ -18,11 +18,8 @@ import {
   trial_app_next_time,
   get_access_token,
   islinkTwitter,
-  get_telegram_token,
-  telegram_login,
-  islinkTelegram,
-  isTelegramMiniAPP,
-  linkTelegramMiniAPP,
+  cloud_get_seesion,
+  set_session,
   userinfo,
   logout
 } from '../lib/ton_supabase_api'
@@ -120,25 +117,25 @@ function HomeComponent() {
       console.log(`anonymously_login start time = ${time}`)
       let temp = await islogin()
       console.log(`islogin end time = ${time}, temp =`, temp)
-      if (temp) {
-        let user = null
-        try {
-          user = await userinfo()
-          // console.log('anonymously_login user = ',user)
-        } catch (error) {
-          console.log('anonymously_login user error = ',error)
-        }
-        if (!user) {
-          logout()
-          temp = null
-        }
-      }
+      // if (temp) {
+      //   let user = null
+      //   try {
+      //     user = await userinfo()
+      //     // console.log('anonymously_login user = ',user)
+      //   } catch (error) {
+      //     console.log('anonymously_login user error = ',error)
+      //   }
+      //   if (!user) {
+      //     logout()
+      //     temp = null
+      //   }
+      // }
       if (!temp) {
         console.log(`login start time = ${time}`)
-        // let token = await get_telegram_token()
-        // if (token && window.Telegram) {
-        //   temp = await telegram_login(token)
-        // } else {
+        let session = await cloud_get_seesion()
+        if (session && window.Telegram) {
+          await set_session(session)
+        } else {
           let inviter_id = null
           let tg_user_info = null
           if (window.Telegram) {
@@ -163,7 +160,7 @@ function HomeComponent() {
             }
           }
           temp = await login(inviter_id, tg_user_info)
-        // }
+        }
         console.log(`login end time = ${time}`, temp)
         if (!temp) {
           return
@@ -440,11 +437,11 @@ function HomeComponent() {
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
-      // if (process.env.tg_mini_env == 'true' && !(tg && tg.initData)) {
-      //   //todo 跳转到 报错页面
-      //   router.replace(`/notInMiniapp`)
-      //   return
-      // }
+      if (process.env.tg_mini_env == 'true' && !(tg && tg.initData)) {
+        //todo 跳转到 报错页面
+        router.replace(`/notInMiniapp`)
+        return
+      }
 
       // 获取 initData 并设置到状态
       // setInitData(tg.initData);

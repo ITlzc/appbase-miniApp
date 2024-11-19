@@ -88,6 +88,35 @@ export async function get_session() {
 }
 
 /**
+ * set_session
+ *
+ * @returns {string} 返回值 为 session
+ */
+export async function set_session(session) {
+	const { data, error } = await supabase.auth.setSession({
+        access_token:session.access_token,
+        refresh_token:session.refresh_token,
+    })
+	console.log("save_session sss = ",data,error)
+    if (error) {
+        throw error
+    }
+    return data && data.session
+}
+
+export async function update_session() {
+	const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
+		console.log('会话事件:', event);
+		console.log('当前会话:', session);
+		cloud_save_session(session)
+	});
+	console.log('update_session = ',subscription)
+
+	return subscription
+}
+
+
+/**
  * 用户是否登录。
  *
  * @returns {string} 返回值 为 当前登录用户的session。
@@ -148,6 +177,7 @@ export async function login(inviter,tg_user_info) {
 	}
 	
 	if (isTelegramMiniAPP()) {
+		cloud_save_session(data.session)
 		let linked = await islinkTelegram()
 		if (!linked) {
 			await linkTelegramMiniAPP()
@@ -158,6 +188,39 @@ export async function login(inviter,tg_user_info) {
 
 export function isTelegramMiniAPP() {
 	return typeof window !== "undefined" && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData ? window.Telegram.WebApp.initData : null
+}
+
+export function cloud_save_session(session) {
+	if (!isTelegramMiniAPP()) {
+		return
+	}
+	if (!session) {
+		return
+	}
+	let storage = window.Telegram.WebApp.CloudStorage
+	return new Promise((resolve, reject) => {
+		storage.setItem('sb-api-auth-token', session, (error) => {
+			if (error) {
+				reject(error)
+			}
+			resolve()
+		})
+	})
+}
+
+export function cloud_get_seesion() {
+	if (!isTelegramMiniAPP()) {
+		return
+	}
+	let storage = window.Telegram.WebApp.CloudStorage
+	return new Promise((resolve, reject) => {
+		storage.getItem('sb-api-auth-token', (error,value) => {
+			if (error) {
+				reject(error)
+			}
+			resolve(value)
+		})
+	})
 }
 
 /**
