@@ -389,6 +389,12 @@ export async function userinfo() {
 	return user
 }
 
+export async function check_user_exist(user_id) {
+	let { data,error} = await supabase.from("user").select("*").eq('id',user_id).single()
+	if (error) throw error
+	return data
+}
+
 
 // Explore
 

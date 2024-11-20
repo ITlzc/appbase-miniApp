@@ -117,19 +117,19 @@ function HomeComponent() {
       console.log(`anonymously_login start time = ${time}`)
       let temp = await islogin()
       console.log(`islogin end time = ${time}, temp =`, temp)
-      // if (temp) {
-      //   let user = null
-      //   try {
-      //     user = await userinfo()
-      //     // console.log('anonymously_login user = ',user)
-      //   } catch (error) {
-      //     console.log('anonymously_login user error = ',error)
-      //   }
-      //   if (!user) {
-      //     logout()
-      //     temp = null
-      //   }
-      // }
+      if (temp) {
+        let user = null
+        try {
+          user = await check_user_exist(temp.id)
+          // console.log('anonymously_login user = ',user)
+        } catch (error) {
+          console.log('anonymously_login user error = ',error)
+        }
+        if (!user) {
+          // logout()
+          temp = null
+        }
+      }
       if (!temp) {
         console.log(`login start time = ${time}`)
         let session = await cloud_get_seesion()
