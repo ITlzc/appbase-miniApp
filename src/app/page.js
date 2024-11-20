@@ -134,9 +134,25 @@ function HomeComponent() {
       if (!temp) {
         console.log(`login start time = ${time}`)
         let session = await cloud_get_session()
+        console.log('cloud_get_session session = ',session)
+        let flag = true
         if (session && window.Telegram) {
-          await set_session(session)
-        } else {
+          let temp_user = session.user
+          let user = null
+          try {
+            user = await check_user_exist(temp_user.id)
+            // console.log('anonymously_login user = ',user)
+          } catch (error) {
+            console.log('anonymously_login user error = ',error)
+          }
+          if (user) {
+            flag = false
+            await set_session(session)
+          } else {
+            await cloud_remove_session()
+          }
+        } 
+        if (flag) {
           let inviter_id = null
           let tg_user_info = null
           if (window.Telegram) {
