@@ -104,11 +104,23 @@ export async function set_session(session) {
     return data && data.session
 }
 
+export async function bind_telegram() {
+	if (isTelegramMiniAPP()) {
+		let linked = await islinkTelegram()
+		if (!linked) {
+			linkTelegramMiniAPP()
+		}
+	}
+}
+
 export async function update_session() {
 	const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
 		console.log('会话事件:', event);
 		console.log('当前会话:', session);
 		cloud_save_session(session)
+		if (session) {
+			bind_telegram()
+		}
 	});
 	console.log('update_session = ',subscription)
 

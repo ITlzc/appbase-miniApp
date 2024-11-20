@@ -10,6 +10,9 @@ import {
     set_session,
     check_user_exist,
     cloud_remove_session,
+    isTelegramMiniAPP,
+    islinkTelegram,
+    linkTelegramMiniAPP
 } from '../lib/ton_supabase_api'
 
 const AuthContext = createContext({ session: null, event: null });
@@ -93,7 +96,7 @@ export const AuthProvider = ({ children }) => {
         // if (isTelegramMiniAPP()) {
         //   let linked = await islinkTelegram()
         //   if (!linked) {
-        //     await linkTelegramMiniAPP()
+        //     linkTelegramMiniAPP()
         //   }
         // }
       }
@@ -109,9 +112,10 @@ export const AuthProvider = ({ children }) => {
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
+      tg.enableDebugMode();
       tg.ready();
+      anonymously_login()
     }
-    anonymously_login()
   };
 
   useEffect(() => {

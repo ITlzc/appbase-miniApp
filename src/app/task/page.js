@@ -13,7 +13,8 @@ import {
     get_task_group,
     get_access_token,
     islinkTwitter,
-    linkTwitter
+    linkTwitter,
+    bind_telegram
 } from '../../lib/ton_supabase_api'
 import moment from 'moment';
 import { task_host } from '../../utils/supabase/config'
@@ -48,6 +49,8 @@ function TaskComponent() {
             }
         }
 
+        await bind_telegram()
+        
         if (task.status == 'pending') {
             await check_task(task)
             return
