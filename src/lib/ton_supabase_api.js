@@ -191,13 +191,16 @@ export function isTelegramMiniAPP() {
 }
 
 export function cloud_save_session(session) {
+	console.log('cloud_save_session in = ',session)
 	if (!isTelegramMiniAPP()) {
 		return
 	}
+	console.log('cloud_save_session after in = ',session)
 	if (!session) {
 		return
 	}
 	let storage = window.Telegram.WebApp.CloudStorage
+	session = JSON.stringify(session)
 	return new Promise((resolve, reject) => {
 		storage.setItem('sb-api-auth-token', session, (error) => {
 			if (error) {
@@ -215,10 +218,20 @@ export function cloud_get_session() {
 	let storage = window.Telegram.WebApp.CloudStorage
 	return new Promise((resolve, reject) => {
 		storage.getItem('sb-api-auth-token', (error,value) => {
+			console.log('cloud_get_session value = ',error,value)
 			if (error) {
 				reject(error)
 			}
-			resolve(value)
+			if (value && typeof value == 'string' && value.length) {
+				try {
+					value = JSON.parse(value)
+					resolve(value)
+				} catch (error) {
+					resolve(null)
+				}
+			} else{
+				resolve(null)
+			}
 		})
 	})
 }

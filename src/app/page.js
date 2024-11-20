@@ -191,6 +191,7 @@ function HomeComponent() {
         //   }
         // }
       }
+      // get_datas()
       console.log(`anonymously_login end time = ${new Date().getTime() - time}`)
     } catch (error) {
       console.log("anonymously_login error", error)
@@ -424,7 +425,14 @@ function HomeComponent() {
   }, [select_category])
 
   const init_data = async () => {
-    await anonymously_login()
+    // let session = await cloud_get_session()
+    // console.log('init_data cloud_get_session = ',session)
+    // await anonymously_login()
+    get_datas()
+    // fetchExploreApps(page, size)
+  }
+
+  const get_datas = async () => {
     fetchCategorys()
     fetchAnnouncement()
     // fetchReward()
@@ -432,7 +440,6 @@ function HomeComponent() {
 
     fetchRecommandApps(recommand_page, recommand_size)
 
-    // fetchExploreApps(page, size)
   }
 
   const do_init_data = async () => {
@@ -476,21 +483,22 @@ function HomeComponent() {
 
   useEffect(() => {
     console.log('useEffect in = ', window.Telegram)
-    if (!window.Telegram) {
-      if (process.env.tg_mini_env == 'false') {
-        // 开发环境的逻辑
-        console.log("Running in development mode");
-        do_init_data()
-        return
-      }
-      const script = document.createElement('script');
-      script.src = 'https://telegram.org/js/telegram-web-app.js';
-      script.async = true;
-      script.onload = () => initializeTelegram();
-      document.head.appendChild(script);
-    } else {
-      initializeTelegram();
-    }
+    initializeTelegram();
+    // if (!window.Telegram) {
+    //   if (process.env.tg_mini_env == 'false') {
+    //     // 开发环境的逻辑
+    //     console.log("Running in development mode");
+    //     do_init_data()
+    //     return
+    //   }
+    //   const script = document.createElement('script');
+    //   script.src = 'https://telegram.org/js/telegram-web-app.js';
+    //   script.async = true;
+    //   script.onload = () => initializeTelegram();
+    //   document.head.appendChild(script);
+    // } else {
+    //   initializeTelegram();
+    // }
     console.log('useEffect out')
   }, [])
 
