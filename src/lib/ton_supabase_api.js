@@ -208,7 +208,7 @@ export function cloud_save_session(session) {
 	})
 }
 
-export function cloud_get_seesion() {
+export function cloud_get_session() {
 	if (!isTelegramMiniAPP()) {
 		return
 	}
@@ -219,6 +219,21 @@ export function cloud_get_seesion() {
 				reject(error)
 			}
 			resolve(value)
+		})
+	})
+}
+
+export function cloud_remove_session() {
+	if (!isTelegramMiniAPP()) {
+		return
+	}
+	let storage = window.Telegram.WebApp.CloudStorage
+	return new Promise((resolve, reject) => {
+		storage.removeItem('sb-api-auth-token', (error) => {
+			if (error) {
+				reject(error)
+			}
+			resolve()
 		})
 	})
 }
@@ -391,6 +406,7 @@ export async function userinfo() {
 
 export async function check_user_exist(user_id) {
 	let { data,error} = await supabase.from("user").select("*").eq('id',user_id).single()
+	console.log('check_user_exist = ',data,error)
 	if (error) throw error
 	return data
 }

@@ -18,10 +18,10 @@ import {
   trial_app_next_time,
   get_access_token,
   islinkTwitter,
-  cloud_get_seesion,
+  cloud_get_session,
   set_session,
-  userinfo,
-  logout
+  check_user_exist,
+  cloud_remove_session,
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
 import Link from 'next/link';
@@ -127,12 +127,13 @@ function HomeComponent() {
         }
         if (!user) {
           // logout()
+          await cloud_remove_session()
           temp = null
         }
       }
       if (!temp) {
         console.log(`login start time = ${time}`)
-        let session = await cloud_get_seesion()
+        let session = await cloud_get_session()
         if (session && window.Telegram) {
           await set_session(session)
         } else {
