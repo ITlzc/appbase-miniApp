@@ -198,6 +198,18 @@ export async function login(inviter,tg_user_info) {
 	return user
 }
 
+export function getSubstring(str) {
+	if (!str) {
+		return
+	}
+	console.log('getSubstring = ',str)
+	if (str.length > 6) {
+		return str.substring(0, 6);
+	} else {
+		return str;
+	}
+}
+
 export function isTelegramMiniAPP() {
 	return typeof window !== "undefined" && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData ? window.Telegram.WebApp.initData : null
 }
@@ -289,7 +301,7 @@ async function linkTelegramMiniAPP() {
 	  }
 	} catch (error) {
 	  console.log("linkTelegramMiniAPP = ",error)
-	  throw error
+	//   throw error
 	}
 }
 
@@ -875,11 +887,13 @@ export async function get_user_ferinds(user_id,page,size) {
 	return data;
 }
 
-export async function get_top_100(inviter_id,page,size) {
+export async function get_top_100(page,size) {
+	console.log('get_top_100 in = ',page,size)
 	page = page ? page : 1
     size = size ? size : 5
     let offset = (page - 1) * size
     size = offset + size - 1
+	console.log('get_top_100 offset = ',offset,size)
 	let { data, error } = await supabase
 		.from("user")
 		.select("*")

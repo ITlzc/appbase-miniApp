@@ -13,7 +13,8 @@ import {
     get_user_info,
     get_reward_points,
     get_user_ferinds,
-    isTelegramMiniAPP
+    isTelegramMiniAPP,
+    getSubstring
 } from '../../lib/ton_supabase_api'
 
 export default function InviteList() {
@@ -182,7 +183,7 @@ export default function InviteList() {
                                             className="image_1-0"
                                             src={item.avatar || "/images/user-avatar-full-fill.png"}
                                         />
-                                        <span className="text-group_2-0">{item.name}</span>
+                                        <span className="text-group_2-0">{item.name || getSubstring(item.id)}</span>
                                     </div>
                                     <span className="text_3-0">+{item.points / 1000000}</span>
                                 </div>

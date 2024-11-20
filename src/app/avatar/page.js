@@ -11,7 +11,8 @@ import Link from 'next/link';
 
 import {
     islogin,
-    get_user_info
+    get_user_info,
+    getSubstring
 } from '../../lib/ton_supabase_api'
 
 
@@ -70,7 +71,7 @@ export default function Avatar() {
                             src={user_info.avatar || "/images/user-avatar-full-fill.png"}
                         />
                         <div className="text-group_1 flex-col justify-between">
-                            <span className="text_2">{user_info.name}</span>
+                            <span className="text_2">{user_info.name || getSubstring(user_info.id)}</span>
                             <span className="text_3">{points ? points / 1000000 : '~'} Points</span>
                         </div>
                         <Link href="/pointsRecord">

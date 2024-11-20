@@ -10,7 +10,8 @@ import {
     islogin,
     get_user_info,
     get_top_100,
-    count_holders
+    count_holders,
+    getSubstring
 } from '../../lib/ton_supabase_api'
 
 export default function Leader() {
@@ -27,12 +28,12 @@ export default function Leader() {
 
     const more_users = () => {
         let page_temp = page + 1
-        get_tops(page_temp, size)
+        get_tops(page_temp)
     }
 
-    const get_tops = async (user_id, page_in) => {
+    const get_tops = async (page_in) => {
         set_loading(true)
-        let temp_ferinds = await get_top_100(user_id, page_in, size)
+        let temp_ferinds = await get_top_100(page_in, size)
         set_loading(false)
         if (temp_ferinds && temp_ferinds.length) {
             set_page(page_in)
@@ -69,7 +70,7 @@ export default function Leader() {
         let temp_all_points = temp_user_info.earn_points + temp_user_info.task_points + temp_user_info.invite_points
         set_all_points(temp_all_points)
         set_user_info(temp_user_info)
-        get_tops(user.id, page)
+        get_tops(page)
 
         set_loading(true)
         let count = await count_holders()
@@ -101,7 +102,7 @@ export default function Leader() {
                             className="image_1"
                             src={user_info.avatar || "/images/user-avatar-full-fill.png"}
                         />
-                        <span className="text_4">{user_info.name}</span>
+                        <span className="text_4">{user_info.name || getSubstring(user_info.id)}</span>
                     </div>
                     <span className="text_5">{all_points ? all_points / 1000000 : '~'}</span>
                 </div>
@@ -126,7 +127,7 @@ export default function Leader() {
                                             className="image_2-0"
                                             src={item.avatar || "/images/user-avatar-full-fill.png"}
                                         />
-                                        <span className="text_9-0">{item.name}</span>
+                                        <span className="text_9-0">{item.name || getSubstring(item.id)}</span>
                                     </div>
                                     <span className="text_10-0">{item.all_points / 1000000}</span>
                                 </div>
