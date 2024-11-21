@@ -539,13 +539,14 @@ export async function recommandData(page,size) {
 	console.log('recommandData = ',offset,size,user)
 	let select = supabase
 	.from("app")
-	.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward,user_app(*)")
+	.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward")
 	.is('deleted', false)
-	.order("recommend", { ascending: false })
-	.order("id", { ascending: false })
-	.range(offset, size)
 	if (user) {
-		select = select.eq('user_app.user_id',user.id)
+		select = supabase
+		.from("app")
+		.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward,user_app(*)")
+		.is('deleted', false)
+		.eq('user_app.user_id',user.id)
 	}
 	let { data, error } = await select
 	.order("recommend", { ascending: false })
@@ -647,16 +648,21 @@ export async function exploreAppData(page,size,filter) {
     size = offset + size - 1
 	let select = supabase
 	.from("app")
-	.select("id,name,icon,description,points,link,images,appPlatforms,caption,is_forward,user_app(*)")
+	.select("id,name,icon,description,points,link,images,appPlatforms,caption,is_forward")
 	.is('deleted', false)
+	
+	let user = await islogin()
+	if (user) {
+		select = supabase
+		.from("app")
+		.select("id,name,icon,description,points,link,images,appPlatforms,caption,is_forward,user_app(*)")
+		.is('deleted', false)
+		.eq('user_app.user_id',user.id)
+	}
 	if (filter && filter.category_id && filter.category_id.length) {
 		select = select.eq('category_id', filter.category_id)
 	}
 	select = select.order("updated_at", { ascending: false })
-	let user = await islogin()
-	if (user) {
-		select = select.eq('user_app.user_id',user.id)
-	}
 	let { data, error } = await select.range(offset, size)
 	if (error) {
 		console.error("Error fetching data:", error);
@@ -732,11 +738,17 @@ export async function getApp(app_id) {
 	let select = supabase
 	.from("app")
 	.select(
-		"id,name,is_forward,icon,description,points,category_id,link,images,appPlatforms,caption,ranking_in_category,rating,category(title),user_app(*)"
+		"id,name,is_forward,icon,description,points,category_id,link,images,appPlatforms,caption,ranking_in_category,rating,category(title)"
 	)
 	.eq("id", app_id)
 	if (user) {
-		select = select.eq('user_app.user_id',user.id)
+		select = supabase
+		.from("app")
+		.select(
+			"id,name,is_forward,icon,description,points,category_id,link,images,appPlatforms,caption,ranking_in_category,rating,category(title),user_app(*)"
+		)
+		.eq("id", app_id)
+		.eq('user_app.user_id',user.id)
 	}
 	let { data: appInfo, error } = await select
 		.order("recommend", { ascending: false })
