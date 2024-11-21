@@ -60,7 +60,7 @@ export default function SearchApps() {
             return
         }
         const app_id = app.id
-        router.push(`/apps/${app_id}`);
+        router.push(`/appsDetail/${app_id}`);
     }
 
     const open_app = async (app) => {
@@ -84,7 +84,7 @@ export default function SearchApps() {
                         className="label_1"
                         src={"/images/search.png"}
                     />
-                    <input type="text" onChange={search} className="text_1" />
+                    <input type="text" value={search_input} onChange={search} className="text_1" />
                     <img
                         className="label_2"
                         src={"/images/close.png"}
@@ -110,7 +110,7 @@ export default function SearchApps() {
                                         </div>
                                     </div>
                                     <div className="section_1 flex-row justify-between">
-                                        <div className="image-text_4 flex-row justify-between">
+                                        <div className="image-text_4 flex-row justify-start align-center">
                                             <img
                                                 className="label_4"
                                                 src={"/images/FigmaDDSSlicePNG1673cd6906eef5efc28148f23f03837e.png"}
@@ -127,7 +127,7 @@ export default function SearchApps() {
                     }
                 
 
-                    {false && <div className="noData flex-col align-center justify-center">
+                    {!apps.length && <div className="noData flex-col align-center justify-center">
                         <img
                             className="image_1"
                             src={"/images/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}

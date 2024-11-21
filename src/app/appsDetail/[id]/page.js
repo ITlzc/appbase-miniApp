@@ -11,6 +11,7 @@ import {
 } from '../../../lib/ton_supabase_api'
 
 import { Spin } from 'antd';
+import Link from 'next/link';
 import moment from 'moment';
 import TipModel from '@/app/components/TipModel';
 
@@ -21,7 +22,7 @@ export default function AppsDetail({ params }) {
     const router = useRouter();
     const unwrappedParams = use(params); // 解包 params
     const [appData, setAppData] = useState({});
-    const [open_show,set_open_show] = useState('Open')
+    const [open_show, set_open_show] = useState('Open')
     const timerRef = useRef(null);
     const id = unwrappedParams.id
     console.log('AppInfo id = ', id)
@@ -142,11 +143,11 @@ export default function AppsDetail({ params }) {
             clearInterval(timerRef.current);
         }
         let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
-        
+
         let now = new Date().getTime()
         let update_time = moment(user_app && user_app.updated_at)
         update_time = update_time.valueOf();
-        console.log('startVerifyTimer update_time = ',now - update_time)
+        console.log('startVerifyTimer update_time = ', now - update_time)
         if (now - update_time >= 60 * 1000) {
             return
         }
@@ -161,12 +162,12 @@ export default function AppsDetail({ params }) {
             let now = new Date().getTime()
             let update_time = moment(user_app.updated_at)
             update_time = update_time.valueOf();
-            let duration = Math.floor(60 - count++) 
+            let duration = Math.floor(60 - count++)
             let open_show = 'Verify and earn points(' + duration + 's)';
-            if (duration <= 0){
+            if (duration <= 0) {
                 open_show = 'Verify and earn points';
             }
-            console.log('startVerifyTimer open_show = ',open_show,now,update_time,(now - update_time) / 1000 )
+            console.log('startVerifyTimer open_show = ', open_show, now, update_time, (now - update_time) / 1000)
             set_open_show(open_show)
             if (duration <= 0) {
                 clearInterval(timerRef.current);
@@ -182,10 +183,10 @@ export default function AppsDetail({ params }) {
         if (user_app) {
             let status = user_app && user_app.status
             app.status = -1
-            if(user_app) {
+            if (user_app) {
                 app.status = status
             }
-            
+
             let now = new Date().getTime()
             let update_time = moment(user_app && user_app.updated_at)
             // console.log('update_time =',update_time,typeof update_time)
@@ -211,7 +212,7 @@ export default function AppsDetail({ params }) {
                 set_open_show('Open')
             }
         }
-    
+
         if (app && app.icon) {
             app.show_icon = app.icon.url
             if (app.show_icon.indexOf('http') < 0) {
@@ -416,10 +417,21 @@ export default function AppsDetail({ params }) {
                         />
 
                         <div className="image-wrapper_1 flex-col">
-                            <img
-                                className="label_2"
-                                src={"/images/FigmaDDSSlicePNGe50a0f16cd394ba8300f460445076490.png"}
-                            />
+                            {
+                                appData.rating === 5 ? (
+                                    <img
+                                        className="label_2"
+                                        src={"/images/FigmaDDSSlicePNGec1e5e52e054c65d92e08ad6a95a93bd.png"}
+                                    />
+                                ) : (
+                                    <img
+                                        className="label_2"
+                                        src={"/images/FigmaDDSSlicePNGe50a0f16cd394ba8300f460445076490.png"}
+                                    />
+                                )
+                            }
+
+
                         </div>
                     </div>
                     {
@@ -566,9 +578,9 @@ export default function AppsDetail({ params }) {
                             <span className="text_15">
                                 AppBase is not responsible for any of the apps in the catalog. Using this app you take your own risks. Read our
                             </span>
-                            <span className="text_16"> Disclaimer Terms</span>
+                            <Link target="ta" href={'https://docs.google.com/document/d/1Brc4RdM87qH9jVAPPvdBwQUouuabg7Mci2jd3XzrRBs/edit?usp=sharing'} className="text_16"> Disclaimer Terms</Link>
                             <span className="text_17"> and </span>
-                            <span className="text_18">Privacy Policy</span>
+                            <Link target="ta" href={'https://docs.google.com/document/d/19nKm4ZPkiq56Fvqv5RYOlDCsEVGte41kd838IEOa7H8/edit?usp=sharing'} className="text_18">Privacy Policy</Link>
                         </div>
                     </div>
                 </div>

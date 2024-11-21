@@ -22,7 +22,10 @@ import {
   set_session,
   check_user_exist,
   cloud_remove_session,
-  logout
+  logout,
+  email_login,
+  email_signUp,
+  telegram_login
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
 import Link from 'next/link';
@@ -114,7 +117,8 @@ function HomeComponent() {
 
   async function anonymously_login() {
     try {
-      logout()
+      // logout()
+      // email_signUp('liuxuzhong5@ymyai.com','12345678')
       let time = new Date().getTime()
       console.log(`anonymously_login start time = ${time}`)
       let temp = await islogin()
@@ -135,44 +139,38 @@ function HomeComponent() {
       }
       if (!temp) {
         console.log(`login start time = ${time}`)
-        let session = await cloud_get_session()
-        console.log('cloud_get_session session = ',session)
+        // let session = await cloud_get_session()
+        // console.log('cloud_get_session session = ',session)
         let flag = true
-        if (session && window.Telegram) {
-          let temp_user = session.user
-          let user = null
-          try {
-            user = await check_user_exist(temp_user.id)
-            // console.log('anonymously_login user = ',user)
-          } catch (error) {
-            console.log('anonymously_login user error = ',error)
-          }
-          if (user) {
-            flag = false
-            try {
-              await set_session(session)
-            } catch (error) {
-              localStorage.setItem('sb-api-auth-token',session)
-            }
-          } else {
-            await cloud_remove_session()
-          }
-        } 
+        // if (session && window.Telegram) {
+        //   let temp_user = session.user
+        //   let user = null
+        //   try {
+        //     user = await check_user_exist(temp_user.id)
+        //     // console.log('anonymously_login user = ',user)
+        //   } catch (error) {
+        //     console.log('anonymously_login user error = ',error)
+        //   }
+        //   if (user) {
+        //     flag = false
+        //     // email_login('liuxuzhong5@ymyai.com','12345678')
+        //     try {
+        //       await set_session(session)
+        //     } catch (error) {
+        //       email_login('liuxuzhong5@ymyai.com','12345678')
+        //       // localStorage.setItem('sb-api-auth-token',session)
+        //     }
+        //   } else {
+        //     await cloud_remove_session()
+        //   }
+        // } 
         if (flag) {
-          let inviter_id = null
-          let tg_user_info = null
-          if (window.Telegram) {
-            const tg = window.Telegram.WebApp;
-            let start_param = tg.initDataUnsafe.start_param
-            if (start_param) {
-              const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
-              const urlParams = new URLSearchParams(decodedText);
-              const inviterId = urlParams.get('inviter_id');
-              console.log('anonymously_login inviterId = ', inviterId)
-              inviter_id = inviterId
-            }
-            tg_user_info = tg.initDataUnsafe.user
+          const tg = window.Telegram && window.Telegram.WebApp;
+          if (tg) {
+            console.log('before telegram_login')
+            temp = await telegram_login(tg)
           } else {
+            let inviter_id = null
             let start_param = start_param_by_query;
             if (start_param) {
               const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
@@ -181,8 +179,8 @@ function HomeComponent() {
               console.log('anonymously_login inviterId = ', inviterId)
               inviter_id = inviterId
             }
+            temp = await login(inviter_id)
           }
-          temp = await login(inviter_id, tg_user_info)
         }
         console.log(`login end time = ${time}`, temp)
         if (!temp) {

@@ -117,10 +117,10 @@ export async function update_session() {
 	const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
 		console.log('会话事件:', event);
 		console.log('当前会话:', session);
-		cloud_save_session(session)
-		if (session) {
-			bind_telegram()
-		}
+		// cloud_save_session(session)
+		// if (session) {
+		// 	bind_telegram()
+		// }
 	});
 	console.log('update_session = ',subscription)
 
@@ -371,12 +371,60 @@ export async function get_telegram_token() {
 	}
 }
 
+export async function email_login(email,password) {
+	if (!(email && email.length)) {
+	  throw new Error("email can not be null")
+	}
+	if (!(password && password.length)) {
+	  throw new Error("password can not be null")
+	}
+	let { data, error } = await supabase.auth.signInWithPassword({
+	  email: email,
+	  password: password
+	})
+	if (error) throw error
+	let user =  data && data.session && data.session.user
+
+	if (user) {
+	  let { data:profiles } = await supabase.from("profiles").select("*").eq('id',user.id)
+	  profiles = profiles && profiles.length && profiles[0]
+	  user.profiles = profiles
+	}
+	return user
+  }
+
+  /**
+     * 邮箱注册。
+     *
+     * @param {string} email - 邮箱
+     * @returns {string} 返回值。
+     */
+  export async function email_signUp(email,password) {
+	console.log('email_signUp in = ',email,password)
+	if (!(email && email.length)) {
+	  throw new Error("email can not be null")
+	}
+	if (!(password && password.length)) {
+	  throw new Error("password can not be null")
+	}
+	let { data, error } = await supabase.auth.signUp({
+	  email: email,
+	  password: password
+	})
+	console.log('email_signUp = ',data,error)
+	if (error) throw error
+	if (data && data.user && !(data.user.identities && data.user.identities.length) && (data.user.user_metadata && !data.user.user_metadata.email)) {
+	  throw new Error('The email is already in use')
+	}
+	return data
+  }
+
 /**
  * telegram login。
  *
  * @returns {string} 返回值。
  */
-export async function telegram_login(token) {
+export async function telegram_login_by_token(token) {
 	const { data, error } = await supabase.auth.signInWithIdToken({
         provider: 'auth0', // 使用自定义提供者
         token,
@@ -390,6 +438,29 @@ export async function telegram_login(token) {
     console.log('登录成功:', data);
 	const user = await supabase.auth.getUser();
     return data;
+}
+
+export async function telegram_login(webAPP) {
+	try {
+		console.log("telegram_login in = ",window.Telegram.WebApp.initData)
+		const { data, error } = await supabase.functions.invoke('telegram_login', {
+			method:"POST",
+			body: {
+				initData:webAPP.initData,
+				initDataUnsafe:webAPP.initDataUnsafe
+			}
+		})
+		if (error) {
+			throw error
+		}
+		if (data.code == 200 && data.data) {
+			set_session(data.data)
+		}
+		return data
+	} catch (error) {
+		console.log("telegram_login = ",error)
+		throw error
+	}
 }
 
  /**

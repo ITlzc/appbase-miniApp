@@ -86,6 +86,7 @@
                 .image_2 {
                     width: 17.34vw;
                     height: 17.34vw;
+                    border-radius: 5px;
                 }
 
                 .text-group_3 {
@@ -124,7 +125,9 @@
             .section_1 {
                 width: 79.74vw;
                 height: 7.2vw;
-                margin: 7.46vw 0 4.53vw 4.8vw;
+                margin: 4.8vw 0 4.53vw 4.8vw;
+                padding-top: 2.67vw;
+                border-top: 1px solid #EEEEEE;
 
                 .image-text_4 {
                     width: 26.14vw;
@@ -133,11 +136,10 @@
                     .label_4 {
                         width: 6.4vw;
                         height: 6.4vw;
+                        margin-right: 1.6vw;
                     }
 
                     .text-group_4 {
-                        width: 18.14vw;
-                        height: 3.74vw;
                         overflow-wrap: break-word;
                         color: rgba(0, 82, 254, 1);
                         font-size: 3.73vw;
@@ -146,7 +148,6 @@
                         text-align: left;
                         white-space: nowrap;
                         line-height: normal;
-                        margin-top: 1.87vw;
                     }
                 }
 
