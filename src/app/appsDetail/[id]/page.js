@@ -21,7 +21,7 @@ export default function AppsDetail({ params }) {
     const router = useRouter();
     const unwrappedParams = use(params); // 解包 params
     const [appData, setAppData] = useState({});
-    const [open_show,set_open_show] = useState('')
+    const [open_show,set_open_show] = useState('Open')
     const timerRef = useRef(null);
     const id = unwrappedParams.id
     console.log('AppInfo id = ', id)
@@ -175,12 +175,17 @@ export default function AppsDetail({ params }) {
     };
 
     const deal_app = (app) => {
-        const sortedData = app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+        const sortedData = app.user_app && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
         // console.log('deal_app sortedData = ',sortedData)
         app.user_app = sortedData
         let user_app = sortedData && sortedData.length && sortedData[0]
+        
         let status = user_app && user_app.status
-        app.status = status
+        app.status = -1
+        if(user_app) {
+            app.status = status
+        }
+        
         let now = new Date().getTime()
         let update_time = moment(user_app.updated_at)
         // console.log('update_time =',update_time,typeof update_time)

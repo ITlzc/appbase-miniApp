@@ -232,7 +232,11 @@ function HomeComponent() {
     let user_app = sortedData && sortedData.length && sortedData[0]
     // if (user_app) {
     let status = user_app && user_app.status
-    app.status = status
+    app.status = -1
+    if (user_app) {
+      app.status = status
+    }
+    
     if (user_app && user_app.updated_at) {
       let now = new Date().getTime()
       let update_time = moment(user_app.updated_at)
@@ -242,6 +246,7 @@ function HomeComponent() {
         app.status = 0
       }
     }
+    app.open_show = 'OPEN'
     if (app.points > 0) {
       if (app.status == 0) {
         app.open_show = 'OPEN'
