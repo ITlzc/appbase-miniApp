@@ -56,7 +56,8 @@ export const AuthProvider = ({ children }) => {
           }
           if (user) {
             flag = false
-            await set_session(session)
+            // await set_session(session)
+            localStorage.setItem('sb-api-auth-token',session)
           } else {
             await cloud_remove_session()
           }
@@ -114,7 +115,7 @@ export const AuthProvider = ({ children }) => {
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
       // tg.enableDebugMode();
       tg.ready();
-      anonymously_login()
+      // anonymously_login()
     }
   };
 
@@ -123,7 +124,7 @@ export const AuthProvider = ({ children }) => {
       if (process.env.tg_mini_env == 'false') {
         // 开发环境的逻辑
         console.log("Running in development mode");
-        anonymously_login()
+        // anonymously_login()
         return
       }
       const script = document.createElement('script');

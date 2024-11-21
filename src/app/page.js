@@ -147,7 +147,11 @@ function HomeComponent() {
           }
           if (user) {
             flag = false
-            await set_session(session)
+            try {
+              await set_session(session)
+            } catch (error) {
+              localStorage.setItem('sb-api-auth-token',session)
+            }
           } else {
             await cloud_remove_session()
           }
@@ -427,7 +431,7 @@ function HomeComponent() {
   const init_data = async () => {
     // let session = await cloud_get_session()
     // console.log('init_data cloud_get_session = ',session)
-    // await anonymously_login()
+    await anonymously_login()
     get_datas()
     // fetchExploreApps(page, size)
   }
