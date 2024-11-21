@@ -144,7 +144,7 @@ export default function AppsDetail({ params }) {
         let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
         
         let now = new Date().getTime()
-        let update_time = moment(user_app.updated_at)
+        let update_time = moment(user_app && user_app.updated_at)
         update_time = update_time.valueOf();
         console.log('startVerifyTimer update_time = ',now - update_time)
         if (now - update_time >= 60 * 1000) {
@@ -179,39 +179,39 @@ export default function AppsDetail({ params }) {
         // console.log('deal_app sortedData = ',sortedData)
         app.user_app = sortedData
         let user_app = sortedData && sortedData.length && sortedData[0]
-        
-        let status = user_app && user_app.status
-        app.status = -1
-        if(user_app) {
-            app.status = status
-        }
-        
-        let now = new Date().getTime()
-        let update_time = moment(user_app.updated_at)
-        // console.log('update_time =',update_time,typeof update_time)
-        update_time = update_time.valueOf();
-        if (status == 2 && now - update_time >= trial_app_next_time) {
-            app.status = 0
-        }
-        if (app.points > 0) {
-            if (app.status == 0) {
-                set_open_show('Open app to earn points')
-            } else if (app.status == 1) {
-                set_open_show('Verify and earn points')
-            } else if (app.status == 2) {
-                set_open_show('Open')
-                let duration = moment.duration((update_time + trial_app_next_time) - now);
-                let formattedTime = duration.hours().toString().padStart(2, '0') + ":" +
-                    duration.minutes().toString().padStart(2, '0') + ":" +
-                    duration.seconds().toString().padStart(2, '0');
-                // console.log('update_time duration =',duration,formattedTime)
-                set_next_time(formattedTime)
+        if (user_app) {
+            let status = user_app && user_app.status
+            app.status = -1
+            if(user_app) {
+                app.status = status
             }
-        } else {
-            set_open_show('Open')
+            
+            let now = new Date().getTime()
+            let update_time = moment(user_app && user_app.updated_at)
+            // console.log('update_time =',update_time,typeof update_time)
+            update_time = update_time.valueOf();
+            if (status == 2 && now - update_time >= trial_app_next_time) {
+                app.status = 0
+            }
+            if (app.points > 0) {
+                if (app.status == 0) {
+                    set_open_show('Open app to earn points')
+                } else if (app.status == 1) {
+                    set_open_show('Verify and earn points')
+                } else if (app.status == 2) {
+                    set_open_show('Open')
+                    let duration = moment.duration((update_time + trial_app_next_time) - now);
+                    let formattedTime = duration.hours().toString().padStart(2, '0') + ":" +
+                        duration.minutes().toString().padStart(2, '0') + ":" +
+                        duration.seconds().toString().padStart(2, '0');
+                    // console.log('update_time duration =',duration,formattedTime)
+                    set_next_time(formattedTime)
+                }
+            } else {
+                set_open_show('Open')
+            }
         }
-
-
+    
         if (app && app.icon) {
             app.show_icon = app.icon.url
             if (app.show_icon.indexOf('http') < 0) {
@@ -350,6 +350,17 @@ export default function AppsDetail({ params }) {
 
     const open_app = async (index) => {
         console.log('open_app in = ', index)
+        let user_app = appData.user_app && appData.user_app.length && appData.user_app[0]
+        if (!user_app) {
+            let link = null
+            if (appData.link && appData.link.length && appData.link !== 'https://') {
+                link = appData.link
+            }
+            if (link) {
+                window.open(link)
+            }
+            return
+        }
         if (appData.status == 0) {
             if (not_show_again) {
                 dela_open_app()

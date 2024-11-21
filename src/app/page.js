@@ -22,6 +22,7 @@ import {
   set_session,
   check_user_exist,
   cloud_remove_session,
+  logout
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
 import Link from 'next/link';
@@ -113,6 +114,7 @@ function HomeComponent() {
 
   async function anonymously_login() {
     try {
+      logout()
       let time = new Date().getTime()
       console.log(`anonymously_login start time = ${time}`)
       let temp = await islogin()
@@ -230,35 +232,36 @@ function HomeComponent() {
     // console.log('deal_app sortedData = ',sortedData)
     app.user_app = sortedData
     let user_app = sortedData && sortedData.length && sortedData[0]
-    // if (user_app) {
-    let status = user_app && user_app.status
-    app.status = -1
-    if (user_app) {
-      app.status = status
-    }
-    
-    if (user_app && user_app.updated_at) {
-      let now = new Date().getTime()
-      let update_time = moment(user_app.updated_at)
-      // console.log('update_time =',update_time,typeof update_time)
-      update_time = update_time.valueOf();
-      if (status == 2 && now - update_time >= trial_app_next_time) {
-        app.status = 0
-      }
-    }
     app.open_show = 'OPEN'
-    if (app.points > 0) {
-      if (app.status == 0) {
-        app.open_show = 'OPEN'
-      } else if (app.status == 1) {
-        app.open_show = 'VERIFY'
-      } else if (app.status == 2) {
+    if (user_app) {
+      let status = user_app && user_app.status
+      app.status = -1
+      if (user_app) {
+        app.status = status
+      }
+      
+      if (user_app && user_app.updated_at) {
+        let now = new Date().getTime()
+        let update_time = moment(user_app.updated_at)
+        // console.log('update_time =',update_time,typeof update_time)
+        update_time = update_time.valueOf();
+        if (status == 2 && now - update_time >= trial_app_next_time) {
+          app.status = 0
+        }
+      }
+      app.open_show = 'OPEN'
+      if (app.points > 0) {
+        if (app.status == 0) {
+          app.open_show = 'OPEN'
+        } else if (app.status == 1) {
+          app.open_show = 'VERIFY'
+        } else if (app.status == 2) {
+          app.open_show = 'OPEN'
+        }
+      } else {
         app.open_show = 'OPEN'
       }
-    } else {
-      app.open_show = 'OPEN'
     }
-    // }
   }
 
   const fetchRecentApps = async (page, size) => {
@@ -350,10 +353,18 @@ function HomeComponent() {
 
   const open_app = async (app) => {
     console.log('open_app in = ', app)
+    
 
     let link = null
     if (app.link && app.link.length && app.link !== 'https://') {
       link = app.link
+    }
+    let user_app = app.user_app && app.user_app.length && app.user_app[0]
+    if (!user_app) {
+        if (link) {
+            window.open(link)
+        }
+        return
     }
 
     let flag = false
