@@ -218,22 +218,24 @@ function HomeComponent() {
     set_announcement(temp_announcement)
   }
 
-  const deal_app = (app) => {
+  const deal_app = async (app) => {
     if (app.icon) {
       app.show_icon = app.icon.url
       if (app.show_icon.indexOf('http') < 0) {
         app.show_icon = 'https://jokqrcagutpmvpilhcfq.supabase.co/storage/v1/object/public' + app.show_icon
       }
     }
-    const sortedData = app.user_app && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    const sortedData = app.user_app && app.user_app.length && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
     // console.log('deal_app sortedData = ',sortedData)
     app.user_app = sortedData
     let user_app = sortedData && sortedData.length && sortedData[0]
+    let login = await islogin()
+    console.log('deal_app login = ',login)
     app.open_show = 'OPEN'
-    if (user_app) {
+    // if (user_app ) {
       let status = user_app && user_app.status
       app.status = -1
-      if (user_app) {
+      if (login) {
         app.status = status
       }
       
@@ -258,7 +260,7 @@ function HomeComponent() {
       } else {
         app.open_show = 'OPEN'
       }
-    }
+    // }
   }
 
   const fetchRecentApps = async (page, size) => {
@@ -266,9 +268,10 @@ function HomeComponent() {
     let new_apps = await recentUpdate(page, size)
     set_loading(false)
     console.log('fetchRecentApps =', new_apps)
-    new_apps.map(app => {
-      deal_app(app)
-    })
+    for (let i = 0; i < new_apps.length; i++) {
+      let app = new_apps[i]
+      await deal_app(app)
+    }
     set_recent_apps(new_apps)
     console.log('fetchRecentApps recent_apps =', recent_apps)
 
@@ -283,9 +286,10 @@ function HomeComponent() {
     if (apps && apps.length) {
       set_recommand_page(page)
     }
-    apps.map(app => {
-      deal_app(app)
-    })
+    for (let i = 0; i < apps.length; i++) {
+      let app = apps[i]
+      await deal_app(app)
+    }
     set_recommand_apps(apps)
   }
 
@@ -297,9 +301,10 @@ function HomeComponent() {
     if (temp_apps && temp_apps.length) {
       set_page(page)
     }
-    temp_apps.map(app => {
-      deal_app(app)
-    })
+    for (let i = 0; i < temp_apps.length; i++) {
+      let app = temp_apps[i]
+      await deal_app(app)
+    }
     let temp = explore_apps
     temp = temp.concat(temp_apps)
     if (page == 1) {
@@ -356,8 +361,8 @@ function HomeComponent() {
     if (app.link && app.link.length && app.link !== 'https://') {
       link = app.link
     }
-    let user_app = app.user_app && app.user_app.length && app.user_app[0]
-    if (!user_app) {
+    let login = await islogin()
+    if (!login) {
         if (link) {
             window.open(link)
         }

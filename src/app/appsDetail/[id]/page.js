@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation';
 import {
     getApp,
     trailApp,
-    trial_app_next_time
+    trial_app_next_time,
+    islogin
 } from '../../../lib/ton_supabase_api'
 
 import { Spin } from 'antd';
@@ -125,7 +126,7 @@ export default function AppsDetail({ params }) {
             let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
             // console.log('startTimer = ',appData)
             let now = new Date().getTime()
-            let update_time = moment(user_app.updated_at)
+            let update_time = moment(user_app && user_app.updated_at)
             update_time = update_time.valueOf();
             let duration = moment.duration((update_time + trial_app_next_time) - now);
             let formattedTime = duration.hours().toString().padStart(2, '0') + ":" +
@@ -160,7 +161,7 @@ export default function AppsDetail({ params }) {
         timerRef.current = setInterval(() => {
             let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
             let now = new Date().getTime()
-            let update_time = moment(user_app.updated_at)
+            let update_time = moment(user_app && user_app.updated_at)
             update_time = update_time.valueOf();
             let duration = Math.floor(60 - count++)
             let open_show = 'Verify and earn points(' + duration + 's)';
@@ -175,15 +176,16 @@ export default function AppsDetail({ params }) {
         }, 1000);
     };
 
-    const deal_app = (app) => {
-        const sortedData = app.user_app && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    const deal_app = async (app) => {
+        const sortedData = app.user_app && app.user_app.length && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
         // console.log('deal_app sortedData = ',sortedData)
         app.user_app = sortedData
         let user_app = sortedData && sortedData.length && sortedData[0]
-        if (user_app) {
+        // if (user_app) {
             let status = user_app && user_app.status
             app.status = -1
-            if (user_app) {
+            let login = await islogin()
+            if (login) {
                 app.status = status
             }
 
@@ -211,7 +213,7 @@ export default function AppsDetail({ params }) {
             } else {
                 set_open_show('Open')
             }
-        }
+        // }
 
         if (app && app.icon) {
             app.show_icon = app.icon.url
@@ -308,7 +310,7 @@ export default function AppsDetail({ params }) {
         } else {
             setIsExpanded(true)
         }
-        deal_app(app)
+        await deal_app(app)
         setAppData(app)
 
     }
@@ -351,8 +353,9 @@ export default function AppsDetail({ params }) {
 
     const open_app = async (index) => {
         console.log('open_app in = ', index)
-        let user_app = appData.user_app && appData.user_app.length && appData.user_app[0]
-        if (!user_app) {
+        // let user_app = appData.user_app && appData.user_app.length && appData.user_app[0]
+        let login = await islogin()
+        if (!login) {
             let link = null
             if (appData.link && appData.link.length && appData.link !== 'https://') {
                 link = appData.link
@@ -578,9 +581,9 @@ export default function AppsDetail({ params }) {
                             <span className="text_15">
                                 AppBase is not responsible for any of the apps in the catalog. Using this app you take your own risks. Read our
                             </span>
-                            <Link target="ta" href={'https://docs.google.com/document/d/1Brc4RdM87qH9jVAPPvdBwQUouuabg7Mci2jd3XzrRBs/edit?usp=sharing'} className="text_16"> Disclaimer Terms</Link>
+                            <Link target="_blank" href={'https://docs.google.com/document/d/1Brc4RdM87qH9jVAPPvdBwQUouuabg7Mci2jd3XzrRBs/edit?usp=sharing'} className="text_16"> Disclaimer Terms</Link>
                             <span className="text_17"> and </span>
-                            <Link target="ta" href={'https://docs.google.com/document/d/19nKm4ZPkiq56Fvqv5RYOlDCsEVGte41kd838IEOa7H8/edit?usp=sharing'} className="text_18">Privacy Policy</Link>
+                            <Link target="_blank" href={'https://docs.google.com/document/d/19nKm4ZPkiq56Fvqv5RYOlDCsEVGte41kd838IEOa7H8/edit?usp=sharing'} className="text_18">Privacy Policy</Link>
                         </div>
                     </div>
                 </div>
