@@ -169,6 +169,7 @@ function HomeComponent() {
             console.log('before telegram_login')
             temp = await telegram_login(tg)
           } else {
+            console.log('before login')
             let inviter_id = null
             let start_param = start_param_by_query;
             if (start_param) {

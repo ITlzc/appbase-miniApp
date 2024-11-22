@@ -198,11 +198,11 @@ export default function Avatar() {
                 </div>}
                 <div className="group_3 flex-col">
                     <span className="text_18">About The Product</span>
-                    <Link target="ta" href={'https://docs.google.com/document/d/19nKm4ZPkiq56Fvqv5RYOlDCsEVGte41kd838IEOa7H8/edit?usp=sharing'} className="box_6 flex-row justify-between">
+                    <Link target="_blank" href={'https://docs.google.com/document/d/19nKm4ZPkiq56Fvqv5RYOlDCsEVGte41kd838IEOa7H8/edit?usp=sharing'} className="box_6 flex-row justify-between">
                         <span className="text_19">Privacy</span>
                         <img className="group_4" src="/images/arrow-right.png" alt="" />
                     </Link>
-                    <Link target="ta" href={'https://docs.google.com/document/d/1Brc4RdM87qH9jVAPPvdBwQUouuabg7Mci2jd3XzrRBs/edit?usp=sharing'} className="box_6 flex-row justify-between">
+                    <Link target="_blank" href={'https://docs.google.com/document/d/1Brc4RdM87qH9jVAPPvdBwQUouuabg7Mci2jd3XzrRBs/edit?usp=sharing'} className="box_6 flex-row justify-between">
                         <span className="text_19">About Us</span>
                         <img className="group_4" src="/images/arrow-right.png" alt="" />
                     </Link>
