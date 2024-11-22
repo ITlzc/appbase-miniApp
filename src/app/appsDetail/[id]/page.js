@@ -335,6 +335,15 @@ export default function AppsDetail({ params }) {
         let flag = false
         in_page_start = true
         if (appData.points > 0) {
+            if (appData.status == 1) {
+                let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
+                let now = new Date().getTime()
+                let update_time = moment(user_app && user_app.updated_at)
+                update_time = update_time.valueOf();
+                if (now - update_time < 60 * 1000) {
+                    return
+                }
+            }
             if (appData.status == 0 || appData.status == 2) {
                 flag = true
             }
