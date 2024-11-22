@@ -93,4 +93,30 @@
             color: rgba(254, 0, 0, 1);
         }
     }
+
+    .noData {
+        .image_1 {
+            width: 54.14vw;
+            height: 16.27vw;
+            margin-top: 7.73vw;
+        }
+
+        .image_2 {
+            width: 77.87vw;
+            height: 65.6vw;
+            margin-top: -0.26vw;
+        }
+
+        .text_3 {
+            overflow-wrap: break-word;
+            color: rgba(165, 165, 165, 1);
+            font-size: 2.66vw;
+            font-family: Outfit;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            line-height: normal;
+            margin-top: 2.66vw;
+        }
+    }
 }

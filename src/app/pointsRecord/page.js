@@ -17,9 +17,9 @@ import {
 export default function PointsRecord() {
     const router = useRouter();
 
-    const [page,set_page] = useState(1)
-    const [size,set_size] = useState(10)
-    const [records,set_records] = useState([])
+    const [page, set_page] = useState(1)
+    const [size, set_size] = useState(10)
+    const [records, set_records] = useState([])
     const [loading, set_loading] = useState(false)
 
 
@@ -34,7 +34,7 @@ export default function PointsRecord() {
             return
         }
         set_loading(true)
-        let data = await get_points_record(user.id,page_in,size)
+        let data = await get_points_record(user.id, page_in, size)
         set_loading(false)
 
         if (data && data.length) {
@@ -66,12 +66,12 @@ export default function PointsRecord() {
 
     useEffect(() => {
         get_recods(page)
-    },[])
+    }, [])
 
     return (
         <Spin size="large" spinning={loading}>
             <div className="pointsRecord flex-col">
-                
+
                 <div className="box_1 flex-row">
                     <div className="image-text_1 flex-col justify-between">
                         <img
@@ -98,12 +98,23 @@ export default function PointsRecord() {
                                 </div>
                                 {
                                     item.direction_type == 1 ? <span className="text_3">+{item.points / 1000000}</span> :
-                                    <span className="text_3 red_text">-{item.points / 1000000}</span>
+                                        <span className="text_3 red_text">-{item.points / 1000000}</span>
                                 }
                             </div>
                         )
                     })
                 }
+
+                {!records.length && <div className="noData flex-col align-center justify-center">
+                    <img
+                        className="image_1"
+                        src={"/images/FigmaDDSSlicePNG0e497c8e12d106821f46d93a1afb0ed8.png"}
+                    />
+                    <img
+                        className="image_2"
+                        src={"/images/FigmaDDSSlicePNG9e8ff38e15f2ab39a44277130ce3bbbb.png"}
+                    />
+                </div>}
             </div>
         </Spin>
     )

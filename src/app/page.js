@@ -500,7 +500,8 @@ function HomeComponent() {
       // 获取 initData 并设置到状态
       // setInitData(tg.initData);
 
-      // tg.ready();
+      tg.ready();
+      do_init_data()
 
       // let start_param = tg.initDataUnsafe.start_param
       //     const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
@@ -508,27 +509,27 @@ function HomeComponent() {
       //     const inviterId = urlParams.get('inviter_id');
       //     console.log('initializeTelegram inviterId = ',inviterId)
     }
-    do_init_data()
+    
   };
 
   useEffect(() => {
     console.log('useEffect in = ', window.Telegram)
-    initializeTelegram();
-    // if (!window.Telegram) {
-    //   if (process.env.tg_mini_env == 'false') {
-    //     // 开发环境的逻辑
-    //     console.log("Running in development mode");
-    //     do_init_data()
-    //     return
-    //   }
-    //   const script = document.createElement('script');
-    //   script.src = 'https://telegram.org/js/telegram-web-app.js';
-    //   script.async = true;
-    //   script.onload = () => initializeTelegram();
-    //   document.head.appendChild(script);
-    // } else {
-    //   initializeTelegram();
-    // }
+    // initializeTelegram();
+    if (!window.Telegram) {
+      if (process.env.tg_mini_env == 'false') {
+        // 开发环境的逻辑
+        console.log("Running in development mode");
+        do_init_data()
+        return
+      }
+      const script = document.createElement('script');
+      script.src = 'https://telegram.org/js/telegram-web-app.js';
+      script.async = true;
+      script.onload = () => initializeTelegram();
+      document.head.appendChild(script);
+    } else {
+      initializeTelegram();
+    }
     console.log('useEffect out')
   }, [])
 

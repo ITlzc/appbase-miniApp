@@ -112,7 +112,7 @@ export default function Avatar() {
                                 <span className="text_12">Trial2Earn Points</span>
                                 <span className="text_13">$ 687.124</span>
                             </div>
-                            <span className="text_14">Withdrawal Record &gt;&gt;&gt;</span>
+                            <span className="text_14">{tab_act} Record &gt;&gt;&gt;</span>
                         </div>
                         {tab_act === 'Withdrawal' ? <div className="text-wrapper_2 flex-col justify-center align-center">
                             <span className="text_15">Withdrawal</span>
