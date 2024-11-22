@@ -4,6 +4,8 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Nav from './components/Nav';
 import { toast } from 'react-toastify';
+import { useAuth } from './auth_provider';
+
 
 import {
   getAnnouncement,
@@ -18,13 +20,8 @@ import {
   trial_app_next_time,
   get_access_token,
   islinkTwitter,
-  cloud_get_session,
-  set_session,
   check_user_exist,
   cloud_remove_session,
-  logout,
-  email_login,
-  email_signUp,
   telegram_login
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
@@ -43,6 +40,8 @@ function HomeComponent() {
   //   console.log('home islogin e=',e)
   // })
   // console.log('home islogin =',temp)
+
+  const {authState} = useAuth
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -460,6 +459,13 @@ function HomeComponent() {
 
   }
 
+  // useEffect(() => {
+  //   console.log('useEffect authState = ',authState)
+  //   if (authState) {
+  //     init_data()
+  //   }
+  // }, [authState])
+
   const do_init_data = async () => {
     await init_data()
     let error_description = searchParams.get('error_description');
@@ -488,7 +494,7 @@ function HomeComponent() {
       // 获取 initData 并设置到状态
       // setInitData(tg.initData);
 
-      tg.ready();
+      // tg.ready();
 
       // let start_param = tg.initDataUnsafe.start_param
       //     const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
