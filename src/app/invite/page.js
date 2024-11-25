@@ -71,6 +71,15 @@ export default function Invite() {
 
     }
 
+    const handleCopy = (text) => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+    };
+
     const copy_share_link = async () => {
         if (!(share_link && share_link.length)) {
             return
@@ -80,8 +89,14 @@ export default function Invite() {
         if (isTelegramMiniAPP()) {
             let tg = window.Telegram.WebApp
             if (tg.platform.includes('web')) {
-                await navigator.clipboard.writeText(inviteLink);
-                toast.success('copy success')
+                try {
+                    // await navigator.clipboard.writeText(inviteLink);
+                    handleCopy(inviteLink)
+                    toast.success('copy success')
+
+                } catch (error) {
+                    toast.error(error)
+                }
                 return
             }
             const userAgent = navigator.userAgent;
