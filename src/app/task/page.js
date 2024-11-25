@@ -273,6 +273,14 @@ function TaskComponent() {
                     task.button = 'COMPLETED'
                 }
 
+                if (task.platform == 'telegram' || task.platform == 'appbase' || task.platform == 'appbase') {
+                    task.icon = '/images/telegram-black-icon.png'
+                }
+                if (task.platform == 'twitter') {
+                    task.icon = "/images/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"
+                }
+
+                
                 tasks.push(task)
             }
             console.log("get_tasks out = ", tasks)
@@ -330,12 +338,12 @@ function TaskComponent() {
                 <div className="task flex-col">
                     <div className="box_1 flex-row justify-between">
                         <span className="text_1">Trial to Earn</span>
-                        <img
+                        {/* <img
                             className="label_1"
                             src={
                                 "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                             }
-                        />
+                        /> */}
                     </div>
                     <div className="list_1 flex-col">
                         {
@@ -345,7 +353,7 @@ function TaskComponent() {
                                         <div className="image-text_1-0 flex-row justify-between">
                                             <img
                                                 className="image_1-0"
-                                                src={"/images/FigmaDDSSlicePNG79a676008387c154efe0ca055a84127f.png"}
+                                                src={task.icon}
                                             />
                                             <div className="text-group_1-0 flex-col justify-between">
                                                 <span className="text_2-0">{task.description}</span>

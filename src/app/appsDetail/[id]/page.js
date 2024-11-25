@@ -328,6 +328,9 @@ export default function AppsDetail({ params }) {
 
     const dela_open_app = async () => {
         let link = null
+        if (appData.status == 2) {
+            return
+        }
         setShowOpenTip(false)
         if (appData.link && appData.link.length && appData.link !== 'https://') {
             link = appData.link
@@ -365,13 +368,18 @@ export default function AppsDetail({ params }) {
         // let user_app = appData.user_app && appData.user_app.length && appData.user_app[0]
         let login = await islogin()
         if (!login) {
-            let link = null
-            if (appData.link && appData.link.length && appData.link !== 'https://') {
-                link = appData.link
-            }
-            if (link) {
-                window.open(link)
-            }
+            // let link = null
+            // if (appData.link && appData.link.length && appData.link !== 'https://') {
+            //     link = appData.link
+            // }
+            // if (link) {
+            //     window.open(link)
+            // }
+            tg.showPopup({
+                title: "",
+                message: "Not login,Please refresh the page. ",
+                buttons: [{ text: "Done" }]
+            });
             return
         }
         if (appData.status == 0) {

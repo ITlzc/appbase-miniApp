@@ -18,7 +18,7 @@ import {
 
 
 export default function Avatar() {
-    const [tab_act, setTab_act] = useState('Withdrawal')
+    const [tab_act, setTab_act] = useState('WaitingForTGE')
     const [open, setOpen] = useState(false);
     const [showModel, setShowModel] = useState(false)
     const [showExchangeModel, setShowExchangeModel] = useState(false)
@@ -58,12 +58,12 @@ export default function Avatar() {
                 <div className="group_1 flex-col">
                     <div className="box_1 flex-row justify-between">
                         <span className="text_1">Personal Center</span>
-                        <img
+                        {/* <img
                             className="label_1"
                             src={
                                 "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                             }
-                        />
+                        /> */}
                     </div>
                     <div className="box_2 flex-row">
                         <img
@@ -72,7 +72,7 @@ export default function Avatar() {
                         />
                         <div className="text-group_1 flex-col justify-between">
                             <span className="text_2">{user_info.name || getSubstring(user_info.id)}</span>
-                            <span className="text_3">{points ? points / 1000000 : '~'} Points</span>
+                            <span className="text_3">{points ? points / 1000000 : '0'} Points</span>
                         </div>
                         <Link href="/pointsRecord">
                             <img
@@ -84,22 +84,22 @@ export default function Avatar() {
                     <div className="list_1 flex-row justify-between align-between">
                         <div className="text-group_2-0 flex-col">
                             <span className="text_4-0">Trial2Earn Points</span>
-                            <span className="text_6-0">{user_info && user_info.earn_points ?  user_info.earn_points / 1000000 : '~'}</span>
+                            <span className="text_6-0">{user_info && user_info.earn_points ?  user_info.earn_points / 1000000 : '0'}</span>
                         </div>
 
                         <div className="text-group_2-0 flex-col">
                             <span className="text_4-0">Task Points</span>
-                            <span className="text_6-0">{user_info && user_info.task_points ? user_info.task_points / 1000000 : '~'}</span>
+                            <span className="text_6-0">{user_info && user_info.task_points ? user_info.task_points / 1000000 : '0'}</span>
                         </div>
 
                         <div className="text-group_2-0 flex-col">
                             <span className="text_4-0">Invite Points</span>
-                            <span className="text_6-0">{user_info && user_info.invite_points ? user_info.invite_points / 1000000 : '~'}</span>
+                            <span className="text_6-0">{user_info && user_info.invite_points ? user_info.invite_points / 1000000 : '0'}</span>
                         </div>
                     </div>
                     <div className="text-wrapper_1 flex-row justify-center align-center">
-                        <span className={`text_7 flex-col justify-center align-center ${tab_act === 'Withdrawal' && "tab_act"}`} onClick={() => setTab_act('Withdrawal')}>Withdrawal</span>
-                        <span className={`text_7 flex-col justify-center align-center ${tab_act === 'Exchange' && "tab_act"}`} onClick={() => setTab_act('Exchange')}>Exchange</span>
+                        {/* <span className={`text_7 flex-col justify-center align-center ${tab_act === 'Withdrawal' && "tab_act"}`} onClick={() => setTab_act('Withdrawal')}>Withdrawal</span>
+                        <span className={`text_7 flex-col justify-center align-center ${tab_act === 'Exchange' && "tab_act"}`} onClick={() => setTab_act('Exchange')}>Exchange</span> */}
                         <span className={`text_7 flex-col justify-center align-center ${tab_act === 'WaitingForTGE' && "tab_act"}`} onClick={() => setTab_act('WaitingForTGE')}>Waiting for TGE</span>
                     </div>
                     {tab_act !== 'WaitingForTGE' && <>

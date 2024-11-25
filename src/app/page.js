@@ -364,12 +364,19 @@ function HomeComponent() {
     }
     let login = await islogin()
     if (!login) {
-        if (link) {
-            window.open(link)
-        }
+        // if (link) {
+        //     window.open(link)
+        // }
+        tg.showPopup({
+          title: "",
+          message: "Not login,Please refresh the page. ",
+          buttons: [{ text: "Done" }]
+        });
         return
     }
-
+    if (app.status == 2) {
+      return
+    }
     let flag = false
     if (app.points > 0) {
       if (app.status == 0 || app.status == 2) {
@@ -558,12 +565,12 @@ function HomeComponent() {
                 }
                 <div className="box_3 flex-row justify-between">
                   <span className="text_1">Trial to Earn</span>
-                  <img
+                  {/* <img
                     className="label_2"
                     src={
                       "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                     }
-                  />
+                  /> */}
                 </div>
                 <Carousel />
                 <div className="box_4 flex-row justify-between">

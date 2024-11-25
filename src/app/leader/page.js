@@ -87,12 +87,12 @@ export default function Leader() {
             <div className="leader flex-col">
                 <div className="group_1 flex-row justify-between">
                     <span className="text_1">Leaderboard</span>
-                    <img
+                    {/* <img
                         className="label_1"
                         src={
                             "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                         }
-                    />
+                    /> */}
                 </div>
                 <span className="text_2">My Ranking</span>
                 <div className="group_2 flex-row justify-between">
@@ -104,7 +104,7 @@ export default function Leader() {
                         />
                         <span className="text_4">{user_info.name || getSubstring(user_info.id)}</span>
                     </div>
-                    <span className="text_5">{all_points ? all_points / 1000000 : '~'}</span>
+                    <span className="text_5">{all_points ? all_points / 1000000 : '0'}</span>
                 </div>
                 <div className="text-wrapper_1 flex-row justify-between">
                     <span className="text_6">TOP 100</span>

@@ -4,7 +4,7 @@ import Nav from '../components/Nav';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Spin } from 'antd';
+import { message, Spin } from 'antd';
 
 
 
@@ -79,6 +79,9 @@ export default function Invite() {
         // await navigator.clipboard.writeText(inviteLink);
         if (isTelegramMiniAPP()) {
             let tg = window.Telegram.WebApp
+            const userAgent = navigator.userAgent;
+            console.log('tg info = ',window.Telegram,window.Telegram.WebApp,userAgent)
+            message.error('copy success')
             tg.requestWriteAccess((data) => {
                 if (data) {
                     navigator.clipboard.writeText(inviteLink).then(() => {
@@ -160,26 +163,26 @@ export default function Invite() {
                 
                 <div className="box_1 flex-row justify-between">
                     <span className="text_1">Invite Friends</span>
-                    <img
+                    {/* <img
                         className="label_1"
                         src={
                             "/images/7976996489c34446a0275580f091d0c8_mergeImage.png"
                         }
-                    />
+                    /> */}
                 </div>
                 <div className="text-group_1 flex-col justify-between align-center">
                     <span className="text_2">Total invitation points</span>
-                    <span className="text_3">{user_info.invite_points ? user_info.invite_points / 1000000 : '~'} Points</span>
+                    <span className="text_3">{user_info.invite_points ? user_info.invite_points / 1000000 : '0'} Points</span>
                 </div>
                 <span className="text_4">Friend Rewards</span>
                 <div className="list_1 flex-row">
                     <div className="text-group_2-0 flex-col justify-between align-center">
                         <span className="text_5-0">Invitation Friend</span>
-                        <span className="text_6-0">{user_info.verify_passed_count ? user_info.verify_passed_count : '~'}</span>
+                        <span className="text_6-0">{user_info.verify_passed_count ? user_info.verify_passed_count : '0'}</span>
                     </div>
                     <div className="text-group_2-1 flex-col justify-between align-center">
                         <span className="text_5-1">Get Points</span>
-                        <span className="text_6-1">{reward_points ? reward_points / 1000000 : '~'}</span>
+                        <span className="text_6-1">{reward_points ? reward_points / 1000000 : '0'}</span>
                     </div>
                 </div>
                 <div className='stage-rewards flex-col justify-center align-center'>
