@@ -4,7 +4,7 @@ import Nav from '../components/Nav';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { message, Spin } from 'antd';
+import { Spin } from 'antd';
 
 
 
@@ -20,28 +20,28 @@ import {
 
 export default function Invite() {
 
-    const [share_link,set_share_link] = useState('')
-    const [user_info,set_user_info] = useState({})
-    const [reward_points,set_reward_points] = useState(0)
-    const [stage,set_stage] = useState(0)
-    const [friends,set_friends] = useState([])
-    const [page,set_page] = useState(1)
-    const [size,set_size] = useState(5)
+    const [share_link, set_share_link] = useState('')
+    const [user_info, set_user_info] = useState({})
+    const [reward_points, set_reward_points] = useState(0)
+    const [stage, set_stage] = useState(0)
+    const [friends, set_friends] = useState([])
+    const [page, set_page] = useState(1)
+    const [size, set_size] = useState(5)
     const [loading, set_loading] = useState(false)
-    const [invite_link,set_invite_link] = useState('')
+    const [invite_link, set_invite_link] = useState('')
 
 
 
     const init_start_up = async (link) => {
         let user = await islogin()
         if (!user) {
-            return 
+            return
         }
         let start_up = 'inviter_id=' + user.id
-        const encodedText =  Buffer.from(start_up, 'utf-8').toString('base64');
+        const encodedText = Buffer.from(start_up, 'utf-8').toString('base64');
         let inviteLink = (link || share_link) + encodedText;  // 邀请链接
         if (!window.Telegram && process.env.tg_mini_env == 'false') {
-            console.log('window.location = ',window.location)
+            console.log('window.location = ', window.location)
             inviteLink = window.location.origin + '?startapp=' + encodedText
             return inviteLink
         }
@@ -68,7 +68,7 @@ export default function Invite() {
                 toast.success('copy success')
             }
         }
-        
+
     }
 
     const copy_share_link = async () => {
@@ -79,9 +79,13 @@ export default function Invite() {
         // await navigator.clipboard.writeText(inviteLink);
         if (isTelegramMiniAPP()) {
             let tg = window.Telegram.WebApp
+            if (tg.platform.includes('web')) {
+                await navigator.clipboard.writeText(inviteLink);
+                toast.success('copy success')
+                return
+            }
             const userAgent = navigator.userAgent;
-            console.log('tg info = ',window.Telegram,window.Telegram.WebApp,userAgent)
-            message.error('copy success')
+            console.log('tg info = ', window.Telegram, window.Telegram.WebApp, userAgent)
             tg.requestWriteAccess((data) => {
                 if (data) {
                     navigator.clipboard.writeText(inviteLink).then(() => {
@@ -103,27 +107,27 @@ export default function Invite() {
                         message: 'permission denied',
                         buttons: [{ text: "Done" }]
                     });
-                } 
+                }
             })
-            
+
         } else {
             await navigator.clipboard.writeText(inviteLink);
             toast.success('copy success')
         }
     }
 
-    const get_ferinds = async (user_id,page_in) => {
+    const get_ferinds = async (user_id, page_in) => {
         set_loading(true)
-        let temp_ferinds = await get_user_ferinds(user_id,page_in,size)
+        let temp_ferinds = await get_user_ferinds(user_id, page_in, size)
         set_loading(false)
         if (temp_ferinds && temp_ferinds.length) {
             set_page(page_in)
         }
         temp_ferinds.map(item => {
-            if(!item.points) {
+            if (!item.points) {
                 item.points = 0
             }
-            if(item.points == 'NaN') {
+            if (item.points == 'NaN') {
                 item.points = 0
             }
         })
@@ -139,7 +143,7 @@ export default function Invite() {
         set_invite_link(inviteLink)
         let user = await islogin()
         if (!user) {
-            return 
+            return
         }
         set_loading(true)
         let temp_user_info = await get_user_info(user.id)
@@ -150,17 +154,17 @@ export default function Invite() {
         set_loading(false)
         set_reward_points(real_reward_points || 0)
         set_stage(temp_user_info.verify_passed_count / 105)
-        get_ferinds(user.id,page)
+        get_ferinds(user.id, page)
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         init_data()
-    },[])
+    }, [])
 
     return (
         <Spin size="large" spinning={loading}>
             <div className="invite flex-col">
-                
+
                 <div className="box_1 flex-row justify-between">
                     <span className="text_1">Invite Friends</span>
                     {/* <img
@@ -243,7 +247,7 @@ export default function Invite() {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="box_4 flex-row justify-between">
                     <div className="text-wrapper_3 flex-col justify-center align-center" onClick={copy_share_link}>
                         <span className="text_13">Share Link</span>
@@ -255,11 +259,11 @@ export default function Invite() {
                 </div>
                 {
                     user_info.invite_user_count ? <span className="text_15">{user_info.verify_passed_count} valid / {user_info.invite_user_count} friend</span>
-                    : <div></div>
+                        : <div></div>
                 }
                 <div className="list_2 flex-col">
                     {
-                        friends.map((item,index) => {
+                        friends.map((item, index) => {
                             return (
                                 <div className="list-items_1-0 flex-row" key={index}>
                                     <div className="image-text_2-0 flex-row justify-between">
