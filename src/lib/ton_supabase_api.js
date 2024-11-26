@@ -517,7 +517,9 @@ export async function check_user_exist(user_id) {
 	console.log('check_user_exist = ',data,error)
 	if (error) throw error
 	if (data) {
-		let { data:identity,error} = await supabase.from("identities").select("*").eq('user_id',user_id).single()
+		let { data:identity,error} = await supabase.from("identities").select("*").eq('user_id',user_id).eq('provider', 'telegram').limit(1)
+		console.log('check_user_exist identity = ',identity,error)
+		identity = identity && identity.length && identity[0]
 		if (identity) {
 			data.identity = identity
 		}
