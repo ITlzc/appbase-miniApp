@@ -34,8 +34,13 @@ export const AuthProvider = ({ children }) => {
             let query_id = tg.initDataUnsafe && tg.initDataUnsafe.user.id
             // console.log('anonymously_login query_id = ',query_id == user.identity.provider_id)
             let provider_id = user && user.identity && user.identity.provider_id
+            tg.showPopup({
+              title: "",
+              message: `query_id = ${query_id},tg.initDataUnsafe.user.id = ${tg.initDataUnsafe.user.id},provider_id = ${provider_id}`,
+              buttons: [{ text: "Done" }]
+            });
             console.log('anonymously_login query_id = ',query_id == provider_id)
-            if (query_id !== provider_id) {
+            if (query_id != provider_id) {
               user = null
             }
           }
