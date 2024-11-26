@@ -145,14 +145,14 @@ export async function islogin() {
 	}
 	// console.log("data.session = ",data)
 	let user = data && data.session && data.session.user
-	if (user) {
-	  let { data } = await supabase.from("user").select("*").eq('id',user.id)
-	  let profiles = data && data.length && data[0]
-	  user.profiles = profiles
-	//   localStorage.setItem('user_id',user.id)
-	} else {
-		// localStorage.removeItem('user_id')
-	}
+	// if (user) {
+	//   let { data } = await supabase.from("user").select("*").eq('id',user.id)
+	//   let profiles = data && data.length && data[0]
+	//   user.profiles = profiles
+	// //   localStorage.setItem('user_id',user.id)
+	// } else {
+	// 	// localStorage.removeItem('user_id')
+	// }
 
 	return user
 }
@@ -691,7 +691,7 @@ export async function getCategorys() {
 		count: category.countApps,
 	  });
 	}
-	res.unshift({ name: "All", category_id: "", count: appTotalCount });
+	res.unshift({ name: "All", category_id: "app_all", count: appTotalCount });
 	return res
   }
 
@@ -740,6 +740,147 @@ export async function exploreAppData(page,size,filter) {
 		return;
 	}
 	return data;
+}
+
+function getLastHourTimestamp() {
+    const now = new Date(); // 当前时间
+    const currentMinutes = now.getMinutes(); // 当前分钟
+
+    // 如果当前时间的分钟部分不是 0，则返回当前整点时间
+    if (currentMinutes > 0) {
+        now.setMinutes(0, 0, 0); // 设置为当前小时的整点时间
+    } else {
+        // 如果分钟部分是 0，则返回前一个小时的时间戳
+        now.setHours(now.getHours() - 1, 0, 0, 0);
+    }
+
+    return Math.floor(now.getTime() / 1000); // 返回秒级时间戳
+}
+
+export async function get_top_100_new() {
+	console.log('get_top_100_new in = ')
+	let time = getLastHourTimestamp()
+	let path = `user-rank/${time}/user_top_100.json`
+	console.log('get_top_100_new path = ',path)
+	let tops = localStorage.getItem(path)
+	if (tops && tops.length) {
+		return JSON.parse(tops)
+	}
+	let expiresIn = 60
+	const { data:url, error:urlError } = await supabase.storage
+	.from("cache")
+	.createSignedUrl(path,expiresIn)
+	console.log('get_top_100_new getPublicUrl = ',url.signedUrl,urlError)
+	if (urlError) {
+		throw urlError
+	}
+
+	try {
+		let response = await fetch(url.signedUrl)
+		console.log('get_top_100_new response = ',response)
+		let data = await response.json()
+		console.log('get_top_100_new download = ',data)
+		for (let i = 0; i < localStorage.length; i++) {
+			let key = localStorage.key(i)
+			console.log('get_top_100_new key = ',key)
+			if (key.indexOf("user_top_100") > -1) {
+				localStorage.removeItem(key)
+			}
+		}
+		localStorage.setItem(path,JSON.stringify(data))
+		return data;
+	} catch (error) {
+		console.log('get_top_100_new error = ',error)
+	}
+}
+
+export async function get_user_apps(app_ids) {
+	let user = await islogin()
+	const { data, error } = await supabase
+    .from("user_app")
+    .select("*") // 获取总数
+    .in("app_id", app_ids)
+    .eq('user_id',user.id)
+	if (error) throw error
+	return data
+}
+
+function get3AMTimestamp() {
+    const now = new Date(); // 当前时间
+    const currentHour = now.getHours(); // 当前小时
+    const currentMinute = now.getMinutes(); // 当前分钟
+
+    // 创建当天凌晨 3 点的时间
+    const today3AM = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 3, 0, 0, 0);
+
+    // 如果当前时间早于凌晨 3:01，取前一天凌晨 3 点
+    if (currentHour < 3 || (currentHour === 3 && currentMinute < 1)) {
+        today3AM.setDate(today3AM.getDate() - 1); // 前一天
+    }
+
+    return Math.floor(today3AM.getTime() / 1000);
+}
+
+function getLast3AMTimestamp() {
+    const now = new Date(); // 当前时间
+    const currentHour = now.getHours(); // 当前小时
+    const currentMinute = now.getMinutes(); // 当前分钟
+
+    // 创建当天凌晨 3 点的时间
+    const today3AM = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 3, 0, 0, 0);
+	today3AM.setDate(today3AM.getDate() - 1); // 前一天
+
+    return Math.floor(today3AM.getTime() / 1000);
+}
+
+export async function exploreAppDataFromCache(filename,page) {
+	console.log('exploreAppDataFromCache in = ',filename)
+	let time = get3AMTimestamp()
+	if (!(filename && filename.length)) {
+		filename = 'app_all'
+	}
+	let path = `app-category/${time}/${filename}_${page}.json`
+	console.log('exploreAppDataFromCache path = ',path)
+	let apps = localStorage.getItem(path)
+	if (apps && apps.length) {
+		return JSON.parse(apps)
+	}
+	let expiresIn = 60
+	const { data:url, error:urlError } = await supabase.storage
+	.from("cache")
+	.createSignedUrl(path,expiresIn)
+	console.log('exploreAppDataFromCache getPublicUrl = ',url.signedUrl,urlError)
+	if (urlError) {
+		throw urlError
+	}
+
+	try {
+		let response = await fetch(url.signedUrl)
+		console.log('exploreAppDataFromCache response = ',response)
+		let data = await response.json()
+		console.log('exploreAppDataFromCache download = ',data)
+		// for (let i = 0; i < localStorage.length; i++) {
+		// 	let key = localStorage.key(i)
+		// 	console.log('app-category key = ',key)
+		// 	if (key.indexOf("app-category") > -1) {
+		// 		localStorage.removeItem(key)
+		// 	}
+		// }
+		// localStorage.setItem(path,JSON.stringify(data))
+		// let temp = `app-category/${getLast3AMTimestamp()}/${filename}.json`
+		return data;
+	} catch (error) {
+		console.log('exploreAppDataFromCache error = ',error)
+	}
+	
+	
+	// const { data, error } = await supabase.storage.from('cache').download(url.signedUrl)
+	// console.log('exploreAppDataFromCache download = ',data)
+	// if (error) {
+	// 	console.error("exploreAppDataFromCache Error fetching data:", error);
+	// 	return;
+	// }
+	// return [];
 }
 
 export const trial_app_next_time = 1000 * 60 * 60 *24
