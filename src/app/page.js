@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from './auth_provider';
 
 
+
 import {
   getAnnouncement,
   getRewardCount,
@@ -22,7 +23,10 @@ import {
   islinkTwitter,
   check_user_exist,
   cloud_remove_session,
-  telegram_login
+  telegram_login,
+  exploreAppDataFromCache,
+  get_user_apps,
+  getApp
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
 import Link from 'next/link';
@@ -41,7 +45,7 @@ function HomeComponent() {
   // })
   // console.log('home islogin =',temp)
 
-  const {authState} = useAuth
+  const {authState} = useAuth()
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -54,6 +58,8 @@ function HomeComponent() {
   const [recent_apps, set_recent_apps] = useState([]);
   const [recommand_apps, set_recommand_apps] = useState([]);
   const [explore_apps, set_explore_apps] = useState([]);
+  const [all_apps, set_all_apps] = useState([]);
+  const [all_total, set_all_total] = useState(0);
   const [categorys, set_categorys] = useState([]);
 
   const [currentCategory, setCurrentCategory] = useState('All')
@@ -226,19 +232,21 @@ function HomeComponent() {
         app.show_icon = 'https://jokqrcagutpmvpilhcfq.supabase.co/storage/v1/object/public' + app.show_icon
       }
     }
+    // return
     const sortedData = app.user_app && app.user_app.length && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
     // console.log('deal_app sortedData = ',sortedData)
     app.user_app = sortedData
     let user_app = sortedData && sortedData.length && sortedData[0]
-    let login = await islogin()
-    console.log('deal_app login = ',login)
+    // let login = true
+    // console.log('deal_app user_app = ',user_app)
     app.open_show = 'OPEN'
     // if (user_app ) {
-      let status = user_app && user_app.status
-      app.status = -1
-      if (login) {
-        app.status = status
-      }
+      let status = user_app && user_app.status ? user_app.status : 0
+      // console.log('deal_app status = ',status)
+      app.status = status
+      // if (login) {
+      //   app.status = status
+      // }
       
       if (user_app && user_app.updated_at) {
         let now = new Date().getTime()
@@ -294,24 +302,95 @@ function HomeComponent() {
     set_recommand_apps(apps)
   }
 
-  const fetchExploreApps = async (page, size, filter) => {
+  const fetchPageExploreApps = async (page, size,apps) => {
+    if (!(apps && apps.length)) {
+      return
+    }
     set_loading(true)
-    let temp_apps = await exploreAppData(page, size, filter)
-    set_loading(false)
-    console.log('fetchExploreApps =', temp_apps)
+    page = page ? page : 1
+    size = size ? size : 3
+    let offset = (page - 1) * size
+    size = offset + size
+    // if (size > apps.length - 1) {
+    //   size = apps.length - 1
+    // }
+    console.log('fetchPageExploreApps offset = ',offset,size)
+    let temp_apps = apps.slice(offset, size);
     if (temp_apps && temp_apps.length) {
       set_page(page)
     }
+    let app_ids = []
     for (let i = 0; i < temp_apps.length; i++) {
       let app = temp_apps[i]
-      await deal_app(app)
+      app_ids.push(app.id)
+      // await deal_app(app)
     }
+    await get_exploreApps_status(temp_apps,app_ids)
     let temp = explore_apps
     temp = temp.concat(temp_apps)
     if (page == 1) {
       temp = temp_apps
     }
+    console.log('fetchPageExploreApps out =', temp_apps)
     set_explore_apps(temp)
+    set_loading(false)
+  }
+
+  const fetchExploreApps = async (all_page,page,filter) => {
+    set_loading(true)
+    // let temp_apps = await exploreAppData(page, size, filter)
+    // let tep_apps =
+    let category_id = 'app_all'
+    if (filter && filter.category_id && filter.category_id.length) {
+      category_id = filter.category_id
+    }
+    let exapp_data = await exploreAppDataFromCache(category_id,all_page)
+    set_loading(false)
+    let temp_apps = exapp_data.apps
+    console.log('fetchExploreApps =', temp_apps)
+    // let temp = all_apps
+    // temp = temp.concat(temp_apps)
+    // if (all_page == 1) {
+    //   temp = temp_apps
+    // }
+    // set_all_total(exapp_data.total_count)
+    // set_all_apps(temp)
+    // fetchPageExploreApps(page,size,temp)
+    if (temp_apps && temp_apps.length) {
+      set_page(page)
+    }
+    let app_ids = []
+    for (let i = 0; i < temp_apps.length; i++) {
+      let app = temp_apps[i]
+      app_ids.push(app.id)
+      await deal_app(app)
+    }
+    await get_exploreApps_status(temp_apps,app_ids)
+    let temp = explore_apps
+    temp = temp.concat(temp_apps)
+    if (page == 1) {
+      temp = temp_apps
+    }
+    console.log('fetchExploreApps out =', temp_apps)
+    set_all_total(exapp_data.total_count)
+    set_explore_apps(temp)
+  }
+
+  const get_exploreApps_status = async (apps,app_ids) => {
+    try {
+      // set_loading(true)
+      const data = await get_user_apps(app_ids)
+      // set_loading(false)
+      for (const app of apps) {
+        let user_apps = data.filter(e => e.app_id == app.id)
+        if (user_apps && user_apps.length) {
+          app.user_app = user_apps
+        }
+        await deal_app(app)
+      }
+    } catch (error) {
+      console.log('get_exploreApps_status error = ',error)
+    }
   }
 
   const get_apps = () => {
@@ -319,7 +398,16 @@ function HomeComponent() {
     let filter = {
       category_id: select_category && select_category.category_id && select_category.category_id.length ? select_category.category_id : null
     }
-    fetchExploreApps(page_temp, size, filter)
+    fetchExploreApps(page_temp, page_temp, filter)
+    // let offset = (page_temp - 1) * size
+    // let temp_size = offset + size
+    // console.log('get_apps = ',all_apps.length,temp_size,offset)
+    // if (all_apps.length >= temp_size || all_apps.length >= all_total) {
+    //   fetchPageExploreApps(page_temp,size,all_apps)
+    // } else {
+    //   let all_page = Math.ceil(all_apps.length / 30)
+    //   fetchExploreApps(all_page, page_temp, filter)
+    // }
   }
 
   const fetchCategorys = async () => {
@@ -367,37 +455,74 @@ function HomeComponent() {
         // if (link) {
         //     window.open(link)
         // }
-        tg.showPopup({
-          title: "",
-          message: "Not login,Please refresh the page. ",
-          buttons: [{ text: "Done" }]
-        });
+        toast.error('Not login,Please refresh the page. ')
+        
         return
     }
     if (app.status == 2) {
+      let user_app = app && app.user_app && app.user_app.length && app.user_app[0]
+      // console.log('startTimer = ',appData)
+      let now = new Date().getTime()
+      let update_time = moment(user_app && user_app.updated_at)
+      update_time = update_time.valueOf();
+      let duration = moment.duration((update_time + trial_app_next_time) - now);
+      let formattedTime = duration.hours().toString().padStart(2, '0') + ":" +
+          duration.minutes().toString().padStart(2, '0') + ":" +
+          duration.seconds().toString().padStart(2, '0');
+      toast.info(`Next Trial2Earn opportunity in ${formattedTime}`)
+      return
+    }
+    if (app.status == 1) {
+      let user_app = app && app.user_app && app.user_app.length && app.user_app[0]
+      // console.log('startTimer = ',appData)
+      let now = new Date().getTime()
+      let update_time = moment(user_app && user_app.updated_at)
+      update_time = update_time.valueOf();
+      let duration = Math.floor(60 - ((now - update_time) / 1000))
+      toast.info(`After ${duration} seconds can verify`)
       return
     }
     let flag = false
     if (app.points > 0) {
       if (app.status == 0 || app.status == 2) {
+        console.log('open_app flag sssssss = ',flag,link)
         flag = true
       }
       let temp = await trailApp(app)
-      trail_data()
+      trail_data(app)
     } else {
       flag = true
     }
+    console.log('open_app flag = ',flag,link)
     if (flag) {
       window.open(link)
+      flag = false
     }
   }
 
-  const trail_data = async () => {
-    fetchRecommandApps(1, recommand_size)
-    let category_id = select_category && select_category.category_id && select_category.category_id.length ? select_category.category_id : null
-    fetchExploreApps(1, size, {
-      category_id: category_id
-    })
+  const trail_data = async (app) => {
+    let temp_app = await getApp(app.id)
+    if (temp_app) {
+      app.user_app = temp_app.user_app
+    }
+    let temp = JSON.parse(JSON.stringify(explore_apps))
+    let index = temp.findIndex(e => e.id == temp_app.id)
+    if (index > -1) {
+      // temp[index] = temp_app
+      await deal_app(temp_app)
+      temp.splice(index,1,temp_app)
+      set_explore_apps(temp)
+    }
+    
+
+    let temp1 = JSON.parse(JSON.stringify(recommand_apps))
+    let index1 = temp1.findIndex(e => e.id == temp_app.id)
+    if (index1 > -1) {
+      // temp[index] = temp_app
+      await deal_app(temp_app)
+      temp1.splice(index1,1,temp_app)
+      set_recommand_apps(temp1)
+    }
   }
 
   const switch_recommend = () => {
@@ -412,9 +537,9 @@ function HomeComponent() {
     set_explore_apps([])
     set_select_category(category)
     setCurrentCategory(category.name)
-    fetchExploreApps(page, size, {
-      category_id: category && category.category_id && category.category_id.length ? category.category_id : null
-    })
+    // fetchExploreApps(page, size, {
+    //   category_id: category && category.category_id && category.category_id.length ? category.category_id : null
+    // })
   }
 
   const do_task = async () => {
@@ -448,7 +573,7 @@ function HomeComponent() {
       return
     }
     let category_id = select_category && select_category.category_id && select_category.category_id.length ? select_category.category_id : null
-    fetchExploreApps(page, size, {
+    fetchExploreApps(1,page, {
       category_id: category_id
     })
     console.log('useEffect page out = ', page, explore_apps, select_category)
@@ -457,7 +582,7 @@ function HomeComponent() {
   const init_data = async () => {
     // let session = await cloud_get_session()
     // console.log('init_data cloud_get_session = ',session)
-    await anonymously_login()
+    // await anonymously_login()
     get_datas()
     // fetchExploreApps(page, size)
   }
@@ -466,21 +591,21 @@ function HomeComponent() {
     fetchCategorys()
     fetchAnnouncement()
     // fetchReward()
-    fetchRecentApps()
+    // fetchRecentApps()
 
     fetchRecommandApps(recommand_page, recommand_size)
 
   }
 
-  // useEffect(() => {
-  //   console.log('useEffect authState = ',authState)
-  //   if (authState) {
-  //     init_data()
-  //   }
-  // }, [authState])
+  useEffect(() => {
+    console.log('useEffect authState = ',authState)
+    if (authState) {
+      init_data()
+    }
+  }, [authState])
 
   const do_init_data = async () => {
-    await init_data()
+    // await init_data()
     let error_description = searchParams.get('error_description');
 
     if (error_description && error_description.length && error_description.indexOf('+') > -1) {
@@ -497,7 +622,7 @@ function HomeComponent() {
   const initializeTelegram = () => {
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
-      console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
+      // console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
       if (process.env.tg_mini_env == 'true' && !(tg && tg.initData)) {
         //todo 跳转到 报错页面
         router.replace(`/notInMiniapp`)
@@ -507,7 +632,7 @@ function HomeComponent() {
       // 获取 initData 并设置到状态
       // setInitData(tg.initData);
 
-      tg.ready();
+      // tg.ready();
       do_init_data()
 
       // let start_param = tg.initDataUnsafe.start_param
@@ -520,24 +645,24 @@ function HomeComponent() {
   };
 
   useEffect(() => {
-    console.log('useEffect in = ', window.Telegram)
-    // initializeTelegram();
-    if (!window.Telegram) {
-      if (process.env.tg_mini_env == 'false') {
-        // 开发环境的逻辑
-        console.log("Running in development mode");
-        do_init_data()
-        return
-      }
-      const script = document.createElement('script');
-      script.src = 'https://telegram.org/js/telegram-web-app.js';
-      script.async = true;
-      script.onload = () => initializeTelegram();
-      document.head.appendChild(script);
-    } else {
-      initializeTelegram();
-    }
-    console.log('useEffect out')
+    console.log('useEffect  home in = ', window.Telegram)
+    initializeTelegram();
+    // if (!window.Telegram) {
+    //   if (process.env.tg_mini_env == 'false') {
+    //     // 开发环境的逻辑
+    //     console.log("Running in development mode");
+    //     do_init_data()
+    //     return
+    //   }
+    //   const script = document.createElement('script');
+    //   script.src = 'https://telegram.org/js/telegram-web-app.js';
+    //   script.async = true;
+    //   script.onload = () => initializeTelegram();
+    //   document.head.appendChild(script);
+    // } else {
+    //   initializeTelegram();
+    // }
+    console.log('useEffect home out')
   }, [])
 
   return (
@@ -608,7 +733,7 @@ function HomeComponent() {
                               />
                               <span className="text-group_4">+{app.points / 1000000} points</span>
                             </div>
-                            <div className={`text-wrapper_1 flex-col align-center justify-center ${app.status === 1 && 'status_verify'}`} onClick={() => to_detail(app)}>
+                            <div className={`text-wrapper_1 flex-col align-center justify-center ${app.status === 1 && 'status_verify'}`}>
                               <span className="text_6">{app.open_show}</span>
                             </div>
                           </div>
@@ -673,7 +798,7 @@ function HomeComponent() {
                               />
                               <span className="text-group_9">+{app.points / 1000000}</span>
                             </div>
-                            <div className={`text-wrapper_11 flex-col justify-center align-center ${app.status === 1 && 'status_verify_black'}`} onClick={() => to_detail(app)}>
+                            <div className={`text-wrapper_11 flex-col justify-center align-center ${app.status === 1 && 'status_verify_black'}`}>
                               <span className="text_35">{app.open_show}</span>
                             </div>
                           </div>
@@ -682,10 +807,12 @@ function HomeComponent() {
                     })
                   }
                 </div>
-                <img
-                  className="label_9" onClick={() => get_apps()}
-                  src={"/images/FigmaDDSSlicePNGb18e199049345d6928d4f27512d0e917.png"}
-                />
+                {
+                  explore_apps.length < all_total ? <img
+                    className="label_9" onClick={() => get_apps()}
+                    src={"/images/FigmaDDSSlicePNGb18e199049345d6928d4f27512d0e917.png"}
+                  /> : null
+                }
                 <Nav />
               </div>
             </div>

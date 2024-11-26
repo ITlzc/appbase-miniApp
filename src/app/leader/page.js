@@ -9,7 +9,7 @@ import { Spin } from 'antd';
 import {
     islogin,
     get_user_info,
-    get_top_100,
+    get_top_100_new,
     count_holders,
     getSubstring
 } from '../../lib/ton_supabase_api'
@@ -33,7 +33,7 @@ export default function Leader() {
 
     const get_tops = async (page_in) => {
         set_loading(true)
-        let temp_ferinds = await get_top_100(page_in, size)
+        let temp_ferinds = await get_top_100_new(page_in, size)
         set_loading(false)
         if (temp_ferinds && temp_ferinds.length) {
             set_page(page_in)
@@ -134,13 +134,13 @@ export default function Leader() {
                             )
                         })
                     }
-                    {
+                    {/* {
                         tops && tops.length ? <img
                             className="label_2"
                             onClick={more_users}
                             src={"/images/arrow-bottom.png"}
                         /> : null
-                    }
+                    } */}
                 </div>
                 <Nav />
             </div>
