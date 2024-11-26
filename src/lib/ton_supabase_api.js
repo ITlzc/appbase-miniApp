@@ -516,6 +516,12 @@ export async function check_user_exist(user_id) {
 	let { data,error} = await supabase.from("user").select("*").eq('id',user_id).single()
 	console.log('check_user_exist = ',data,error)
 	if (error) throw error
+	if (data) {
+		let { data:identity,error} = await supabase.from("identities").select("*").eq('user_id',user_id).single()
+		if (identity) {
+			data.identity = identity
+		}
+	}
 	return data
 }
 
