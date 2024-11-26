@@ -97,7 +97,7 @@ export default function Avatar() {
                             <span className="text_6-0">{user_info && user_info.invite_points ? user_info.invite_points / 1000000 : '0'}</span>
                         </div>
                     </div>
-                    <div className="text-wrapper_1 flex-row justify-center align-center">
+                    <div className="text-wrapper_1 flex-row justify-start align-center">
                         {/* <span className={`text_7 flex-col justify-center align-center ${tab_act === 'Withdrawal' && "tab_act"}`} onClick={() => setTab_act('Withdrawal')}>Withdrawal</span>
                         <span className={`text_7 flex-col justify-center align-center ${tab_act === 'Exchange' && "tab_act"}`} onClick={() => setTab_act('Exchange')}>Exchange</span> */}
                         <span className={`text_7 flex-col justify-center align-center ${tab_act === 'WaitingForTGE' && "tab_act"}`} onClick={() => setTab_act('WaitingForTGE')}>Waiting for TGE</span>

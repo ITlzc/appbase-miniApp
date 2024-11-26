@@ -23,7 +23,7 @@ const Carousel = () => {
 
 
     const fetch_banner = async () => {
-        console.log('fetch_banner')
+        // console.log('fetch_banner')
         let data = await getSlideshow()
         set_banners(data)
       }
@@ -35,9 +35,9 @@ const Carousel = () => {
       }
 
       useEffect(() => {
-        console.log('Carousel useEffect in')
+        // console.log('Carousel useEffect in')
         fetch_banner()
-        console.log('Carousel useEffect out')
+        // console.log('Carousel useEffect out')
       }, [])
 
     return (

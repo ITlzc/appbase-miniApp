@@ -78,22 +78,23 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const initializeTelegram = () => {
+  const initializeTelegram = async () => {
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
       // tg.enableDebugMode();
       tg.ready();
-      // anonymously_login()
+      await anonymously_login()
     }
   };
 
   useEffect(() => {
+    console.log('useEffect provider in = ', window.Telegram)
     if (!window.Telegram) {
       if (process.env.tg_mini_env == 'false') {
         // 开发环境的逻辑
         console.log("Running in development mode");
-        // anonymously_login()
+        anonymously_login()
         return
       }
       const script = document.createElement('script');
@@ -105,13 +106,15 @@ export const AuthProvider = ({ children }) => {
       initializeTelegram();
     }
 
-    const subscription = update_session()
-    console.log('AuthProvider useEffect subscription = ',subscription)
+    console.log('useEffect provider out = ', window.Telegram)
 
-    // Cleanup listener on unmount
-    return () => {
-      subscription?.unsubscribe();
-    };
+    // const subscription = update_session()
+    // console.log('AuthProvider useEffect subscription = ',subscription)
+
+    // // Cleanup listener on unmount
+    // return () => {
+    //   subscription?.unsubscribe();
+    // };
   }, []);
 
   return <AuthContext.Provider value={{authState}}>{children}</AuthContext.Provider>;

@@ -3,6 +3,8 @@
 import '../../styles/appsDetail.scss'
 import { useEffect, useState, use, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+
 
 import {
     getApp,
@@ -375,11 +377,7 @@ export default function AppsDetail({ params }) {
             // if (link) {
             //     window.open(link)
             // }
-            tg.showPopup({
-                title: "",
-                message: "Not login,Please refresh the page. ",
-                buttons: [{ text: "Done" }]
-            });
+            toast.error('Not login,Please refresh the page. ')
             return
         }
         if (appData.status == 0) {
