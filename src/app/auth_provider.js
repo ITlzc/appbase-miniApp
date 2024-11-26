@@ -28,6 +28,15 @@ export const AuthProvider = ({ children }) => {
         let user = null
         try {
           user = await check_user_exist(temp.id)
+          const tg = window.Telegram && window.Telegram.WebApp;
+          if (tg) {
+            console.log('anonymously_login initDataUnsafe = ',tg.initDataUnsafe)
+            let query_id = tg.initDataUnsafe && tg.initDataUnsafe.user.id
+            console.log('anonymously_login query_id = ',query_id,user)
+            if (query_id !== user.identity.provider_id) {
+              user = null
+            }
+          }
           // console.log('anonymously_login user = ',user)
         } catch (error) {
           console.log('anonymously_login user error = ',error)
