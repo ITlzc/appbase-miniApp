@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
             
             console.log('anonymously_login query_id = ',query_id, provider_id,tg.initDataUnsafe.user.id,user)
             if (query_id != provider_id) {
-              tg.showAlert(`query_id = ${query_id},tg.initDataUnsafe.user.id = ${tg.initDataUnsafe.user.id},provider_id = ${provider_id},user = ${user.id} = ${temp.id}`);
+              // tg.showAlert(`query_id = ${query_id},tg.initDataUnsafe.user.id = ${tg.initDataUnsafe.user.id},provider_id = ${provider_id},user = ${user.id} = ${temp.id}`);
               user = null
             }
           }
@@ -123,12 +123,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('useEffect provider in = ', window.Telegram)
 
-    const erudaScript = document.createElement('script');
-      erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
-      erudaScript.onload = () => {
-        eruda.init(); // 初始化 Eruda
-      };
-      document.body.appendChild(erudaScript);
+    // const erudaScript = document.createElement('script');
+    //   erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
+    //   erudaScript.onload = () => {
+    //     eruda.init(); // 初始化 Eruda
+    //   };
+    //   document.body.appendChild(erudaScript);
 
     if (!window.Telegram) {
       if (process.env.tg_mini_env == 'false') {
