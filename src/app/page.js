@@ -600,12 +600,12 @@ function HomeComponent() {
   useEffect(() => {
     console.log('useEffect authState = ',authState)
     if (authState) {
-      const tg = window.Telegram && window.Telegram.WebApp;
-      if (process.env.tg_mini_env == 'true' && !tg) {
-        //todo 跳转到 报错页面
-        router.replace(`/notInMiniapp`)
-        return
-      }
+      // const tg = window.Telegram && window.Telegram.WebApp;
+      // if (process.env.tg_mini_env == 'true' && !tg) {
+      //   //todo 跳转到 报错页面
+      //   router.replace(`/notInMiniapp`)
+      //   return
+      // }
       init_data()
     }
   }, [authState])
@@ -626,12 +626,12 @@ function HomeComponent() {
   }
 
   const initializeTelegram = () => {
-    const tg = window.Telegram && window.Telegram.WebApp;
-    if (process.env.tg_mini_env == 'true' && !tg) {
-      //todo 跳转到 报错页面
-      router.replace(`/notInMiniapp`)
-      return
-    }
+    // const tg = window.Telegram && window.Telegram.WebApp;
+    // if (process.env.tg_mini_env == 'true' && !tg) {
+    //   //todo 跳转到 报错页面
+    //   router.replace(`/notInMiniapp`)
+    //   return
+    // }
     if (window.Telegram) {
       const tg = window.Telegram.WebApp;
       // // console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)

@@ -318,12 +318,12 @@ function TaskComponent() {
 
     useEffect(() => {
         console.log('useEffect in')
-        const tg = window.Telegram && window.Telegram.WebApp;
-        if (process.env.tg_mini_env == 'true' && !tg) {
-            //todo 跳转到 报错页面
-            router.replace(`/notInMiniapp`)
-            return
-        }
+        // const tg = window.Telegram && window.Telegram.WebApp;
+        // if (process.env.tg_mini_env == 'true' && !tg) {
+        //     //todo 跳转到 报错页面
+        //     router.replace(`/notInMiniapp`)
+        //     return
+        // }
         init_data()
 
 
