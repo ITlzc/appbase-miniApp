@@ -11,6 +11,8 @@ import {
   telegram_login
 } from '../lib/ton_supabase_api'
 
+// import eruda from 'eruda';
+
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -120,6 +122,14 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     console.log('useEffect provider in = ', window.Telegram)
+
+    const erudaScript = document.createElement('script');
+      erudaScript.src = 'https://cdn.jsdelivr.net/npm/eruda';
+      erudaScript.onload = () => {
+        eruda.init(); // 初始化 Eruda
+      };
+      document.body.appendChild(erudaScript);
+
     if (!window.Telegram) {
       if (process.env.tg_mini_env == 'false') {
         // 开发环境的逻辑
