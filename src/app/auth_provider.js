@@ -1,6 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useRouter,useSearchParams } from 'next/navigation';
+
 
 import {
   update_session,
@@ -16,7 +18,13 @@ import {
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
+  const router = useRouter();
+  // const searchParams = useSearchParams();
+
+
   const [authState, setAuthState] = useState(null);
+  const [start_param_by_query, set_start_param_by_query] = useState(null)
+
 
   async function anonymously_login() {
     try {
@@ -68,7 +76,8 @@ export const AuthProvider = ({ children }) => {
       if (!temp) {
         console.log(`login start time = ${time}`)
         const tg = window.Telegram && window.Telegram.WebApp;
-        if (tg) {
+        const flag = tg && tg.initData && tg.initData.length
+        if (tg && flag) {
           console.log('before telegram_login')
           temp = await telegram_login(tg)
           // tg.showPopup({
@@ -79,6 +88,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           let inviter_id = null
           let start_param = start_param_by_query;
+          console.log('start_param = ',start_param)
           if (start_param) {
             const decodedText = Buffer.from(start_param, 'base64').toString('utf-8');
             const urlParams = new URLSearchParams(decodedText);
@@ -111,14 +121,30 @@ export const AuthProvider = ({ children }) => {
   }
 
   const initializeTelegram = async () => {
+    
     if (window.Telegram) {
-      const tg = window.Telegram.WebApp;
+      const tg = window.Telegram && window.Telegram.WebApp;
+      const initData = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData;
+      const flag = initData && initData.length
+      console.log('initializeTelegram provider = ',tg,flag)
+      if (process.env.tg_mini_env == 'true' && !flag) {
+        console.log('initializeTelegram provider = notInMiniapp ',tg,initData)
+          //todo 跳转到 报错页面
+          router.replace(`/notInMiniapp`)
+          return
+      }
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
       // tg.enableDebugMode();
       tg.ready();
       await anonymously_login()
     }
   };
+
+  // useEffect(() => {
+  //   console.log('useEffect provider startapp in = ',searchParams)
+  //   const value_ = searchParams.get('startapp')
+  //   set_start_param_by_query(value_)
+  // }, [searchParams])
 
   useEffect(() => {
     console.log('useEffect provider in = ', window.Telegram)
@@ -129,6 +155,13 @@ export const AuthProvider = ({ children }) => {
     //     eruda.init(); // 初始化 Eruda
     //   };
     //   document.body.appendChild(erudaScript);
+
+    const params = new URLSearchParams(window.location.search);
+    const startapp = params.get('startapp');
+    console.log('useEffect provider startapp =',startapp,window.location)
+    if (startapp) {
+      set_start_param_by_query(startapp)
+    }
 
     if (!window.Telegram) {
       if (process.env.tg_mini_env == 'false') {

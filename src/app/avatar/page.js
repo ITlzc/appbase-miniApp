@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import { Popover, Spin } from 'antd';
 import TipModel from '@/app/components/TipModel';
 import Link from 'next/link';
+import { useSearchParams,useRouter } from 'next/navigation';
+
 
 
 
@@ -18,11 +20,14 @@ import {
 
 
 export default function Avatar() {
+    const router = useRouter();
+
     const [tab_act, setTab_act] = useState('WaitingForTGE')
     const [open, setOpen] = useState(false);
     const [showModel, setShowModel] = useState(false)
     const [showExchangeModel, setShowExchangeModel] = useState(false)
     const [loading, set_loading] = useState(false)
+    
 
 
     const [points,set_points] = useState(0)
@@ -46,6 +51,12 @@ export default function Avatar() {
     }
 
     useEffect(() => {
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (process.env.tg_mini_env == 'true' && !tg) {
+            //todo 跳转到 报错页面
+            router.replace(`/notInMiniapp`)
+            return
+        }
         get_user()
     },[])
 

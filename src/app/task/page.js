@@ -3,7 +3,7 @@ import '../styles/task.scss'
 import Nav from '../components/Nav';
 import { useEffect, useState, Suspense } from 'react';
 import { message } from 'antd';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams,useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
 
@@ -20,6 +20,9 @@ import moment from 'moment';
 import { task_host } from '../../utils/supabase/config'
 
 function TaskComponent() {
+
+    const router = useRouter();
+
 
     const searchParams = useSearchParams();
 
@@ -315,6 +318,12 @@ function TaskComponent() {
 
     useEffect(() => {
         console.log('useEffect in')
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (process.env.tg_mini_env == 'true' && !tg) {
+            //todo 跳转到 报错页面
+            router.replace(`/notInMiniapp`)
+            return
+        }
         init_data()
 
 

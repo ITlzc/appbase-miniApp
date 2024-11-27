@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import {useRouter } from 'next/navigation';
 
 
 
@@ -19,6 +20,9 @@ import {
 } from '../../lib/ton_supabase_api'
 
 export default function Invite() {
+
+    const router = useRouter();
+
 
     const [share_link, set_share_link] = useState('')
     const [user_info, set_user_info] = useState({})
@@ -173,6 +177,12 @@ export default function Invite() {
     }
 
     useEffect(() => {
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (process.env.tg_mini_env == 'true' && !tg) {
+            //todo 跳转到 报错页面
+            router.replace(`/notInMiniapp`)
+            return
+        }
         init_data()
     }, [])
 

@@ -3,6 +3,8 @@ import Nav from "../components/Nav"
 import '../styles/leader.scss'
 import { useEffect, useState } from 'react';
 import { Spin } from 'antd';
+import { useSearchParams,useRouter } from 'next/navigation';
+
 
 
 
@@ -15,6 +17,9 @@ import {
 } from '../../lib/ton_supabase_api'
 
 export default function Leader() {
+
+    const router = useRouter();
+
 
     const [user_info, set_user_info] = useState({})
     const [tops, set_tops] = useState([])
@@ -79,6 +84,12 @@ export default function Leader() {
     }
 
     useEffect(() => {
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (process.env.tg_mini_env == 'true' && !tg) {
+            //todo 跳转到 报错页面
+            router.replace(`/notInMiniapp`)
+            return
+        }
         init_data()
     }, [])
 
