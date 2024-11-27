@@ -32,14 +32,15 @@ export const AuthProvider = ({ children }) => {
           if (tg) {
             // console.log('anonymously_login initDataUnsafe = ',tg.initDataUnsafe)
             let query_id = tg.initDataUnsafe && tg.initDataUnsafe.user.id
-            // console.log('anonymously_login query_id = ',query_id == user.identity.provider_id)
+            // query_id = 12345555
+            // console.log('anonymously_login query_id = ',query_id,user.identity.provider_id)
             let provider_id = user && user.identity && user.identity.provider_id
-            tg.showPopup({
-              title: "",
-              message: `query_id = ${query_id},tg.initDataUnsafe.user.id = ${tg.initDataUnsafe.user.id},provider_id = ${provider_id},user = ${user.id} = ${temp.id}`,
-              buttons: [{ text: "Done" }]
-            });
-            console.log('anonymously_login query_id = ',query_id == provider_id)
+            // tg.showPopup({
+            //   title: "",
+            //   message: `query_id = ${query_id},tg.initDataUnsafe.user.id = ${tg.initDataUnsafe.user.id},provider_id = ${provider_id},user = ${user.id} = ${temp.id}`,
+            //   buttons: [{ text: "Done" }]
+            // });
+            console.log('anonymously_login query_id = ',query_id, provider_id,tg.initDataUnsafe.user.id,user)
             if (query_id != provider_id) {
               user = null
             }
@@ -50,16 +51,32 @@ export const AuthProvider = ({ children }) => {
         }
         if (!user) {
           // logout()
-          await cloud_remove_session()
+          try {
+            await cloud_remove_session()
+          } catch (error) {
+            console.log('anonymously_login cloud_remove_session error = ',error)
+          }
+         
           temp = null
         }
       }
+      // const tg = window.Telegram && window.Telegram.WebApp;
+      // tg.showPopup({
+      //   title: "登录前",
+      //   message: `user =  ${temp && temp.id}`,
+      //   buttons: [{ text: "Done" }]
+      // });
       if (!temp) {
         console.log(`login start time = ${time}`)
         const tg = window.Telegram && window.Telegram.WebApp;
         if (tg) {
           console.log('before telegram_login')
           temp = await telegram_login(tg)
+          tg.showPopup({
+            title: "登录后",
+            message: JSON.stringify(temp),
+            buttons: [{ text: "Done" }]
+          });
         } else {
           let inviter_id = null
           let start_param = start_param_by_query;

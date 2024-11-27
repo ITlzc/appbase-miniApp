@@ -813,6 +813,22 @@ export async function get_user_apps(app_ids) {
 	return data
 }
 
+function getTimezoneOffsetFromBeijing() {
+    const currentDate = new Date();
+    const currentOffset = currentDate.getTimezoneOffset(); // 当前时区与 UTC 的偏移（分钟）
+	
+    const beijingOffset = 8 * 60; // 东八区的偏移（分钟）
+    
+    let offsetFromBeijing = currentOffset - beijingOffset;
+	if (beijingOffset > currentOffset) {
+		offsetFromBeijing = beijingOffset + currentOffset
+	}
+	console.log('getTimezoneOffsetFromBeijing = ',currentOffset,beijingOffset,offsetFromBeijing)
+    
+    // 返回当前时区与东八区的偏移
+    return offsetFromBeijing * 60;
+}
+
 function get3AMTimestamp() {
     const now = new Date(); // 当前时间
     const currentHour = now.getHours(); // 当前小时
@@ -826,8 +842,55 @@ function get3AMTimestamp() {
         today3AM.setDate(today3AM.getDate() - 1); // 前一天
     }
 
-    return Math.floor(today3AM.getTime() / 1000);
+	let timestamp = Math.floor(today3AM.getTime() / 1000);
+	timestamp = timestamp - getTimezoneOffsetFromBeijing()
+	console.log('get3AMTimestamp = ',now,today3AM,timestamp,getTimezoneOffsetFromBeijing())
+
+    return timestamp
 }
+
+// function get3AMTimestamp() {
+// 	const currentTime = new Date();
+// 	const indiaOffset = 5.5 * 60; // 印度标准时间 (IST) 与 UTC 的偏移，单位为分钟
+// 	const indiaTime = new Date(currentTime.getTime() + currentTime.getTimezoneOffset() * 60000 + indiaOffset * 60000);
+
+// // 目标时间为东八区凌晨3点
+// 	const targetOffset = 8 * 60; // 东八区 (CST) 与 UTC 的偏移，单位为分钟
+// 	const targetDate = new Date(
+// 		indiaTime.getUTCFullYear(),
+// 		indiaTime.getUTCMonth(),
+// 		indiaTime.getUTCDate(),
+// 		3 - (targetOffset / 60), // 将小时调整为 UTC 时间
+// 		0, 0, 0
+// 	);
+
+// 	// 计算目标时间的时间戳
+// 	const timestampTarget = Math.floor(targetDate.getTime() / 1000);
+// 	console.log('get3AMTimestamp = ',currentTime,indiaOffset,indiaTime,targetOffset,targetDate,timestampTarget)
+	// return getBeijing3AMTimestamp()
+// }
+
+function getCurrentBeijingTime() {
+    const beijingOffset = 8 * 60; // 东八区时区偏移，单位：分钟
+    const currentDate = new Date();
+    const utc = currentDate.getTime() + currentDate.getTimezoneOffset() * 60000; // 获取 UTC 时间戳
+    const beijingTime = new Date(utc + beijingOffset * 60000); // 转换为东八区时间
+	console.log('getCurrentBeijingTime = ',currentDate,utc,beijingTime)
+    return beijingTime;
+}
+
+function getBeijing3AM() {
+    const currentBeijingTime = getCurrentBeijingTime();
+    currentBeijingTime.setHours(3, 0, 0, 0); // 设置时间为东八区的凌晨 3 点
+    return currentBeijingTime;
+}
+
+function getBeijing3AMTimestamp() {
+    const beijing3AM = getBeijing3AM();
+    return Math.floor(beijing3AM.getTime() / 1000);
+}
+  
+
 
 function getLast3AMTimestamp() {
     const now = new Date(); // 当前时间
