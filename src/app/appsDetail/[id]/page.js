@@ -334,11 +334,13 @@ export default function AppsDetail({ params }) {
             return
         }
         setShowOpenTip(false)
+        let link_type = 0
         if (appData.link && appData.link.length && appData.link !== 'https://') {
             link = appData.link
         }
         if (appData.appPlatforms && appData.appPlatforms.tg_bot) {
             link = appData.appPlatforms.tg_bot
+            link_type = 1
         }
         let flag = false
         in_page_start = true
@@ -364,7 +366,16 @@ export default function AppsDetail({ params }) {
             flag = true
         }
         if (flag) {
-            window.open(link)
+            const tg = window.Telegram && window.Telegram.WebApp;
+            if (tg) {
+                if (link_type) {
+                    tg.openTelegramLink(link)
+                } else if (link_type == 0) {
+                    tg.openLink(link)
+                }
+            } else{
+                window.open(link)
+            }
         }
     }
 
