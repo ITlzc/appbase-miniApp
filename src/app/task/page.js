@@ -64,7 +64,7 @@ function TaskComponent() {
         if (flag) {
             const tg = window.Telegram && window.Telegram.WebApp;
             if (tg) {
-                if (link.indexOf('t.me') > -1) {
+                if (task.url.indexOf('t.me') > -1) {
                     tg.openTelegramLink(task.url)
                 } else {
                     tg.openLink(task.url)
