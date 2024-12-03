@@ -62,8 +62,17 @@ function TaskComponent() {
         let flag = await sumit_task(task)
         console.log('sumit_task back = ', flag)
         if (flag) {
+            const tg = window.Telegram && window.Telegram.WebApp;
+            if (tg) {
+                if (link.indexOf('t.me') > -1) {
+                    tg.openTelegramLink(task.url)
+                } else {
+                    tg.openLink(task.url)
+                }
+            } else{
+                window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
+            }
             init_data()
-            window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
         }
     }
 

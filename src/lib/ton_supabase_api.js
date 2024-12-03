@@ -620,11 +620,13 @@ export async function recommandData(page,size) {
 	.from("app")
 	.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward")
 	.is('deleted', false)
+	.is('is_show',true)
 	if (user) {
 		select = supabase
 		.from("app")
 		.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward,user_app(*)")
 		.is('deleted', false)
+		.is('is_show',true)
 		.eq('user_app.user_id',user.id)
 	}
 	let { data, error } = await select
