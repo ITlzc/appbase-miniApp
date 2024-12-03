@@ -38,6 +38,24 @@
             height: 17.87vw;
             margin: 2.93vw 0 0 5.33vw;
 
+            .avatar_box{
+                width: 13.61vw;
+                height: 13.61vw;
+                border-radius: 50%;
+                border: 1px solid #0052FE;
+                position: relative;
+
+                .star{
+                    height: 5.07vw;
+                    width: 5.07vw;
+                    background-color: #0052FE;
+                    border-radius: 50%;
+                    position: absolute;
+                    bottom: -0.53vw;
+                    right: -1.07vw;
+                }
+            }
+
             .image_1 {
                 width: 13.34vw;
                 height: 13.34vw;

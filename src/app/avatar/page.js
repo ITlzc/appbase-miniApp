@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Popover, Spin } from 'antd';
 import TipModel from '@/app/components/TipModel';
 import Link from 'next/link';
-import { useSearchParams,useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 
 
@@ -27,11 +27,13 @@ export default function Avatar() {
     const [showModel, setShowModel] = useState(false)
     const [showExchangeModel, setShowExchangeModel] = useState(false)
     const [loading, set_loading] = useState(false)
-    
+
+    const [isPlus, set_isPlus] = useState(false)
 
 
-    const [points,set_points] = useState(0)
-    const [user_info,set_user_info] = useState({})
+
+    const [points, set_points] = useState(0)
+    const [user_info, set_user_info] = useState({})
 
     const get_user = async () => {
         let user = await islogin()
@@ -46,8 +48,11 @@ export default function Avatar() {
         set_user_info(temp_user_info)
     }
 
-    const to_record = async () => {
-
+    const tg_user = async () => {
+        const initData = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe;
+        const user = initData && initData.user
+        let is_premium = user.is_premium
+        set_isPlus(is_premium)
     }
 
     useEffect(() => {
@@ -58,7 +63,8 @@ export default function Avatar() {
         //     return
         // }
         get_user()
-    },[])
+        tg_user()
+    }, [])
 
     const handleOpenChange = (newOpen) => {
         setOpen(newOpen);
@@ -77,10 +83,19 @@ export default function Avatar() {
                         /> */}
                     </div>
                     <div className="box_2 flex-row">
-                        <img
-                            className="image_1"
-                            src={user_info.avatar || "/images/user-avatar-full-fill.png"}
-                        />
+                        <div className={`flex-col justify-center align-center ${isPlus ? 'avatar_box' : ''}`}>
+                            <img
+                                className="image_1"
+                                src={user_info.avatar || "/images/user-avatar-full-fill.png"}
+                            />
+
+                            {
+                                isPlus && <div className="star flex-col justify-center align-center">
+                                    <img src={"/images/star.png"} />
+                                </div>
+                            }
+                        </div>
+
                         <div className="text-group_1 flex-col justify-between">
                             <span className="text_2">{user_info.name || getSubstring(user_info.id)}</span>
                             <span className="text_3">{points ? points / 1000000 : '0'} Points</span>
@@ -95,7 +110,7 @@ export default function Avatar() {
                     <div className="list_1 flex-row justify-between align-between">
                         <div className="text-group_2-0 flex-col">
                             <span className="text_4-0">Trial2Earn Points</span>
-                            <span className="text_6-0">{user_info && user_info.earn_points ?  user_info.earn_points / 1000000 : '0'}</span>
+                            <span className="text_6-0">{user_info && user_info.earn_points ? user_info.earn_points / 1000000 : '0'}</span>
                         </div>
 
                         <div className="text-group_2-0 flex-col">

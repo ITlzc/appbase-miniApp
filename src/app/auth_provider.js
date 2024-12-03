@@ -124,6 +124,7 @@ export const AuthProvider = ({ children }) => {
     
     if (window.Telegram) {
       const tg = window.Telegram && window.Telegram.WebApp;
+      tg.ready();
       const initData = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData;
       const flag = initData && initData.length
       console.log('initializeTelegram provider = ',tg,flag)
@@ -135,7 +136,7 @@ export const AuthProvider = ({ children }) => {
       }
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
       // tg.enableDebugMode();
-      tg.ready();
+      // tg.ready();
       await anonymously_login()
     }
   };

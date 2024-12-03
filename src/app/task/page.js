@@ -102,6 +102,7 @@ function TaskComponent() {
             }
         } catch (error) {
             set_loading(false)
+            toast.error('submit task error' + error.message)
             console.log('fetch task detail error = ', error)
             return false
         }
@@ -131,14 +132,17 @@ function TaskComponent() {
                 console.log('responseData =', responseData)
                 if (responseData && responseData.code == 0) {
                     init_data()
-                    // selected_task.status = responseData.data.status
-                    // if (responseData.data && responseData.data.status && responseData.data.status == 'success') {
-                    //     complete_tip.value = true
-                    // } else if (responseData.data && responseData.data.status && responseData.data.status == 'retry') {
-                    //     redo_tip.value = true
-                    // }
+                    if (responseData.data && responseData.data.status && responseData.data.status == 'pending') {
+                        toast.info('This task is still in a pending status.')
+                    } 
+                    else if (responseData.data && responseData.data.status && responseData.data.status == 'retry') {
+                        toast.info('This task has failed validation and needs to be retried.')
+                    }
+                    else if (responseData.data && responseData.data.status && responseData.data.status == 'success') {
+                        toast.info('This task is success.')
+                    }
                 } else {
-                    console.log('submit task error')
+                    console.log('check task error')
                 }
             } else {
                 console.log('task_detail fetch error = ', response.statusText)

@@ -105,12 +105,12 @@ export async function set_session(session) {
 }
 
 export async function bind_telegram() {
-	if (isTelegramMiniAPP()) {
-		let linked = await islinkTelegram()
-		if (!linked) {
-			linkTelegramMiniAPP()
-		}
-	}
+	// if (isTelegramMiniAPP()) {
+	// 	let linked = await islinkTelegram()
+	// 	if (!linked) {
+	// 		linkTelegramMiniAPP()
+	// 	}
+	// }
 }
 
 export async function update_session() {
