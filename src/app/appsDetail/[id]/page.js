@@ -368,9 +368,9 @@ export default function AppsDetail({ params }) {
         if (flag) {
             const tg = window.Telegram && window.Telegram.WebApp;
             if (tg) {
-                if (link_type) {
+                if (link.indexOf('t.me') > -1) {
                     tg.openTelegramLink(link)
-                } else if (link_type == 0) {
+                } else {
                     tg.openLink(link)
                 }
             } else{

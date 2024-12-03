@@ -502,11 +502,11 @@ function HomeComponent() {
     if (flag) {
       const tg = window.Telegram && window.Telegram.WebApp;
       if (tg) {
-          if (link_type) {
-              tg.openTelegramLink(link)
-          } else if (link_type == 0) {
-              tg.openLink(link)
-          }
+        if (link.indexOf('t.me') > -1) {
+          tg.openTelegramLink(link)
+        } else {
+            tg.openLink(link)
+        }
       } else{
           window.open(link)
       }

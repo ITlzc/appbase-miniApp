@@ -52,7 +52,7 @@ function TaskComponent() {
             }
         }
 
-        await bind_telegram()
+        // await bind_telegram()
         
         if (task.status == 'pending') {
             await check_task(task)
@@ -91,6 +91,15 @@ function TaskComponent() {
                 let responseData = await response.json()
                 console.log('responseData =', responseData)
                 if (responseData && responseData.code == 0) {
+                    if (responseData.data && responseData.data.status && responseData.data.status == 'pending') {
+                        toast.info('This task is still in a pending status.')
+                    } 
+                    else if (responseData.data && responseData.data.status && responseData.data.status == 'retry') {
+                        toast.info('This task has failed validation and needs to be retried.')
+                    }
+                    else if (responseData.data && responseData.data.status && responseData.data.status == 'success') {
+                        toast.info('This task is success.')
+                    }
                     return true
                 } else {
                     toast.error((responseData && responseData.msg) || (responseData && responseData.error) || 'submit task error')
@@ -310,6 +319,11 @@ function TaskComponent() {
         if (task) {
             if (typeof task == 'string') {
                 task = JSON.parse(task)
+            }
+            let link = await islinkTwitter()
+            if(!link) {
+                localStorage.removeItem('need_do_task')
+                return
             }
             let flag = await sumit_task(task)
             console.log('sumit_task back = ', flag)
