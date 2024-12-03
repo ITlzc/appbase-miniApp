@@ -337,6 +337,9 @@ export default function AppsDetail({ params }) {
         if (appData.link && appData.link.length && appData.link !== 'https://') {
             link = appData.link
         }
+        if (appData.appPlatforms && appData.appPlatforms.tg_bot) {
+            link = appData.appPlatforms.tg_bot
+        }
         let flag = false
         in_page_start = true
         if (appData.points > 0) {

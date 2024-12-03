@@ -450,6 +450,9 @@ function HomeComponent() {
     if (app.link && app.link.length && app.link !== 'https://') {
       link = app.link
     }
+    if (appData.appPlatforms && appData.appPlatforms.tg_bot) {
+      link = appData.appPlatforms.tg_bot
+    }
     let login = await islogin()
     if (!login) {
         // if (link) {
