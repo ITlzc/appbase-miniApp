@@ -53,6 +53,15 @@ function TaskComponent() {
         }
 
         // await bind_telegram()
+
+        const initData = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe;
+        const user = initData && initData.user
+        let is_premium = user.is_premium
+        if (task.action == 'premiumSignIn' && !is_premium) {
+            toast.info('You are not a Telegram Premium member yet.')
+            return
+        }
+        
         
         if (task.status == 'pending') {
             await check_task(task)
@@ -269,6 +278,7 @@ function TaskComponent() {
             promises.push(temp)
         }
         set_loading(true)
+       
         Promise.all(promises).then(res => {
             set_loading(false)
             res = res && res.length && res.reduce((l, r) => {
@@ -277,6 +287,7 @@ function TaskComponent() {
 
             for (let m = 0; m < res.length; m++) {
                 let task = res[m]
+                
                 task.start_time = ''
                 if (task.start) {
                     task.start_time = moment(task.start * 1000).format('YYYY-MM-DD');
