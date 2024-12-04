@@ -103,11 +103,12 @@ function TaskComponent() {
             return
         }
         const tg = window.Telegram && window.Telegram.WebApp;
-        const initData = tg && tg.initData
+        let initData = tg && tg.initData
         let task_id = BigInt(task.taskId)
         console.log('sumit_task = ', task, task_id)
+        initData = encodeURIComponent(initData);
+        console.log("encodedParam = ",initData);
         let url = task_host + `/api/v1/task/submit/${task_id}?initData=${initData}`
-        url = encodeURI(url);
         set_loading(true)
         try {
             let response = await fetch(url, {
