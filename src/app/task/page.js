@@ -14,6 +14,7 @@ import {
     get_access_token,
     islinkTwitter,
     linkTwitter,
+    open_link,
     bind_telegram
 } from '../../lib/ton_supabase_api'
 import moment from 'moment';
@@ -41,9 +42,14 @@ function TaskComponent() {
                 let link = await islinkTwitter()
                 console.log('islinkTwitter = ', link)
                 if (!link) {
-                    localStorage.setItem('need_do_task', JSON.stringify(task))
-                    let data = await linkTwitter(redirectTo)
-                    console.log('linkTwitter data = ', data)
+                    // const tg = window.Telegram && window.Telegram.WebApp;
+                    // if (tg && tg.platform.includes('web')) {
+
+                    // } else {
+                        localStorage.setItem('need_do_task', JSON.stringify(task))
+                        let data = await linkTwitter(redirectTo)
+                        console.log('linkTwitter data = ', data)
+                    // }
                     return
                 }
             } catch (error) {
@@ -68,19 +74,23 @@ function TaskComponent() {
             return
         }
 
+        if (task.status == 'retry') {
+            const tg = window.Telegram && window.Telegram.WebApp;
+            tg.showConfirm((task.msg || 'Redo Task'),(ok) => {
+                if (ok) {
+                    real_do_task(task)
+                }
+            })
+            return
+        }
+        real_do_task(task)
+    }
+
+    async function real_do_task(task) {
         let flag = await sumit_task(task)
         console.log('sumit_task back = ', flag)
         if (flag) {
-            const tg = window.Telegram && window.Telegram.WebApp;
-            if (tg) {
-                if (task.url.indexOf('t.me') > -1) {
-                    tg.openTelegramLink(task.url)
-                } else {
-                    tg.openLink(task.url)
-                }
-            } else{
-                window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
-            }
+            open_link(task.url)
             init_data()
         }
     }
@@ -92,9 +102,11 @@ function TaskComponent() {
             toast.error('Please login first')
             return
         }
+        const tg = window.Telegram && window.Telegram.WebApp;
+        const initData = tg && tg.initData
         let task_id = BigInt(task.taskId)
         console.log('sumit_task = ', task, task_id)
-        let url = task_host + `/api/v1/task/submit/${task_id}`
+        let url = task_host + `/api/v1/task/submit/${task_id}?initData=${initData}`
         set_loading(true)
         try {
             let response = await fetch(url, {
@@ -113,7 +125,7 @@ function TaskComponent() {
                         toast.info('This task is still in a pending status.')
                     } 
                     else if (responseData.data && responseData.data.status && responseData.data.status == 'retry') {
-                        toast.info('This task has failed validation and needs to be retried.')
+                        toast.info(responseData.data.msg || 'This task has failed validation and needs to be retried.')
                     }
                     else if (responseData.data && responseData.data.status && responseData.data.status == 'success') {
                         toast.info('This task is success.')
@@ -163,7 +175,7 @@ function TaskComponent() {
                         toast.info('This task is still in a pending status.')
                     } 
                     else if (responseData.data && responseData.data.status && responseData.data.status == 'retry') {
-                        toast.info('This task has failed validation and needs to be retried.')
+                        toast.info(responseData.data.msg || 'This task has failed validation and needs to be retried.')
                     }
                     else if (responseData.data && responseData.data.status && responseData.data.status == 'success') {
                         toast.info('This task is success.')
@@ -348,7 +360,7 @@ function TaskComponent() {
             let flag = await sumit_task(task)
             console.log('sumit_task back = ', flag)
             if (flag) {
-                window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
+                open_link(task.url)
             }
             localStorage.removeItem('need_do_task')
         }
@@ -374,7 +386,7 @@ function TaskComponent() {
             toast.error(error_description)
             localStorage.removeItem('need_do_task')
         } else {
-            do_task()
+            // do_task()
         }
         console.log('useEffect out')
     }, [])

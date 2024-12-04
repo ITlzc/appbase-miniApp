@@ -10,7 +10,8 @@ import {
     getApp,
     trailApp,
     trial_app_next_time,
-    islogin
+    islogin,
+    open_link
 } from '../../../lib/ton_supabase_api'
 
 import { Spin } from 'antd';
@@ -380,16 +381,7 @@ export default function AppsDetail({ params }) {
             flag = true
         }
         if (flag) {
-            const tg = window.Telegram && window.Telegram.WebApp;
-            if (tg) {
-                if (link.indexOf('t.me') > -1) {
-                    tg.openTelegramLink(link)
-                } else {
-                    tg.openLink(link)
-                }
-            } else{
-                window.open(link)
-            }
+            open_link(link)
         }
     }
 
@@ -398,13 +390,6 @@ export default function AppsDetail({ params }) {
         // let user_app = appData.user_app && appData.user_app.length && appData.user_app[0]
         let login = await islogin()
         if (!login) {
-            // let link = null
-            // if (appData.link && appData.link.length && appData.link !== 'https://') {
-            //     link = appData.link
-            // }
-            // if (link) {
-            //     window.open(link)
-            // }
             toast.error('Not login,Please refresh the page. ')
             return
         }
@@ -420,12 +405,7 @@ export default function AppsDetail({ params }) {
     }
 
     const click_office = (office) => {
-        window.open(office.link)
-    }
-
-    const open_platform_link = (link) => {
-        console.log('open_platform_link in = ', link)
-        window.open(link)
+        open_link(office.link)
     }
 
     const init_data = async () => {

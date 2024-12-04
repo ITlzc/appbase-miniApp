@@ -57,15 +57,6 @@ export default function InviteList() {
         return inviteLink
     }
 
-    const invite_friend = async () => {
-        if (!(share_link && share_link.length)) {
-            return
-        }
-        const inviteLink = await init_start_up();  // 邀请链接
-        const telegramShareURL = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent("快来加入我们！")}`;
-        window.open(telegramShareURL, "_blank");
-    }
-
     const copy_share_link = async () => {
         if (!(share_link && share_link.length)) {
             return

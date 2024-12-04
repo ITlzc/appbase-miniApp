@@ -52,29 +52,6 @@ export default function Invite() {
         return inviteLink
     }
 
-    const invite_friend = async () => {
-        if (!(share_link && share_link.length)) {
-            return
-        }
-        const inviteLink = await init_start_up();  // 邀请链接
-        const telegramShareURL = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}}`;
-        try {
-            window.open(telegramShareURL, "_blank");
-        } catch (error) {
-            if (isTelegramMiniAPP()) {
-                let tg = window.Telegram.WebApp
-                tg.showPopup({
-                    title: "",
-                    message: error.message,
-                    buttons: [{ text: "确定" }]
-                });
-            } else {
-                toast.success('copy success')
-            }
-        }
-
-    }
-
     const handleCopy = (text) => {
         const textarea = document.createElement("textarea");
         textarea.value = text;

@@ -260,6 +260,19 @@ export function cloud_get_session() {
 	})
 }
 
+export function open_link(link) {
+	const tg = window.Telegram && window.Telegram.WebApp;
+	if (tg) {
+		if (link.indexOf('t.me') > -1) {
+			tg.openTelegramLink(link)
+		} else {
+			tg.openLink(link)
+		}
+	} else{
+		window.open(link)
+	}
+}
+
 export function cloud_remove_session() {
 	if (!isTelegramMiniAPP()) {
 		return

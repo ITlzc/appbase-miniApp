@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 
 import '../styles/searchApps.scss'
 import {
-    searchData
+    searchData,
+    open_link
 } from '../../lib/ton_supabase_api'
 
 import { Spin } from 'antd';
@@ -65,8 +66,29 @@ export default function SearchApps() {
 
     const open_app = async (app) => {
         console.log('open_app in = ', app)
+        let link = null
         if (app.link && app.link.length && app.link !== 'https://') {
-            window.open(app.link)
+            link = app.link
+            
+        }
+        if (app.appPlatforms && app.appPlatforms.tg_bot) {
+            let tg_bot = app.appPlatforms.tg_bot
+            let web = app.appPlatforms.web
+            let temp = null
+        
+            if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
+                temp = web
+            } else if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
+                temp = link
+            } 
+            if (temp && temp.length) {
+                link = temp
+            } else {
+                link = app.appPlatforms.tg_bot
+            }
+        }
+        if (link && link.length) {
+            open_link(link)
         }
     }
 

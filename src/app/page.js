@@ -26,7 +26,8 @@ import {
   telegram_login,
   exploreAppDataFromCache,
   get_user_apps,
-  getApp
+  getApp,
+  open_link
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
 import Link from 'next/link';
@@ -102,12 +103,7 @@ function HomeComponent() {
         console.log('responseData =', responseData)
         if (responseData && responseData.code == 0) {
           return true
-          // window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
         } else {
-          // setTimeout(() => {
-          //   message.error('Please login first')
-          // },1000)
-          // toast.error((responseData && responseData.msg) || (responseData && responseData.error) || 'submit task error')
           return false
         }
       } else {
@@ -470,9 +466,6 @@ function HomeComponent() {
   }
     let login = await islogin()
     if (!login) {
-        // if (link) {
-        //     window.open(link)
-        // }
         toast.error('Not login,Please refresh the page. ')
         
         return
@@ -513,16 +506,7 @@ function HomeComponent() {
     }
     console.log('open_app flag = ',flag,link)
     if (flag) {
-      const tg = window.Telegram && window.Telegram.WebApp;
-      if (tg) {
-        if (link.indexOf('t.me') > -1) {
-          tg.openTelegramLink(link)
-        } else {
-            tg.openLink(link)
-        }
-      } else{
-          window.open(link)
-      }
+      open_link(link)
       flag = false
     }
   }
@@ -583,7 +567,7 @@ function HomeComponent() {
       let flag = await sumit_task(task)
       console.log('sumit_task back = ', flag)
       if (flag) {
-        window.open(task.url, 'test', 'width=800,height=600,left=200,top=200')
+        open_link(task.url)
       }
       localStorage.removeItem('need_do_task')
     }
