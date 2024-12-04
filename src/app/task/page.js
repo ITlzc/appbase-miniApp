@@ -108,7 +108,10 @@ function TaskComponent() {
         console.log('sumit_task = ', task, task_id)
         initData = encodeURIComponent(initData);
         console.log("encodedParam = ",initData);
-        let url = task_host + `/api/v1/task/submit/${task_id}?initData=${initData}`
+        let url = task_host + `/api/v1/task/submit/${task_id}`
+        if (task.action == 'premiumSignIn') {
+            url = task_host + `/api/v1/task/submit/${task_id}?initData=${initData}`
+        }
         set_loading(true)
         try {
             let response = await fetch(url, {
