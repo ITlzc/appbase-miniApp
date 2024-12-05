@@ -8,9 +8,14 @@ import {
     set_session
 } from '../../lib/ton_supabase_api'
 import CryptoJS from 'crypto-js';
+import { Spin } from 'antd';
+
 
 
 export default function TwitterLink() {
+
+    const [loading, set_loading] = useState(true)
+
 
 
     const get_session = (params) => {
@@ -58,8 +63,7 @@ export default function TwitterLink() {
     },[])
 
     return (
-        <div>
-            nihao
-        </div>
+        <Spin size="large" tip="RedirectTo Twitter ..." spinning={loading}>
+        </Spin>
     );
 }

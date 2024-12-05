@@ -34,6 +34,7 @@ function TaskComponent() {
 
 
     const click_item = async (task) => {
+        localStorage.removeItem('need_do_task')
         if (task.platform && task.platform === 'twitter') {
             let redirectTo = window.location.href
             if (redirectTo.indexOf('?') > -1) {
@@ -48,7 +49,7 @@ function TaskComponent() {
                     // if (tg && tg.platform.includes('web')) {
 
                     // } else {
-                        localStorage.setItem('need_do_task', JSON.stringify(task))
+                        // localStorage.setItem('need_do_task', JSON.stringify(task))
                         let origin = window.location.origin
                         const secretKey = '6d2c2d1ab728f66fd7ab881926e4a46a'; 
                         let session = await get_session()
