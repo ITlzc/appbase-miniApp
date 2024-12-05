@@ -6,6 +6,7 @@ import { message } from 'antd';
 import { useSearchParams,useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import CryptoJS from 'crypto-js';
 
 
 
@@ -15,7 +16,8 @@ import {
     islinkTwitter,
     linkTwitter,
     open_link,
-    bind_telegram
+    islogin,
+    get_session
 } from '../../lib/ton_supabase_api'
 import moment from 'moment';
 import { task_host } from '../../utils/supabase/config'
@@ -47,8 +49,33 @@ function TaskComponent() {
 
                     // } else {
                         localStorage.setItem('need_do_task', JSON.stringify(task))
-                        let data = await linkTwitter(redirectTo)
-                        console.log('linkTwitter data = ', data)
+                        let origin = window.location.origin
+                        const secretKey = '6d2c2d1ab728f66fd7ab881926e4a46a'; 
+                        let session = await get_session()
+                        let temp_session = {
+                            access_token:session.access_token,
+                            refresh_token:session.refresh_token,
+                        }
+                        temp_session = JSON.stringify(temp_session)
+                        let encryptedMessage = CryptoJS.AES.encrypt(temp_session, secretKey).toString();
+                        encryptedMessage = encodeURIComponent(encryptedMessage);
+                        console.log('get_session encryptedMessage = ',encryptedMessage)
+                        // const bytes = CryptoJS.AES.decrypt(encryptedMessage, secretKey);
+                        // console.log('get_session bytes = ',bytes)
+                        // const decryptedMessage = bytes.toString(CryptoJS.enc.Utf8);
+                        // if (!(decryptedMessage && decryptedMessage.length)) {
+                        //     return null
+                        // }
+                        // console.log('get_session decryptedMessage = ',decryptedMessage)
+                        // let session1 = JSON.parse(decryptedMessage)
+                        // console.log('get_session session1 = ',session1)
+                        // return
+
+                        let url = `${origin}/twitter?params=${encryptedMessage}`
+                        console.log('linkTwitter url = ', url)
+                        open_link(url)
+                        // let data = await linkTwitter(redirectTo)
+                        // console.log('linkTwitter data = ', data)
                     // }
                     return
                 }

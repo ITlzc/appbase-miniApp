@@ -1,7 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useRouter,useSearchParams } from 'next/navigation';
+import { useRouter,usePathname,useSearchParams } from 'next/navigation';
+
 
 
 import {
@@ -19,7 +20,9 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
+  const pathname = usePathname();  
   // const searchParams = useSearchParams();
+  console.log('AuthProvider in =',pathname)
 
 
   const [authState, setAuthState] = useState(null);
@@ -127,12 +130,15 @@ export const AuthProvider = ({ children }) => {
       tg.ready();
       const initData = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData;
       const flag = initData && initData.length
-      console.log('initializeTelegram provider = ',tg,flag)
+      console.log('initializeTelegram provider = ',tg,flag,router)
       if (process.env.tg_mini_env == 'true' && !flag) {
-        console.log('initializeTelegram provider = notInMiniapp ',tg,initData)
-          //todo 跳转到 报错页面
-          router.replace(`/notInMiniapp`)
+        console.log('initializeTelegram provider = notInMiniapp ',tg,initData,router)
+        if (pathname === '/twitter') {
           return
+        }
+        //todo 跳转到 报错页面
+        router.replace(`/notInMiniapp`)
+        return
       }
       console.log('tg.initData =', tg, tg.initData, tg.initDataUnsafe)
       // tg.enableDebugMode();
