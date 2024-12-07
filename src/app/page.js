@@ -447,23 +447,37 @@ function HomeComponent() {
     if (app.link && app.link.length && app.link !== 'https://') {
       link = app.link
     }
-    if (appData.appPlatforms && appData.appPlatforms.tg_bot) {
+    if (appData.appPlatforms && appData.appPlatforms) {
       let tg_bot = appData.appPlatforms.tg_bot
+      let tg_chat = appData.appPlatforms.tg_chat
+      let tg_channel = appData.appPlatforms.tg_channel
       let web = appData.appPlatforms.web
       let temp = null
 
+      if (tg_chat && tg_chat.length) {
+          temp = tg_chat
+      }
+      if (tg_channel && tg_channel.length) {
+          temp = tg_channel
+      }
+      if (tg_bot && tg_bot.length) {
+          temp = tg_bot
+      }
+      if (web && web.length) {
+          temp = web
+      }
+
       if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
           temp = web
-      } else if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
+      } 
+      if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
           temp = link
       } 
       if (temp && temp.length) {
           link = temp
-      } else {
-          link = appData.appPlatforms.tg_bot
       }
       link_type = 1
-  }
+    }
     let login = await islogin()
     if (!login) {
         toast.error('Not login,Please refresh the page. ')

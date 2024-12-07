@@ -339,10 +339,25 @@ export default function AppsDetail({ params }) {
         if (appData.link && appData.link.length && appData.link !== 'https://') {
             link = appData.link
         }
-        if (appData.appPlatforms && appData.appPlatforms.tg_bot) {
+        if (appData.appPlatforms && appData.appPlatforms) {
             let tg_bot = appData.appPlatforms.tg_bot
+            let tg_chat = appData.appPlatforms.tg_chat
+            let tg_channel = appData.appPlatforms.tg_channel
             let web = appData.appPlatforms.web
             let temp = null
+
+            if (tg_chat && tg_chat.length) {
+                temp = tg_chat
+            }
+            if (tg_channel && tg_channel.length) {
+                temp = tg_channel
+            }
+            if (tg_bot && tg_bot.length) {
+                temp = tg_bot
+            }
+            if (web && web.length) {
+                temp = web
+            }
 
             if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
                 temp = web
@@ -352,8 +367,6 @@ export default function AppsDetail({ params }) {
             } 
             if (temp && temp.length) {
                 link = temp
-            } else {
-                link = appData.appPlatforms.tg_bot
             }
             link_type = 1
         }
