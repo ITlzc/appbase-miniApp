@@ -261,6 +261,10 @@ export function cloud_get_session() {
 }
 
 export function open_link(link) {
+	console.log('open_link = ',link)
+	if (!(link && link.length)) {
+		return
+	}
 	const tg = window.Telegram && window.Telegram.WebApp;
 	if (tg) {
 		if (link.indexOf('t.me') > -1) {
