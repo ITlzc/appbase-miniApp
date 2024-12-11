@@ -705,7 +705,8 @@ export async function getCategorys() {
 	let res = [];
 	const { data: categoryData, error: categoryError } = await supabase
 	  .from("category")
-	  .select("id,title,countApps");
+	  .select("id,title,countApps")
+	  .is('is_show',true);
 	if (categoryError) {
 	  console.error("查询错误:", categoryError);
 	}
