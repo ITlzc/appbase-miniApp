@@ -467,12 +467,23 @@ function HomeComponent() {
           temp = web
       }
 
+      // if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
+      //     temp = web
+      // } 
+      // if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
+      //     temp = link
+      // } 
       if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
-          temp = web
+        temp = web
+        temp = temp + '?startapp=c291cmNlPWFwcGJhc2U='
       } 
       if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
           temp = link
+          temp = temp + '?startapp=c291cmNlPWFwcGJhc2U='
       } 
+      if (temp.indexOf('t.me') < 0) {
+          temp = temp + '?source=appbase'
+      }
       if (temp && temp.length) {
           link = temp
       }
