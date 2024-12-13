@@ -645,6 +645,22 @@ export async function recentUpdate(page,size,filter) {
 }
 
 // 指定数量 推荐APP的数据
+export async function recommandTotal() {
+	console.log('recommandTotal  in ')
+	let {data,count,error} = await supabase
+	.from("app")
+	.select("*",{count:'exact',head:true})
+	.is('deleted', false)
+	.not('recommend','is',null)
+	.eq('is_show',1)
+	console.log('recommandTotal  data = ',data,count,error)
+	if (error) {
+		console.error("Error fetching data:", error);
+		return;
+	}
+	return count;
+}
+
 export async function recommandData(page,size) {
 	page = page ? page : 1
     size = size ? size : 3
@@ -657,12 +673,14 @@ export async function recommandData(page,size) {
 	.from("app")
 	.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward")
 	.is('deleted', false)
+	.not('recommend','is',null)
 	.eq('is_show',1)
 	if (user) {
 		select = supabase
 		.from("app")
 		.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward,user_app(*)")
 		.is('deleted', false)
+		.not('recommend','is',null)
 		.eq('is_show',1)
 		.eq('user_app.user_id',user.id)
 	}

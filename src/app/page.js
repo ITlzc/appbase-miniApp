@@ -13,6 +13,7 @@ import {
   getRewardCount,
   recentUpdate,
   recommandData,
+  recommandTotal,
   exploreAppData,
   getCategorys,
   islogin,
@@ -291,13 +292,17 @@ function HomeComponent() {
   const fetchRecommandApps = async (page, size) => {
     console.log('fetchRecommandApps in = ', page, size)
     set_loading(true)
-    let data = await recommandDataFromCache(page)
-    let apps = data.apps
+    let apps = await recommandData(page,size)
+    let total = await recommandTotal()
+    // let data = await recommandDataFromCache(page)
+    // let apps = data.apps
     // apps.splice(0, 1);
     set_loading(false)
     console.log('fetchRecommandApps =', apps)
     if (apps && apps.length) {
-      let temp = Math.ceil(data.total_count / 3) 
+      
+      console.log('recommandTotal total = ',total)
+      let temp = Math.ceil(total / 3) 
       if (temp == page) {
         page = 0
       }
