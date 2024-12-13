@@ -13,7 +13,8 @@ import {
     get_user_info,
     get_top_100_new,
     count_holders,
-    getSubstring
+    getSubstring,
+    countholdersFromCache
 } from '../../lib/ton_supabase_api'
 
 export default function Leader() {
@@ -78,9 +79,9 @@ export default function Leader() {
         get_tops(page)
 
         set_loading(true)
-        let count = await count_holders()
+        let count = await countholdersFromCache()
         set_loading(false)
-        set_holders(count)
+        set_holders(count.holders_count)
     }
 
     useEffect(() => {
@@ -128,11 +129,11 @@ export default function Leader() {
                                 <div className="list-items_1-0 flex-row justify-between" key={index}>
                                     <div className="flex-row">
                                         {
-                                            item.rank > 3 ? <span className="text_8-3">#{item.rank}</span> :
-                                                <img
-                                                    className="label_2-0"
-                                                    src={item.trophy}
-                                                />
+                                            item.rank > 3 || item.rank == 0 ? <span className="text_8-3">#{item.rank}</span> :
+                                            <img
+                                                className="label_2-0"
+                                                src={item.trophy}
+                                            />
                                         }
                                         <img
                                             className="image_2-0"

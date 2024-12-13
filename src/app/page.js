@@ -16,6 +16,7 @@ import {
   exploreAppData,
   getCategorys,
   islogin,
+  generate_params,
   login,
   trailApp,
   trial_app_next_time,
@@ -27,6 +28,7 @@ import {
   exploreAppDataFromCache,
   get_user_apps,
   getApp,
+  recommandDataFromCache,
   open_link
 } from '../lib/ton_supabase_api'
 import Carousel from './components/Carousel';
@@ -224,48 +226,52 @@ function HomeComponent() {
   const deal_app = async (app) => {
     if (app.icon) {
       app.show_icon = app.icon.url
-      if (app.show_icon.indexOf('http') < 0) {
+      if (app.show_icon && app.show_icon.length && app.show_icon.indexOf('http') < 0) {
         app.show_icon = 'https://jokqrcagutpmvpilhcfq.supabase.co/storage/v1/object/public' + app.show_icon
       }
+      if (!(app.show_icon && app.show_icon.length)) {
+        app.show_icon = '/images/favicon.ico'
+      }
     }
-    // return
-    const sortedData = app.user_app && app.user_app.length && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-    // console.log('deal_app sortedData = ',sortedData)
-    app.user_app = sortedData
-    let user_app = sortedData && sortedData.length && sortedData[0]
-    // let login = true
-    // console.log('deal_app user_app = ',user_app)
     app.open_show = 'OPEN'
-    // if (user_app ) {
-      let status = user_app && user_app.status ? user_app.status : 0
-      // console.log('deal_app status = ',status)
-      app.status = status
-      // if (login) {
-      //   app.status = status
-      // }
+    // return
+    // const sortedData = app.user_app && app.user_app.length && app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    // // console.log('deal_app sortedData = ',sortedData)
+    // app.user_app = sortedData
+    // let user_app = sortedData && sortedData.length && sortedData[0]
+    // // let login = true
+    // // console.log('deal_app user_app = ',user_app)
+    // app.open_show = 'OPEN'
+    // // if (user_app ) {
+    //   let status = user_app && user_app.status ? user_app.status : 0
+    //   // console.log('deal_app status = ',status)
+    //   app.status = status
+    //   // if (login) {
+    //   //   app.status = status
+    //   // }
       
-      if (user_app && user_app.updated_at) {
-        let now = new Date().getTime()
-        let update_time = moment(user_app.updated_at)
-        // console.log('update_time =',update_time,typeof update_time)
-        update_time = update_time.valueOf();
-        if (status == 2 && now - update_time >= trial_app_next_time) {
-          app.status = 0
-        }
-      }
-      app.open_show = 'OPEN'
-      if (app.points > 0) {
-        if (app.status == 0) {
-          app.open_show = 'OPEN'
-        } else if (app.status == 1) {
-          app.open_show = 'VERIFY'
-        } else if (app.status == 2) {
-          app.open_show = 'OPEN'
-        }
-      } else {
-        app.open_show = 'OPEN'
-      }
-    // }
+    //   if (user_app && user_app.updated_at) {
+    //     let now = new Date().getTime()
+    //     let update_time = moment(user_app.updated_at)
+    //     // console.log('update_time =',update_time,typeof update_time)
+    //     update_time = update_time.valueOf();
+    //     if (status == 2 && now - update_time >= trial_app_next_time) {
+    //       app.status = 0
+    //     }
+    //   }
+    //   app.open_show = 'OPEN'
+    //   if (app.points > 0) {
+    //     if (app.status == 0) {
+    //       app.open_show = 'OPEN'
+    //     } else if (app.status == 1) {
+    //       app.open_show = 'VERIFY'
+    //     } else if (app.status == 2) {
+    //       app.open_show = 'OPEN'
+    //     }
+    //   } else {
+    //     app.open_show = 'OPEN'
+    //   }
+    // // }
   }
 
   const fetchRecentApps = async (page, size) => {
@@ -285,10 +291,17 @@ function HomeComponent() {
   const fetchRecommandApps = async (page, size) => {
     console.log('fetchRecommandApps in = ', page, size)
     set_loading(true)
-    let apps = await recommandData(page, size)
+    let data = await recommandDataFromCache(page)
+    let apps = data.apps
+    // apps.splice(0, 1);
     set_loading(false)
     console.log('fetchRecommandApps =', apps)
     if (apps && apps.length) {
+      let temp = Math.ceil(data.total_count / 3) 
+      if (temp == page) {
+        page = 0
+      }
+      console.log('fetchRecommandApps page =', page,temp)
       set_recommand_page(page)
     }
     for (let i = 0; i < apps.length; i++) {
@@ -340,36 +353,40 @@ function HomeComponent() {
     if (filter && filter.category_id && filter.category_id.length) {
       category_id = filter.category_id
     }
-    let exapp_data = await exploreAppDataFromCache(category_id,all_page)
-    set_loading(false)
-    let temp_apps = exapp_data.apps
-    console.log('fetchExploreApps =', temp_apps)
-    // let temp = all_apps
-    // temp = temp.concat(temp_apps)
-    // if (all_page == 1) {
-    //   temp = temp_apps
-    // }
-    // set_all_total(exapp_data.total_count)
-    // set_all_apps(temp)
-    // fetchPageExploreApps(page,size,temp)
-    if (temp_apps && temp_apps.length) {
-      set_page(page)
+    try {
+      let exapp_data = await exploreAppDataFromCache(category_id,all_page)
+      set_loading(false)
+      let temp_apps = exapp_data.apps
+      console.log('fetchExploreApps =', temp_apps)
+      // let temp = all_apps
+      // temp = temp.concat(temp_apps)
+      // if (all_page == 1) {
+      //   temp = temp_apps
+      // }
+      // set_all_total(exapp_data.total_count)
+      // set_all_apps(temp)
+      // fetchPageExploreApps(page,size,temp)
+      if (temp_apps && temp_apps.length) {
+        set_page(page)
+      }
+      let app_ids = []
+      for (let i = 0; i < temp_apps.length; i++) {
+        let app = temp_apps[i]
+        app_ids.push(app.id)
+        await deal_app(app)
+      }
+      // await get_exploreApps_status(temp_apps,app_ids)
+      let temp = explore_apps
+      temp = temp.concat(temp_apps)
+      if (page == 1) {
+        temp = temp_apps
+      }
+      console.log('fetchExploreApps out =', temp_apps)
+      set_all_total(exapp_data.total_count)
+      set_explore_apps(temp)
+    } catch (error) {
+      set_loading(false)
     }
-    let app_ids = []
-    for (let i = 0; i < temp_apps.length; i++) {
-      let app = temp_apps[i]
-      app_ids.push(app.id)
-      await deal_app(app)
-    }
-    await get_exploreApps_status(temp_apps,app_ids)
-    let temp = explore_apps
-    temp = temp.concat(temp_apps)
-    if (page == 1) {
-      temp = temp_apps
-    }
-    console.log('fetchExploreApps out =', temp_apps)
-    set_all_total(exapp_data.total_count)
-    set_explore_apps(temp)
   }
 
   const get_exploreApps_status = async (apps,app_ids) => {
@@ -441,17 +458,17 @@ function HomeComponent() {
   const open_app = async (app) => {
     console.log('open_app in = ', app)
     
-
+    
+    const {params,encodedText} = await generate_params(app)
     let link = null
-    let link_type = 0
     if (app.link && app.link.length && app.link !== 'https://') {
       link = app.link
     }
-    if (appData.appPlatforms && appData.appPlatforms) {
-      let tg_bot = appData.appPlatforms.tg_bot
-      let tg_chat = appData.appPlatforms.tg_chat
-      let tg_channel = appData.appPlatforms.tg_channel
-      let web = appData.appPlatforms.web
+    if (app.appPlatforms && app.appPlatforms) {
+      let tg_bot = app.appPlatforms.tg_bot
+      let tg_chat = app.appPlatforms.tg_chat
+      let tg_channel = app.appPlatforms.tg_channel
+      let web = app.appPlatforms.web
       let temp = null
 
       if (tg_chat && tg_chat.length) {
@@ -475,26 +492,37 @@ function HomeComponent() {
       // } 
       if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
         temp = web
-        temp = temp + '?startapp=c291cmNlPWFwcGJhc2U='
+        temp = temp + '?startapp=' + encodedText
       } 
       if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
-          temp = link
-          temp = temp + '?startapp=c291cmNlPWFwcGJhc2U='
+        temp = link
+        temp = temp + '?startapp=' + encodedText
       } 
-      if (temp.indexOf('t.me') < 0) {
-          temp = temp + '?source=appbase'
-      }
+      
+      console.log('add source = ',temp)
       if (temp && temp.length) {
           link = temp
       }
       link_type = 1
     }
+    if (link.indexOf('t.me') < 0) {
+      
+      if (link.indexOf('?') < 0) {
+        link = link + '?' + params
+      } else {
+        link = link + '&' + params
+      }
+    }
     let login = await islogin()
     if (!login) {
         toast.error('Not login,Please refresh the page. ')
-        
         return
     }
+    let temp_app = await getApp(app.id)
+    const sortedData = temp_app && temp_app.user_app && temp_app.user_app.length && temp_app.user_app.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    let user_app = sortedData && sortedData.length && sortedData[0]
+    let status = user_app && user_app.status ? user_app.status : 0
+    app.status = status
     if (app.status == 2) {
       let user_app = app && app.user_app && app.user_app.length && app.user_app[0]
       // console.log('startTimer = ',appData)
@@ -506,7 +534,7 @@ function HomeComponent() {
           duration.minutes().toString().padStart(2, '0') + ":" +
           duration.seconds().toString().padStart(2, '0');
       toast.info(`Next Trial2Earn opportunity in ${formattedTime}`)
-      return
+      // return
     }
     if (app.status == 1) {
       let user_app = app && app.user_app && app.user_app.length && app.user_app[0]
@@ -515,8 +543,10 @@ function HomeComponent() {
       let update_time = moment(user_app && user_app.updated_at)
       update_time = update_time.valueOf();
       let duration = Math.floor(60 - ((now - update_time) / 1000))
-      toast.info(`After ${duration} seconds can verify`)
-      return
+      if (duration > 0) {
+        toast.info(`After ${duration} seconds can verify`)
+        // return
+      }
     }
     let flag = false
     if (app.points > 0) {
@@ -529,7 +559,7 @@ function HomeComponent() {
     } else {
       flag = true
     }
-    console.log('open_app flag = ',flag,link)
+    console.log('open_app flag = ',flag,app.status,link)
     if (flag) {
       open_link(link)
       flag = false
@@ -569,6 +599,9 @@ function HomeComponent() {
 
   const switch_category = (category) => {
     console.log('switch_category in', category)
+    if (category.category_id == select_category.category_id) {
+      return
+    }
     set_page(1)
     set_explore_apps([])
     set_select_category(category)
@@ -718,7 +751,7 @@ function HomeComponent() {
       <div>
         <Spin size="large" spinning={loading}>
           <div className="page flex-col">
-            <div className="section_1 flex-row">
+            <div className="section_1 flex-col">
               <div className="box_1 flex-col">
                 <img
                   className="image_1"

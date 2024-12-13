@@ -11,7 +11,27 @@ import moment from 'moment';
 
 import { parse } from 'uuid';
 
+import CryptoJS from 'crypto-js';
+
+
 // const server_supabase = 
+
+const salt = 'c291cmNlPWF'
+
+export async function generate_params(app) {
+	let user = await islogin()
+	let user_id = user && user.id
+	user_id = user_id + salt
+	user_id = CryptoJS.MD5(user_id).toString();
+
+	let app_id = app && app.id
+	app_id = app_id + salt
+	app_id = CryptoJS.MD5(app_id).toString();
+    let params = `source=appbase.online&source_uid=${user_id}&app_id=${app_id}`
+    const encodedText = Buffer.from(params, 'utf-8').toString('base64');
+
+	return { params, encodedText };
+}
 
 
 export async function call_eage_function(fun_name,body,headers) {
@@ -637,13 +657,13 @@ export async function recommandData(page,size) {
 	.from("app")
 	.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward")
 	.is('deleted', false)
-	.is('is_show',true)
+	.eq('is_show',1)
 	if (user) {
 		select = supabase
 		.from("app")
 		.select("id,name,icon,description,points,category_id,link,images,appPlatforms,caption,is_forward,user_app(*)")
 		.is('deleted', false)
-		.is('is_show',true)
+		.eq('is_show',1)
 		.eq('user_app.user_id',user.id)
 	}
 	let { data, error } = await select
@@ -655,6 +675,57 @@ export async function recommandData(page,size) {
 		return;
 	}
 	return data;
+}
+
+export async function recommandDataFromCache(page,filename) {
+	console.log('recommandDataFromCache in = ',filename)
+	let time = get3AMTimestamp()
+	if (!(filename && filename.length)) {
+		filename = 'app_recommend'
+	}
+	let path = `app-category/${time}/${filename}_${page}.json`
+	console.log('recommandDataFromCache path = ',path)
+	let apps = localStorage.getItem(path)
+	if (apps && apps.length) {
+		return JSON.parse(apps)
+	}
+	let expiresIn = 60
+	// const { data:url, error:urlError } = await supabase.storage
+	// .from("cache")
+	// .createSignedUrl(path,expiresIn)
+	const { data:url, error:urlError } = await supabase.storage.from('cache').getPublicUrl(path)
+	console.log('recommandDataFromCache getPublicUrl = ',url,urlError)
+	if (urlError) {
+		throw urlError
+	}
+
+	try {
+		let response = await fetch(url.publicUrl)
+		console.log('recommandDataFromCache response = ',response)
+		let data = await response.json()
+		console.log('recommandDataFromCache download = ',data)
+		// for (let i = 0; i < localStorage.length; i++) {
+		// 	let key = localStorage.key(i)
+		// 	console.log('app-category key = ',key)
+		// 	if (key.indexOf("app-category") > -1) {
+		// 		localStorage.removeItem(key)
+		// 	}
+		// }
+		// localStorage.setItem(path,JSON.stringify(data))
+		// let temp = `app-category/${getLast3AMTimestamp()}/${filename}.json`
+		return data;
+	} catch (error) {
+		console.log('recommandDataFromCache error = ',error)
+	}
+	
+	
+	// const { data, error } = await supabase.storage.from('cache').download(url.signedUrl)
+	// console.log('exploreAppDataFromCache download = ',data)
+	// if (error) {
+	// 	console.error("exploreAppDataFromCache Error fetching data:", error);
+	// 	return;
+	// }
+	// return [];
 }
 
 // APP的分类
@@ -739,6 +810,22 @@ export async function searchData(name) {
 	return searchData;
 }
 
+export async function manageSearchData(name) {
+	// console.log('searchData in =',name)
+	const searchTerm = `${name}%`; // 匹配以 A 开头的 name
+	const { data: searchData, error } = await supabase
+		.from("app")
+		.select("id, name, icon, description,link,images,appPlatforms,caption,points,is_forward")
+		.eq('is_show',0)
+		.like("name", searchTerm); // 使用 ilike 实现模糊查询
+	// console.log('searchData searchData =',searchData,error)
+	if (error) {
+		console.error("Error fetching data:", error);
+		return [];
+	}
+	return searchData;
+}
+
 // 每个类别的数据
 export async function exploreAppData(page,size,filter) {
 	page = page ? page : 1
@@ -768,6 +855,43 @@ export async function exploreAppData(page,size,filter) {
 		return;
 	}
 	return data;
+}
+
+export async function set_show(app,flag) {
+	let {data,error} = await supabase
+	.from('app')
+	.update({'is_show':flag})
+	.eq('id',app.id)
+	.select()
+
+	console.log('set_show = ',data,error)
+
+	if (error) {
+		console.error("Error set_show:", error);
+		return;
+	}
+	return data
+}
+
+export async function allApps(page,size) {
+	page = page ? page : 1
+    size = size ? size : 10
+    let offset = (page - 1) * size
+    size = offset + size - 1
+	let { data, count,error } = await supabase
+	.from("app")
+	.select("id,name,is_show,icon,description,points,link,images,appPlatforms,caption,is_forward",{ count: "exact" })
+	.is('deleted', false)
+	.eq('is_show',0)
+	.order("created_at", { ascending: false })
+	.range(offset, size)
+	console.log('allApps = ',count,error,data)
+	
+	if (error) {
+		console.error("Error fetching data:", error);
+		return;
+	}
+	return {count,data};
 }
 
 function getLastHourTimestamp() {
@@ -937,16 +1061,17 @@ export async function exploreAppDataFromCache(filename,page) {
 		return JSON.parse(apps)
 	}
 	let expiresIn = 60
-	const { data:url, error:urlError } = await supabase.storage
-	.from("cache")
-	.createSignedUrl(path,expiresIn)
-	console.log('exploreAppDataFromCache getPublicUrl = ',url.signedUrl,urlError)
+	// const { data:url, error:urlError } = await supabase.storage
+	// .from("cache")
+	// .createSignedUrl(path,expiresIn)
+	const { data:url, error:urlError } = await supabase.storage.from('cache').getPublicUrl(path)
+	console.log('exploreAppDataFromCache getPublicUrl = ',url,urlError)
 	if (urlError) {
 		throw urlError
 	}
 
 	try {
-		let response = await fetch(url.signedUrl)
+		let response = await fetch(url.publicUrl)
 		console.log('exploreAppDataFromCache response = ',response)
 		let data = await response.json()
 		console.log('exploreAppDataFromCache download = ',data)
@@ -1231,6 +1356,54 @@ export async function count_holders() {
 		throw error;
 	}
 	return count
+}
+
+export async function countholdersFromCache() {
+	console.log('countholdersFromCache in = ')
+	let time = getLastHourTimestamp()
+	let path = `user-rank/${time}/user_holders.json`
+	console.log('countholdersFromCache path = ',path)
+	// let apps = localStorage.getItem(path)
+	// if (apps && apps.length) {
+	// 	return JSON.parse(apps)
+	// }
+	let expiresIn = 60
+	// const { data:url, error:urlError } = await supabase.storage
+	// .from("cache")
+	// .createSignedUrl(path,expiresIn)
+	const { data:url, error:urlError } = await supabase.storage.from('cache').getPublicUrl(path)
+	console.log('countholdersFromCache getPublicUrl = ',url,urlError)
+	if (urlError) {
+		throw urlError
+	}
+
+	try {
+		let response = await fetch(url.publicUrl)
+		console.log('countholdersFromCache response = ',response)
+		let data = await response.json()
+		console.log('countholdersFromCache download = ',data)
+		// for (let i = 0; i < localStorage.length; i++) {
+		// 	let key = localStorage.key(i)
+		// 	console.log('app-category key = ',key)
+		// 	if (key.indexOf("app-category") > -1) {
+		// 		localStorage.removeItem(key)
+		// 	}
+		// }
+		// localStorage.setItem(path,JSON.stringify(data))
+		// let temp = `app-category/${getLast3AMTimestamp()}/${filename}.json`
+		return data;
+	} catch (error) {
+		console.log('countholdersFromCache error = ',error)
+	}
+	
+	
+	// const { data, error } = await supabase.storage.from('cache').download(url.signedUrl)
+	// console.log('exploreAppDataFromCache download = ',data)
+	// if (error) {
+	// 	console.error("exploreAppDataFromCache Error fetching data:", error);
+	// 	return;
+	// }
+	// return [];
 }
 
 export async function get_points_record(user_id,page,size) {

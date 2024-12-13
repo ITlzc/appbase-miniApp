@@ -11,7 +11,8 @@ import {
     trailApp,
     trial_app_next_time,
     islogin,
-    open_link
+    open_link,
+    generate_params
 } from '../../../lib/ton_supabase_api'
 
 import { Spin } from 'antd';
@@ -166,6 +167,7 @@ export default function AppsDetail({ params }) {
             let now = new Date().getTime()
             let update_time = moment(user_app && user_app.updated_at)
             update_time = update_time.valueOf();
+            let count = (now - update_time) / 1000
             let duration = Math.floor(60 - count++)
             let open_show = 'Verify and earn points(' + duration + 's)';
             if (duration <= 0) {
@@ -220,9 +222,12 @@ export default function AppsDetail({ params }) {
 
         if (app && app.icon) {
             app.show_icon = app.icon.url
-            if (app.show_icon.indexOf('http') < 0) {
+            if (app.show_icon && app.show_icon.length && app.show_icon.indexOf('http') < 0) {
                 app.show_icon = 'https://jokqrcagutpmvpilhcfq.supabase.co/storage/v1/object/public' + app.show_icon
-            }
+              }
+              if (!(app.show_icon && app.show_icon.length)) {
+                app.show_icon = '/images/favicon.ico'
+              }
         }
 
         let temp = []
@@ -331,11 +336,12 @@ export default function AppsDetail({ params }) {
 
     const dela_open_app = async () => {
         let link = null
-        if (appData.status == 2) {
-            return
-        }
+        // if (appData.status == 2) {
+        //     return
+        // }
         setShowOpenTip(false)
         let link_type = 0
+        const {params,encodedText} = await generate_params(appData)
         if (appData.link && appData.link.length && appData.link !== 'https://') {
             link = appData.link
         }
@@ -360,33 +366,38 @@ export default function AppsDetail({ params }) {
             }
 
             if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
-            temp = web
-            temp = temp + '?startapp=c291cmNlPWFwcGJhc2U='
+                temp = web
+                temp = temp + '?startapp=' + encodedText
             } 
             if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
                 temp = link
-                temp = temp + '?startapp=c291cmNlPWFwcGJhc2U='
-            } 
-            if (temp.indexOf('t.me') < 0) {
-                temp = temp + '?source=appbase'
-            }
+                temp = temp + '?startapp=' + encodedText
+            }  
             if (temp && temp.length) {
                 link = temp
             }
             link_type = 1
         }
+        if (link.indexOf('t.me') < 0) {
+      
+            if (link.indexOf('?') < 0) {
+              link = link + '?' + params
+            } else {
+              link = link + '&' + params
+            }
+        }
         let flag = false
         in_page_start = true
         if (appData.points > 0) {
-            if (appData.status == 1) {
-                let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
-                let now = new Date().getTime()
-                let update_time = moment(user_app && user_app.updated_at)
-                update_time = update_time.valueOf();
-                if (now - update_time < 60 * 1000) {
-                    return
-                }
-            }
+            // if (appData.status == 1) {
+            //     let user_app = appData && appData.user_app && appData.user_app.length && appData.user_app[0]
+            //     let now = new Date().getTime()
+            //     let update_time = moment(user_app && user_app.updated_at)
+            //     update_time = update_time.valueOf();
+            //     if (now - update_time < 60 * 1000) {
+            //         return
+            //     }
+            // }
             if (appData.status == 0 || appData.status == 2) {
                 flag = true
             }

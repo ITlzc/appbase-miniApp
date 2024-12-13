@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react';
 
 import '../styles/searchApps.scss'
 import {
-    searchData,
+    manageSearchData,
     open_link,
     generate_params
 } from '../../lib/ton_supabase_api'
 
 import { Spin } from 'antd';
 
-export default function SearchApps() {
+export default function ManageSearchApps() {
     const router = useRouter();
     const [apps, set_apps] = useState([]);
     const [search_input, set_search_input] = useState('');
@@ -46,7 +46,7 @@ export default function SearchApps() {
                 return
             }
             set_loading(true)
-            let return_apps = await searchData(search_input)
+            let return_apps = await manageSearchData(search_input)
             set_loading(false)
             return_apps.map(app => {
                 deal_app(app)
@@ -58,73 +58,8 @@ export default function SearchApps() {
         console.log('useEffect page out = ', search_input)
     }, [search_input])
 
-    const to_detail = async (app) => {
-        console.log('to_detail in = ', app)
-        if (app.is_forward) {
-            open_app(app)
-            return
-        }
-        const app_id = app.id
-        router.push(`/appsDetail/${app_id}`);
-    }
-
-    const open_app = async (app) => {
-        console.log('open_app in = ', app)
-        let link = null
-        const {params,encodedText} = await generate_params(app)
-        if (app.link && app.link.length && app.link !== 'https://') {
-        link = app.link
-        }
-        if (app.appPlatforms && app.appPlatforms) {
-            let tg_bot = app.appPlatforms.tg_bot
-            let tg_chat = app.appPlatforms.tg_chat
-            let tg_channel = app.appPlatforms.tg_channel
-            let web = app.appPlatforms.web
-            let temp = null
-
-            if (tg_chat && tg_chat.length) {
-                temp = tg_chat
-            }
-            if (tg_channel && tg_channel.length) {
-                temp = tg_channel
-            }
-            if (tg_bot && tg_bot.length) {
-                temp = tg_bot
-            }
-            if (web && web.length) {
-                temp = web
-            }
-
-            // if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
-            //     temp = web
-            // } 
-            // if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
-            //     temp = link
-            // } 
-            if (web && web.startsWith(tg_bot) && web.length > tg_bot.length) {
-                temp = web
-                temp = temp + '?startapp=' + encodedText
-            } 
-            if (link && link.startsWith(tg_bot) && link.length > tg_bot.length) {
-                temp = link
-                temp = temp + '?startapp=' + encodedText
-            } 
-        
-            console.log('add source = ',temp)
-            if (temp && temp.length) {
-                link = temp
-            }
-        }
-        if (link.indexOf('t.me') < 0) {
-            if (link.indexOf('?') < 0) {
-                link = link + '?' + params
-            } else {
-                link = link + '&' + params
-            }
-        }
-        if (link && link.length) {
-            open_link(link)
-        }
+    const to_set = async (app,flag) => {
+        console.log('to_set in = ', app)
     }
 
     const clear_input = () => {
@@ -153,7 +88,7 @@ export default function SearchApps() {
                     {
                         apps.map(app => {
                             return (
-                                <div className="block_2 flex-col" onClick={() => to_detail(app)} key={app.id}>
+                                <div className="block_2 flex-col" key={app.id}>
                                     <div className="image-text_3 flex-row justify-between">
                                         <img
                                             className="image_2"
@@ -174,8 +109,11 @@ export default function SearchApps() {
                                             />
                                             <span className="text-group_4">+{app.points / 1000000}coin</span>
                                         </div>
-                                        <div className="text-wrapper_2 flex-col align-center justify-center" onClick={() => to_detail(app)}>
-                                            <span className="text_7">OPEN</span>
+                                        <div className="text-wrapper_2 flex-col align-center justify-center" onClick={() => to_set(app,1)}>
+                                            <span className="text_7">SHOW</span>
+                                        </div>
+                                        <div className="text-wrapper_2 flex-col align-center justify-center status_verify_black" onClick={() => to_set(app,-1)}>
+                                            <span className="text_7">HIDE</span>
                                         </div>
                                     </div>
                                 </div>

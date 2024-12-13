@@ -34,6 +34,7 @@ export default function Avatar() {
 
     const [points, set_points] = useState(0)
     const [user_info, set_user_info] = useState({})
+    const [role,set_role] = useState(1)
 
     const get_user = async () => {
         let user = await islogin()
@@ -46,6 +47,7 @@ export default function Avatar() {
         let temp_all_points = temp_user_info.earn_points + temp_user_info.task_points + temp_user_info.invite_points
         set_points(temp_all_points)
         set_user_info(temp_user_info)
+        set_role(temp_user_info.role)
     }
 
     const tg_user = async () => {
@@ -222,6 +224,16 @@ export default function Avatar() {
                         </div>
                     </div>
                 </div>}
+                {
+                    role == 2 || role == 3 ? 
+                    <div className="group_3 flex-col">
+                         <span className="text_18">Admin The Product</span>
+                        <Link href={'/manageapps'} className="box_6 flex-row justify-between">
+                            <span className="text_19">Manage Apps</span>
+                            <img className="group_4" src="/images/arrow-right.png" alt="" />
+                        </Link>
+                    </div> : null
+                }
                 <div className="group_3 flex-col">
                     <span className="text_18">About The Product</span>
                     <Link target="_blank" href={'https://docs.google.com/document/d/19nKm4ZPkiq56Fvqv5RYOlDCsEVGte41kd838IEOa7H8/edit?usp=sharing'} className="box_6 flex-row justify-between">

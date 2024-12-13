@@ -4,6 +4,36 @@
     width: 100vw;
     overflow: hidden;
 
+    .box_back {
+        height: 18.94vw;
+        margin: 1.6vw 0 0 5.33vw;
+
+        .image-text_1 {
+            width: 40.54vw;
+            height: 18.94vw;
+
+            .label_1 {
+                width: 9.6vw;
+                height: 9.6vw;
+            }
+
+            .text-group_1 {
+                width: 40.54vw;
+                // height: 6.4vw;
+                overflow-wrap: break-word;
+                color: rgba(51, 49, 50, 1);
+                font-size: 6.4vw;
+                font-family: Outfit;
+                font-weight: 700;
+                text-align: left;
+                white-space: nowrap;
+                line-height: normal;
+                margin-left: 3.4vw;
+                // margin-top: 2.94vw;
+            }
+        }
+    }
+
     .section_1 {
         width: 100vw;
 
@@ -146,7 +176,7 @@
 
             .box_5 {
                 width: 89.34vw;
-                height: 129.34vw;
+                // height: 129.34vw;
                 margin: 3.46vw 0 7.2vw 5.33vw;
 
                 .box_6 {
@@ -154,6 +184,7 @@
                     border-radius: 10px;
                     width: 89.34vw;
                     height: 41.34vw;
+                    margin-bottom: 2.2vw;
 
                     .image-text_2 {
                         width: 73.07vw;
@@ -253,7 +284,239 @@
         .box_11 {
             background-color: rgba(51, 49, 50, 1);
             width: 100vw;
-            margin: 261.86vw 0 0 -100vw;
+            // margin: 261.86vw 0 0 -100vw;
+            padding-bottom: 26.67vw;
+
+
+            .box_12 {
+                width: 89.34vw;
+                height: 15.2vw;
+                margin: 6.4vw 0 0 5.33vw;
+
+                .text-group_8 {
+                    width: 62.4vw;
+                    height: 15.2vw;
+
+                    .text_13 {
+                        width: 32.54vw;
+                        height: 5.34vw;
+                        overflow-wrap: break-word;
+                        color: rgba(238, 238, 238, 1);
+                        font-size: 5.33vw;
+                        font-family: Outfit;
+                        font-weight: 700;
+                        text-align: left;
+                        white-space: nowrap;
+                        line-height: normal;
+                    }
+
+                    .text_14 {
+                        width: 62.4vw;
+                        height: 7.47vw;
+                        overflow-wrap: break-word;
+                        color: rgba(165, 165, 165, 1);
+                        font-size: 2.66vw;
+                        font-family: Outfit;
+                        font-weight: 500;
+                        text-align: left;
+                        line-height: normal;
+                        margin-top: 2.4vw;
+                    }
+                }
+
+                .label_6 {
+                    width: 9.34vw;
+                    height: 9.34vw;
+                    margin-top: 0.8vw;
+                }
+            }
+
+            .box_13 {
+                width: 83.47vw;
+                margin-left: 5.34vw;
+
+                .group_3 {
+                    background-color: rgba(51, 49, 50, 1);
+                    border-radius: 1.33vw;
+                    height: 7.47vw;
+                    border: 1px solid rgba(165, 165, 165, 1);
+                    margin-right: 2.13vw;
+                    margin-bottom: 1.6vw;
+
+
+                    .text-wrapper_4 {
+                        overflow-wrap: break-word;
+                        font-size: 0;
+                        font-family: Outfit;
+                        font-weight: normal;
+                        text-align: center;
+                        white-space: nowrap;
+                        line-height: normal;
+                        padding: 1.6vw 2.67vw;
+
+                        .text_15 {
+                            overflow-wrap: break-word;
+                            color: rgba(255, 255, 255, 1);
+                            font-size: 4.26vw;
+                            font-family: Outfit;
+                            font-weight: normal;
+                            text-align: center;
+                            white-space: nowrap;
+                            line-height: normal;
+                        }
+
+                        .text_16 {
+                            overflow-wrap: break-word;
+                            color: rgba(255, 255, 255, 1);
+                            font-size: 4.26vw;
+                            font-family: Outfit;
+                            font-weight: 500;
+                            text-align: center;
+                            white-space: nowrap;
+                            line-height: normal;
+                        }
+
+                        .text_17 {
+                            overflow-wrap: break-word;
+                            color: rgba(255, 255, 255, 1);
+                            font-size: 4.26vw;
+                            font-family: Outfit;
+                            font-weight: 700;
+                            text-align: center;
+                            white-space: nowrap;
+                            line-height: normal;
+                            margin-left: 1.07vw;
+                        }
+                    }
+                }
+
+                .category_active {
+                    background: #0052FE;
+                    border-color: #0052FE;
+
+                    span {
+                        color: #fff;
+                    }
+                }
+            }
+
+
+            .box_15 {
+                width: 89.34vw;
+                margin: 5.06vw 0 0 5.33vw;
+
+                .section_2 {
+                    background-color: rgba(62, 62, 62, 1);
+                    border-radius: 10px;
+                    width: 89.34vw;
+                    height: 41.34vw;
+                    margin-bottom: 2.67vw;
+
+                    .box_16 {
+                        width: 73.07vw;
+                        height: 17.34vw;
+                        margin: 4.8vw 0 0 4.53vw;
+
+                        .image_6 {
+                            width: 17.34vw;
+                            height: 17.34vw;
+                            border-radius: 1.33vw;
+                        }
+
+                        .text-wrapper_10 {
+                            width: 53.07vw;
+                            height: 16.27vw;
+                            margin-top: 0.54vw;
+
+                            .text_33 {
+                                width: 8.27vw;
+                                height: 3.74vw;
+                                overflow-wrap: break-word;
+                                color: rgba(238, 238, 238, 1);
+                                font-size: 3.73vw;
+                                font-family: Outfit;
+                                font-weight: 700;
+                                text-align: left;
+                                white-space: nowrap;
+                                line-height: normal;
+                            }
+
+                            .text_34 {
+                                width: 53.07vw;
+                                height: 10.67vw;
+                                overflow-wrap: break-word;
+                                color: rgba(165, 165, 165, 1);
+                                font-size: 2.66vw;
+                                font-family: Outfit;
+                                font-weight: 500;
+                                text-align: left;
+                                line-height: normal;
+                                margin-top: 1.87vw;
+                            }
+                        }
+                    }
+
+                    .box_17 {
+                        width: 79.74vw;
+                        height: 7.2vw;
+                        margin: 4.8vw 0 4.53vw 4.8vw;
+                        padding-top: 2.67vw;
+                        border-top: 1px solid #EEEEEE;
+
+                        .image-text_6 {
+                            width: 26.14vw;
+                            height: 6.4vw;
+
+                            .label_7 {
+                                width: 6.4vw;
+                                height: 6.4vw;
+                                margin-right: 1.6vw;
+                            }
+
+                            .text-group_9 {
+                                overflow-wrap: break-word;
+                                color: rgba(255, 255, 255, 1);
+                                font-size: 3.73vw;
+                                font-family: Outfit;
+                                font-weight: 700;
+                                text-align: left;
+                                white-space: nowrap;
+                                line-height: normal;
+                            }
+                        }
+
+                        .text-wrapper_11 {
+                            background-color: rgba(0, 82, 254, 1);
+                            border-radius: 5.33vw;
+                            height: 7.2vw;
+                            width: 21.07vw;
+
+                            .text_35 {
+                                overflow-wrap: break-word;
+                                color: rgba(255, 255, 255, 1);
+                                font-size: 4.26vw;
+                                font-family: Outfit;
+                                font-weight: 700;
+                                text-align: center;
+                                white-space: nowrap;
+                                line-height: normal;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .label_9 {
+                width: 6.4vw;
+                height: 6.4vw;
+                margin: 3.46vw 0 0 46.66vw;
+            }
+        }
+
+        .box_apps {
+            background-color: rgba(51, 49, 50, 1);
+            width: 100vw;
+            margin: 3vw 0 0;
             padding-bottom: 26.67vw;
 
 
